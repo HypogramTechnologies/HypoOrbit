@@ -53,7 +53,6 @@ O **HypoOrbit** surge como uma **plataforma centralizada** que:
 ## 👥 User Stories
 
 
-
 ---
 
 ## 🛠️ Tecnologias Utilizadas
