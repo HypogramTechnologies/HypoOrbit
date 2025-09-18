@@ -25,6 +25,8 @@ jobs:
               echo "pattern=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Checkout code
+        uses: actions/checkout@v3
       - name: Criar Pull Request automaticamente
         id: cpr
         if: steps.check_commit.outputs.pattern == 'true'
