@@ -1,0 +1,84 @@
+name: Auto Pull Request + Auto Merge
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  create-pr:
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    outputs:
+      commit_msg: ${{ steps.check_commit.outputs.commit_msg }}
+      pattern: ${{ steps.check_commit.outputs.pattern }}
+    steps:
+      - name: Verificar padrão da mensagem de commit
+        id: check_commit
+        run: |
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+          echo "commit_msg=$COMMIT_MSG" >> $GITHUB_OUTPUT
+          echo "Último commit: $COMMIT_MSG"
+          if echo "$COMMIT_MSG" | grep -Eq '^(feat|fix|docs|refactor|test|chore)(\([^)]+\))?: .+'; then
+              echo "pattern=true" >> $GITHUB_OUTPUT
+          else
+              echo "pattern=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Criar Pull Request automaticamente
+        id: cpr
+        if: steps.check_commit.outputs.pattern == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref_name }}
+          base: main
+          title: "${{ github.event.head_commit.message }}"
+          body: |
+            PR criado automaticamente porque o commit segue o padrão `<tipo>(escopo opcional): descrição breve>`
+
+            Tipo detectado: ${{ github.event.head_commit.message }}
+          draft: false
+
+  auto-merge:
+    needs: create-pr
+    if: needs.create-pr.outputs.pattern == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mesclar PR automaticamente se for chore ou tiver label auto-merge
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const branch = context.ref.replace('refs/heads/', '');
+            // Pega PR aberto para esse branch
+            const prs = await github.rest.pulls.list({
+              owner,
+              repo,
+              head: `${owner}:${branch}`,
+              state: 'open'
+            });
+            if (prs.data.length === 0) {
+              core.info('Nenhum PR aberto para este branch.');
+              return;
+            }
+            const pr = prs.data[0];
+            // Condição: se commit_msg começa com chore: ou label auto-merge
+            const commitMsg = process.env.COMMIT_MSG || '';
+            const labels = (pr.labels || []).map(l => l.name);
+            if (/^(feat|fix|docs|refactor|test|chore)/.test(commitMsg) || labels.includes('auto-merge')) {
+              await github.rest.pulls.merge({
+                owner,
+                repo,
+                pull_number: pr.number,
+                merge_method: 'squash'
+              });
+              core.info(`PR #${pr.number} mesclado automaticamente`);
+            } else {
+              core.info(`PR #${pr.number} não atende os critérios para auto-merge`);
+            }
+        env:
+          COMMIT_MSG: ${{ needs.create-pr.outputs.commit_msg }}
