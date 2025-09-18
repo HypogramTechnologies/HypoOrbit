@@ -22,3 +22,4 @@ app.listen(PORT, () => {
 });
 
 console.log("Teste de PR automático!");
+console.log("Teste de PR automático.");
