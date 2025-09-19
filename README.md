@@ -37,7 +37,7 @@ O **HypoOrbit** surge como uma **plataforma centralizada** que:
 - **RF04**: Exibir mapas e gráficos interativos com os resultados.  
 - **RF05**: Permitir exportação das imagens e dos índices processados.  
 
-### Requisitos ❌ Funcionais
+### Requisitos Não Funcionais
 - **RNF01**: Interface amigável, voltada para analistas agrícolas.  
 - **RNF02**: Performance otimizada para manipulação de grandes volumes de dados geoespaciais.  
 - **RNF03**: Escalabilidade para inclusão de novos índices e fontes de dados.  
