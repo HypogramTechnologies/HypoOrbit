@@ -134,7 +134,7 @@ npm run dev
 
 #### 📉 Burndown  
 
-[Burndown Sprint 1](https://docs.google.com/spreadsheets/d/1YuzbyKSY1FIR5lAljDzvItmEe6e0Qt3qpkBV0XSYNkI/edit?usp=sharing)  
+[Burndown Sprint 1](https://docs.google.com/spreadsheets/d/1YuzbyKSY1FIR5lAljDzvItmEe6e0Qt3qpkBV0XSYNkI/edit?pli=1&gid=1331580154#gid=1331580154)  
 
 ---
 
@@ -148,7 +148,7 @@ npm run dev
 
 #### 📉 Burndown  
 
-[Burndown Sprint 2](./burndown.png)  
+[Burndown Sprint 2](https://docs.google.com/spreadsheets/d/1YuzbyKSY1FIR5lAljDzvItmEe6e0Qt3qpkBV0XSYNkI/edit?pli=1&gid=597853115#gid=597853115)  
 
 ---
 
@@ -162,7 +162,7 @@ npm run dev
 
 #### 📉 Burndown  
 
-[Burndown Sprint 3](./burndown.png)  
+[Burndown Sprint 3](https://docs.google.com/spreadsheets/d/1YuzbyKSY1FIR5lAljDzvItmEe6e0Qt3qpkBV0XSYNkI/edit?pli=1&gid=1911487837#gid=1911487837)  
 
 
 ---
