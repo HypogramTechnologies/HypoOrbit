@@ -3,56 +3,63 @@
 
 # 🌍 HypoOrbit
 
-**HypoOrbit** é uma aplicação web que centraliza **buscas de dados e imagens de satélite gratuitas** e permite gerar **produtos derivados** úteis para análise agrícola, como o **NDVI** (Índice de Vegetação por Diferença Normalizada) e o **VCI** (Índice de Condição da Vegetação).  
+**HypoOrbit** é uma aplicação web para **visualização e comparação de dados geoespaciais gratuitos** provenientes de diferentes satélites.  
+A plataforma centraliza informações que hoje estão dispersas, permitindo que usuários identifiquem de forma simples **quais satélites possuem dados para uma área de interesse**, consultando variáveis geoespaciais como **NDVI, EVI, temperatura da superfície e umidade do solo**.  
 
-A plataforma tem como público principal **analistas agrícolas**, oferecendo ferramentas que simplificam o acesso, processamento e visualização de dados geoespaciais, ajudando na avaliação de condições vegetativas em diferentes regiões.
+O público principal são **pesquisadores e estudantes**, que poderão explorar os dados em **mapas interativos** e comparar séries temporais lado a lado, sem a necessidade de baixar e processar manualmente os conjuntos de dados.
 
 ---
 
 ## 📌 Problema
 
-Atualmente, analistas e pesquisadores enfrentam dificuldades como:
-- Acesso fragmentado a diferentes fontes de imagens de satélite.
-- Complexidade no processamento de índices vegetativos (NDVI, VCI, entre outros).
-- Necessidade de múltiplas ferramentas para **buscar, processar e visualizar** dados.
+O crescente volume de dados de satélites, embora extremamente útil, torna-se um desafio devido à **dificuldade de identificar, acessar e comparar os produtos disponíveis**.  
+Atualmente, não existe uma plataforma unificada que permita, de forma rápida e intuitiva, descobrir **quais satélites oferecem dados para uma localização específica**, suas **resoluções espaciais e temporais**, e as **variáveis disponíveis**.  
+
+Essa fragmentação dificulta a análise e força o usuário a buscar manualmente em diferentes fontes, atrasando decisões que dependem da avaliação de **séries temporais de variáveis geoespaciais**.  
 
 ---
 
 ## 💡 Solução
 
-O **HypoOrbit** surge como uma **plataforma centralizada** que:
-- Permite buscar imagens de diferentes satélites de forma simplificada.
-- Processa imagens para gerar **índices de vegetação** e outros produtos derivados.
-- Disponibiliza resultados em forma de **mapas interativos** e **dashboards**.
-- Facilita a exportação de imagens e índices para análises posteriores.
+O **HypoOrbit** resolve esse problema ao oferecer um **portal web de visualização baseado em mapas interativos**, com as seguintes funcionalidades:  
+- Seleção de um ponto no mapa para identificar rapidamente os **satélites com dados disponíveis** para a região.  
+- Integração com o serviço **STAC API**, listando dinamicamente os metadados dos satélites (resolução espacial e temporal, variáveis disponíveis).  
+- Integração com o serviço **WTSS**, possibilitando recuperar e exibir **séries temporais de variáveis geoespaciais**.  
+- Visualização comparativa lado a lado de séries temporais, facilitando a análise entre diferentes satélites.  
+- Filtros por satélite, variável e período de tempo, além da possibilidade de exportar metadados e séries temporais para análise posterior.  
 
 ---
 
 ## ✅ Requisitos
 
 ### Requisitos Funcionais
-- **RF01**: Permitir a busca de imagens de satélite por localização e período.  
-- **RF02**: Calcular o **NDVI** a partir de imagens fornecidas pelo satélite.  
-- **RF03**: Calcular o **VCI** utilizando valores mínimos e máximos do NDVI em séries temporais.  
-- **RF04**: Exibir mapas e gráficos interativos com os resultados.  
-- **RF05**: Permitir exportação das imagens e dos índices processados.  
+- **RF01**: Permitir que os usuários selecionem um ponto de interesse em um **mapa interativo**, utilizando coordenadas geográficas ou clique direto.  
+- **RF02**: Retornar dinamicamente uma **lista de satélites com dados gratuitos** disponíveis para a área, detalhando resoluções espacial e temporal, além das variáveis geoespaciais oferecidas.  
+- **RF03**: Possibilitar a **comparação de séries temporais de variáveis similares** (ex.: NDVI de Sentinel-2 e Landsat-8) para a mesma área, com visualização lado a lado em gráficos ou representações visuais.  
+- **RF04**: Oferecer **opções de filtragem** por satélite, variável e período de tempo, além de permitir a **exportação de metadados e séries temporais** (quando permitido) para análise posterior.  
 
 ### Requisitos Não Funcionais
-- **RNF01**: Interface amigável, voltada para analistas agrícolas.  
-- **RNF02**: Performance otimizada para manipulação de grandes volumes de dados geoespaciais.  
-- **RNF03**: Escalabilidade para inclusão de novos índices e fontes de dados.  
-- **RNF04**: Confiabilidade dos cálculos e consistência na exibição dos dados.  
+- **RNF01**: Interface intuitiva e de fácil navegação, mesmo para usuários sem experiência em geoprocessamento.  
+- **RNF02**: Desempenho otimizado para carregamento rápido de mapas e dados, mesmo com grandes volumes.  
+- **RNF03**: Escalabilidade para suportar novos satélites e variáveis no futuro.  
+- **RNF04**: Confiabilidade e precisão na exibição dos dados, sempre atualizados a partir das fontes oficiais.  
 
 ### Restrições de Projeto
-- **RP01**: Uso de dados satelitais gratuitos (Sentinel, Landsat, MODIS, etc.).  
-- **RP02**: Limitação de tempo e recursos para desenvolvimento do MVP.  
-- **RP03**: Dependência da disponibilidade e qualidade das imagens fornecidas pelos satélites.  
+- **RP01**: Utilização exclusiva de **dados gratuitos de satélite** (Sentinel, Landsat, MODIS etc.).  
+- **RP02**: Desenvolvimento limitado ao **tempo e recursos da disciplina**, focando em um MVP funcional.  
+- **RP03**: Dependência da **disponibilidade e qualidade dos serviços externos** (STAC, WTSS e catálogos oficiais).  
+  
 
 ---
 
 ## 👥 User Stories
 
+- **RF01**: Como analista geoespacial, quero selecionar um ponto no mapa ou inserir coordenadas para visualizar satélites disponíveis para a área.  
+- **RF02**: Como analista geoespacial, quero visualizar a lista de satélites disponíveis, com resoluções espaciais, temporais e variáveis oferecidas.  
+- **RF03**: Como analista geoespacial, quero comparar séries temporais de variáveis similares de diferentes satélites, lado a lado.  
+- **RF04**: Como analista geoespacial, quero aplicar filtros (satélite, variável, período) e exportar dados/metadados para análise posterior.  
 
+📄 [Veja os detalhes das User Stories](./docs/UserStory.pdf)
 ---
 
 ## 🛠️ Tecnologias Utilizadas
@@ -116,7 +123,7 @@ npm run dev
 |     | Renderizar lista dinâmica (satélite, resolução, variáveis)                                    |                                               | ❌               | https://trello.com/c/u8JrPZeg                                        |                      |
 |     | CRUD de satélites                                                                             |                                               | ❌               | https://trello.com/c/HyGbjPiw                                        |                      |
 |     | Rota para acessar os satélites de acordo com a localização informada                          |                                               | ❌               | https://trello.com/c/m3uhWPNw                                        |                      |
-|     | Controle para validar se a lista de satélites já ❌ existe na base de dados…                 |                                               | ❌               | https://trello.com/c/RobBOfp3                                        |                      |
+|     | Controle para validar se a lista de satélites já não existe na base de dados                 |                                               | ❌               | https://trello.com/c/RobBOfp3                                        |                      |
 |[IH - 004]| Protótipo componente do mapa                                                       | Eduardo Henrique Alves Arantes            | ⏳      | https://trello.com/c/XxWGKXck                                        |                      |
 |[DW - 001]| Estudo das API's disponibilizadas                                                  | Adson Ottoni Balbino Filho                | ✔               | https://trello.com/c/kyHKAsp0                                        |                      |
 |[GP - 002]| Criar Users Stories                                                                | Andressa Stephane Toledo da Silva         | ✔               | https://trello.com/c/isZfsnBK                                        |                      |
