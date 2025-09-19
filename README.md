@@ -164,8 +164,8 @@ npm run dev
 
 | Nome                              | Função        | GitHub                                                      |
 | --------------------------------- | ------------- | ----------------------------------------------------------- |
-| Andressa Stephane Toledo da Silva | Scrum Master  | [andressatoledo](https://github.com/andressatoledo)         |
-| Carlos Eduardo da Silva Magalhães          | Product Owner | [carlosedsmagalhaes](https://github.com/carlosedsmagalhaes) |
+| Carlos Eduardo da Silva Magalhães | Scrum Master | [carlosedsmagalhaes](https://github.com/carlosedsmagalhaes) |
+| Andressa Stephane Toledo da Silva | Product Owner | [andressatoledo](https://github.com/andressatoledo)         |
 | Adson Ottoni Balbino Filho        | Developer     | [adsonfilho](https://github.com/adsonfilho)                 |
 | Eduardo Henrique Alves Arantes    | Developer     | [eduardohalves](https://github.com/eduardohalves)           |
 | Gustavo de Moraes Silva           | Developer     | [guhms7](https://github.com/guhms7)                         |
