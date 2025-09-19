@@ -60,6 +60,8 @@ O **HypoOrbit** surge como uma **plataforma centralizada** que:
 - **Backend:** TypeScript + Node.js  
 - **Banco de Dados:** MongoDB  
 
+📌 **Protótipo (Figma):** [Acessar protótipo](https://www.figma.com/design/eiSGNk9SDmo6oF9e5SnoQ8/Untitled?node-id=0-1&t=pgoLcZLZoTRgXqmj-1)
+
 ---
 
 ## 🚀 Como Executar o Projeto
@@ -90,8 +92,37 @@ npm run dev
 
 #### 📋 Tarefas  
 
-| ID  | Nome                                                 | Estimativa | Responsáveis                                  | Tarefa Finalizada | Link                                                                 | Requisitos atendidos                       |
-|-----|------------------------------------------------------|------------|-----------------------------------------------|-------------------|----------------------------------------------------------------------|-------------------------------------------|
+| ID  | Nome                                                                                          | Responsáveis                                  | Tarefa Finalizada | Link                                                                 | Requisitos atendidos |
+|-----|-----------------------------------------------------------------------------------------------|-----------------------------------------------|-------------------|----------------------------------------------------------------------|----------------------|
+|     | Criar logotipo                                                                                |                                               | ❌               | https://trello.com/c/sCrIZaEj                                        |                      |
+|     | Definir paleta                                                                                |                                               | ❌               | https://trello.com/c/uIrttFpn                                        |                      |
+|     | Mapa de Expectativas                                                                          |                                               | ❌               | https://trello.com/c/PHcfSK2m                                        |                      |
+|     | Priorização MosCoW                                                                            |                                               | ❌               | https://trello.com/c/TkvKqK1b                                        |                      |
+|     | Personas                                                                                      |                                               | ❌               | https://trello.com/c/XsjuLeQS                                        |                      |
+|     | Mapa de Jornada do Usuário                                                                    |                                               | ❌               | https://trello.com/c/XKMTdvsE                                        |                      |
+|     | Agrupar em um documento para entregar                                                         |                                               | ❌               | https://trello.com/c/f7Q5h25C                                        |                      |
+|     | Criação de Banco de Dados                                                                     |                                               | ❌               | https://trello.com/c/F4h3JVjZ                                        |                      |
+|     | Modelagem de Relacionamentos                                                                  |                                               | ❌               | https://trello.com/c/hrXYimRr                                        |                      |
+|     | Scripts MongoDB                                                                               |                                               | ❌               | https://trello.com/c/BmJEE0tf                                        |                      |
+|     | Comparação com SQL                                                                            |                                               | ❌               | https://trello.com/c/plPQMJ6X                                        |                      |
+|     | Prints de Execução                                                                            |                                               | ❌               | https://trello.com/c/287OwQRc                                        |                      |
+|     | Protótipo do componente para listar os satélites                                              |                                               | ❌               | https://trello.com/c/xHCHx9q0                                        |                      |
+|     | Criar componente do mapa                                                                      |                                               | ❌               | https://trello.com/c/495AoU4K                                        |                      |
+|     | Capturar clique e converter para coordenadas                                                  |                                               | ❌               | https://trello.com/c/LcAJ0ovL                                        |                      |
+|     | Validar coordenadas manuais                                                                   |                                               | ❌               | https://trello.com/c/7GEoQl8h                                        |                      |
+|     | Exibir mensagem de erro se a coordenada for inválida.                                          |                                               | ❌               | https://trello.com/c/FWJqi45t                                        |                      |
+|     | Consumir JSON da STAC API                                                                     |                                               | ❌               | https://trello.com/c/LYdwj4cB                                        |                      |
+|     | Criar componente de listagem de satélites                                                     |                                               | ❌               | https://trello.com/c/zXJHF9K3                                        |                      |
+|     | Renderizar lista dinâmica (satélite, resolução, variáveis)                                    |                                               | ❌               | https://trello.com/c/u8JrPZeg                                        |                      |
+|     | CRUD de satélites                                                                             |                                               | ❌               | https://trello.com/c/HyGbjPiw                                        |                      |
+|     | Rota para acessar os satélites de acordo com a localização informada                          |                                               | ❌               | https://trello.com/c/m3uhWPNw                                        |                      |
+|     | Controle para validar se a lista de satélites já ❌ existe na base de dados…                 |                                               | ❌               | https://trello.com/c/RobBOfp3                                        |                      |
+|[IH - 004]| Protótipo componente do mapa                                                       | Eduardo Henrique Alves Arantes            | ⏳      | https://trello.com/c/XxWGKXck                                        |                      |
+|[DW - 001]| Estudo das API's disponibilizadas                                                  | Adson Ottoni Balbino Filho                | ✔               | https://trello.com/c/kyHKAsp0                                        |                      |
+|[GP - 002]| Criar Users Stories                                                                | Andressa Stephane Toledo da Silva         | ✔               | https://trello.com/c/isZfsnBK                                        |                      |
+|[GP - 003]| Documentação e planejamento                                                        | Carlos Eduardo da Silva Magalhães         | ✔               | https://trello.com/c/6AJweeEe                                        |                      |
+|[DW - 005]| Estudo das séries temporais de imagens disponibilizadas por cada satélite           | Gustavo de Moraes Silva                  | ✔               | https://trello.com/c/dV50F1zv                                        |                      |
+
 
 
 #### 📉 Burndown  
@@ -104,8 +135,8 @@ npm run dev
 
 #### 📋 Tarefas  
 
-| ID  | Nome                                                 | Estimativa | Responsáveis                                  | Tarefa Finalizada | Link                                                                 | Requisitos atendidos                       |
-|-----|------------------------------------------------------|------------|-----------------------------------------------|-------------------|----------------------------------------------------------------------|-------------------------------------------|
+| ID  | Nome                                                 | Responsáveis                                  | Tarefa Finalizada | Link                                                                 | Requisitos atendidos                       |
+|-----|------------------------------------------------------|-----------------------------------------------|-------------------|----------------------------------------------------------------------|-------------------------------------------|
 
 
 #### 📉 Burndown  
@@ -118,8 +149,8 @@ npm run dev
 
 #### 📋 Tarefas  
 
-| ID  | Nome                                                 | Estimativa | Responsáveis                                  | Tarefa Finalizada | Link                                                                 | Requisitos atendidos                       |
-|-----|------------------------------------------------------|------------|-----------------------------------------------|-------------------|----------------------------------------------------------------------|-------------------------------------------|
+| ID  | Nome                                                 | Responsáveis                                  | Tarefa Finalizada | Link                                                                 | Requisitos atendidos                       |
+|-----|------------------------------------------------------|-----------------------------------------------|-------------------|----------------------------------------------------------------------|-------------------------------------------|
 
 
 #### 📉 Burndown  
