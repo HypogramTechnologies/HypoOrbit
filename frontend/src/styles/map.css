@@ -1,0 +1,17 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+
+
+.main-content {
+  flex: 1; /* ocupa o espaço entre header e footer */
+  margin-top: 80px; /* altura do header */
+  margin-bottom: 60px; /* altura do footer */
+}
+
+.map-container {
+  height: 100%;
+  width: 100%;
+}
