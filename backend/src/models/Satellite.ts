@@ -14,7 +14,7 @@ const SatelliteSchema: Schema = new Schema({
     keywords: { type: [String], required: true },
     providers: { type: Array, required: true },
     summaries: { type: Object, required: true },
-    item_assets: { type: Object, required: false },
+    item_assets: [{ type: mongoose.Schema.Types.ObjectId, ref: "Satellite_Item_Assets" }],
     properties: { type: Object, required: false },
     "bdc:type": { type: String, required: false },
     "bdc:public": { type: Boolean, required: false },
