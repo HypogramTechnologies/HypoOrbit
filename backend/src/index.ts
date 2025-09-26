@@ -14,10 +14,11 @@ const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/hypoorbit'
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use('/stac', stacRoutes);
+
 
 // Rotas
 app.use('/api/satellites', satelliteRoutes);
+app.use('/api/stac', stacRoutes);
 
 //Conectar ao MongoDB
 mongoose.connect(MONGO_URI)
