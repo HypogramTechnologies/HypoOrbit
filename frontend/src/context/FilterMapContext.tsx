@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import type { FilterMap } from "../types/filter";
+import type { FilterMap } from "../types/Filter";
 
 type FilterMapContextType = {
   filter: FilterMap;
