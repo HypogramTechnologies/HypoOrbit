@@ -3,11 +3,11 @@ import "../index.css";
 import Mapa from "../components/Map";
 import Menu from "../components/Menu";
 
-export default function MapView() {
+export default function TimeSeriesView() {
   return (
     <div className="container">
       <Menu />
-      <Mapa />
+      
     </div>
   );
 }
