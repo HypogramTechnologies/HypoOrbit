@@ -1,27 +1,23 @@
 import { Router } from 'express';
-import { 
-  collections,
-  collection,
-  collectionItems,
-  collectionItemFeature,
-  search
-} from '../controllers/stac';
+import { StacController } from '../controllers/stac';
 
 const router = Router();
+const controller:StacController = new StacController()
 
-// GET /stac/collections
-router.get('/collections', collections);
+// GET /api/stac/collections
+router.get('/collections', controller.collections);
 
-// GET /stac/collections/:id
-router.get('/collections/:id', collection);
+// GET /api/stac/collections/:id
+router.get('/collections/:id', controller.collection);
 
-// GET /stac/collections/:id/items
-router.get('/collections/:id/items', collectionItems);
+// GET /api/stac/collections/:id/items
+router.get('/collections/:id/items', controller.collectionItems);
 
-// GET /stac/collections/:id/items/:featureID
-router.get('/collections/:id/items/:featureID', collectionItemFeature);
+// GET /api/stac/collections/:id/items/:featureID
+router.get('/collections/:id/items/:featureID', controller.collectionItemFeature);
 
-// POST /stac/search
-router.post('/search', search);
+// POST /api/stac/search
+router.post('/search', controller.search);
+
 
 export default router;

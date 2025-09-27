@@ -11,6 +11,17 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --primary-color: #0f99bf;
+  --secondary-color: #0cd9a6;
+  --hover: 'Arial', sans-serif;
+  --background-color: black;
+  --header-background-color: #09485e;
+  --footer-background-color: black;
+  --font-family: Arial, Helvetica, sans-serif;
+  --color-light: white;
+  --color-dark: black;
+  --background-linear-gradient: linear-gradient(to right, rgba(0, 0, 0, 1), #09485e);
 }
 
 a {
