@@ -19,6 +19,7 @@
   --color-light: rgb(218, 216, 216);
   --color-dark: black;
   --background-linear-gradient: linear-gradient(to right, rgba(0, 0, 0, 1), #09485e);
+  --border-radius: 10px;
 }
 
 /* garante que a raiz ocupe 100% */

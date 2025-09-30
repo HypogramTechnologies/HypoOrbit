@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "../styles/menu.css";
 import HeaderImg from "../assets/Header.png";
 
+import { useNavigate, useLocation } from "react-router-dom";
+
 const Menu: React.FC = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const menuOptions = [
     { icon: "fa-map", label: "Mapa", path: "/map" },
@@ -18,14 +19,11 @@ const Menu: React.FC = () => {
       <img src={HeaderImg} alt="Logo" className="menu-logo" />
       <nav className="menu-links">
         <p className="menu-title">NAVEGAÇÃO</p>
-        {menuOptions.map((option, index) => (
+        {menuOptions.map((option) => (
           <button
             key={option.label}
-            className={`menu-option${activeIndex === index ? " active" : ""}`}
-            onClick={() => {
-              setActiveIndex(index);
-              navigate(option.path);
-            }}
+            className={`menu-option${location.pathname === option.path ? " active" : ""}`}
+            onClick={() => navigate(option.path)}
           >
             <i className={`fa-solid ${option.icon} menu-icon`}></i>
             <span>{option.label}</span>
@@ -35,5 +33,6 @@ const Menu: React.FC = () => {
     </div>
   );
 };
+
 
 export default Menu;

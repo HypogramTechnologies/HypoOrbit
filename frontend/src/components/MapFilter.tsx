@@ -1,7 +1,7 @@
 import React, { useState} from "react";
 import { useFilter } from "../context/FilterMapContext";
 import "leaflet/dist/leaflet.css";
-// import "../mapFilter.css";
+import "../styles/mapFilter.css";
 import {validateCoordinates} from "../utils/validateCoordinates";
 
 
@@ -44,7 +44,7 @@ const MapFilter: React.FC = () => {
 
     return(
         <>
-           <input type="text" defaultValue="" onBlur={inputChange} placeholder="ex: -15.793889, -47.882778" className="input"/>
+           <input id="input-search" type="text" defaultValue="" onBlur={inputChange} placeholder="ex: -15.793889, -47.882778" className="filter-container"/>
         </>
     );
 };
