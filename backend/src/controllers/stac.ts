@@ -9,10 +9,15 @@ export class StacController {
   async collections(req: Request, res: Response) {
     try {
       const data = await service.getCollections();
-      const idOnly = req.query.idOnly === 'true';
+      const metaOnly = req.query.metaOnly === 'true';
 
-      if (idOnly) {
-        const listCollection = data.collections.map((c: any) => c.id);
+      if (metaOnly) {
+        const listCollection = data.collections.map((c: any) => ({
+          id: c.id,
+          updatedTime: 'achar campo',
+          gsd: Math.max(c.summaries.gsd),
+          spectralIndices: ['achar campo', 'achar campo']
+        }));
         return res.json({ listCollection });
       }
 
