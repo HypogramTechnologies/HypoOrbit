@@ -43,15 +43,16 @@ const Mapa: React.FC = () => {
   const position: [number, number] = [filter.latitude, filter.longitude];
   console.log(position);
   return (
-    
+      
+      
 
     <div className="map-container">
+      
       <div>
         <div style={{ width: "100%", height: "100vh"}}>
-          
           <MapFilter/>
-   
           <MapContainer center={position} zoom={12} style={{ height: "100%", width: "100%" }}>
+            
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
             <ClickHandler />
