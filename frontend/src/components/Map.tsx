@@ -1,10 +1,16 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFilter } from "../context/FilterMapContext";
+
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+
 import "../styles/map.css";
 import MapFilter from "../components/MapFilter";
+
+import Message from "../components/Message";
+import { TypeMessage } from "../types/MessageConfig";
+import type { MessageConfig } from "../types/MessageConfig";
 
 const ClickHandler: React.FC = () => {
   const { setFilter } = useFilter();
@@ -40,17 +46,31 @@ const UpdateMap: React.FC = () => {
 
 const Mapa: React.FC = () => {
   const { filter } = useFilter();
+  const [messageConfig, setMessageConfig] = useState<MessageConfig>({
+    type: TypeMessage.Info,
+    message: "",
+    show: false,
+  });
+
+
   const position: [number, number] = [filter.latitude, filter.longitude];
   console.log(position);
   return (
       
-      
-
     <div className="map-container">
       
       <div>
         <div style={{ width: "100%", height: "100vh"}}>
-          <MapFilter/>
+        <MapFilter setMessageConfig={setMessageConfig} />
+
+        <Message
+          type={messageConfig.type}
+          message={messageConfig.message}
+          show={messageConfig.show}
+          onClose={() => setMessageConfig({ ...messageConfig, show: false })}
+          duration={3000}
+      />
+
           <MapContainer center={position} zoom={12} style={{ height: "100%", width: "100%" }}>
             
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
