@@ -1,7 +1,7 @@
 import type { ISatelliteCardProps } from "../types/ISatelliteCardProps";
 import "../styles/satelliteCard.css";
 
-const SatelliteCard: React.FC<ISatelliteCardProps> = ({ id, updatedTime, gsd, spectralIndices }) => {
+const SatelliteCard: React.FC<ISatelliteCardProps> = ({ id, title, updatedTime, gsd, spectralIndices }) => {
 
     const checkboxId = `checkbox-${id}`;
 
@@ -14,7 +14,7 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({ id, updatedTime, gsd, sp
 
             <div className="card-header">
                 <i className="fa-solid fa-satellite card-satellite-icon"></i>
-                <h3 className="name-text">Nome do satélite</h3>
+                <h3 className="name-text">{title && title}</h3>
             </div>
 
             {id && <p className="id-text">ID: {id.toUpperCase()}</p>}

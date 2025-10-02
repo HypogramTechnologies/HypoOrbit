@@ -14,6 +14,7 @@ export class StacController {
       if (metaOnly) {
         const listCollection = data.collections.map((c: any) => ({
           id: c.id,
+          title: c.title,
           updatedTime: 'achar campo',
           gsd: Math.max(c.summaries.gsd),
           spectralIndices: ['achar campo', 'achar campo']

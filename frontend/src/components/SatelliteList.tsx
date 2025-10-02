@@ -24,6 +24,7 @@ const SatelliteList: React.FC = () => {
         <SatelliteCard
           key={item.id}                        
           id={item.id}
+          title={item.title}
           updatedTime={item.updatedTime}
           gsd={item.gsd}
           spectralIndices={item.spectralIndices}
