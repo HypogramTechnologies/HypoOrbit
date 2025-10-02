@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import type { ISatelliteCardProps } from '../types/ISatelliteCardProps';
 import SatelliteCard from './SatelliteCard';
 import { StacService } from '../services/StacService';
+import "../styles/satelliteList.css";
 
 const SatelliteList: React.FC = () => {
   const [satellite, setSatellite] = useState<ISatelliteCardProps[]>([]);
@@ -18,7 +19,7 @@ const SatelliteList: React.FC = () => {
   }, []);
 
   return (
-    <div style={listStyle}>
+    <div className='satellite-list-container'>
       {satellite.map(item => (
         <SatelliteCard
           key={item.id}                        
@@ -32,13 +33,7 @@ const SatelliteList: React.FC = () => {
   );
 };
 
-const listStyle: React.CSSProperties = {
-    height: '80vh',         
-    overflowY: 'auto',     
-    padding: '1rem',
-    boxSizing: 'border-box',
-    border: '1px solid #ccc', 
-  };
+
 
 export default SatelliteList;
 
