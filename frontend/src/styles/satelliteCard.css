@@ -1,0 +1,161 @@
+
+
+.card-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.card-satellite-icon {
+  color: var(--primary-color);
+  font-size: 18px;
+}
+
+.name-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+  word-break: break-word;
+}
+
+.id-text {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 12px;
+  word-break: break-word;
+}
+
+.card-info {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+  color: #374151;
+  margin-bottom: 12px;
+}
+
+.updated-time {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #4b5563;
+}
+
+.spectral-section {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #2563eb;
+  background: #eff6ff;
+  border-radius: 20px;
+  padding: 4px 10px;
+  margin-bottom: 12px;
+}
+
+.card-icon {
+  margin-right: 4px;
+}
+
+.card-icon.destaque {
+  margin-right: 4px;
+  color: black;
+}
+
+.card-icon.green {
+  color: var( --secondary-color); 
+}
+
+.card-icon.red {
+  color: #dc2626; 
+}
+
+.card-icon.blue {
+  color: var(--primary-color);
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px;
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-button-container {
+  margin-top: auto; 
+  display: flex;
+  justify-content: center;
+}
+
+.card-button-container {
+  display: flex;
+  justify-content: center;
+  
+}
+
+.card-button {
+  background: var(--background-linear-gradient);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+ 
+}
+
+.card-button:hover {
+  transform: scale(1.05);
+  
+}
+
+.card-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.card-checkbox label {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 50%; 
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: white;
+}
+
+.card-checkbox input[type="checkbox"]:checked + label {
+  background-color: var(--primary-color); 
+  border-color: var(--primary-color);
+}
+
+.card-checkbox input[type="checkbox"]:checked + label::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.card-checkbox {
+  align-self: flex-end;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-end;
+}

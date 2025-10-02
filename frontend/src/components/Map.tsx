@@ -1,10 +1,18 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFilter } from "../context/FilterMapContext";
+
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+
 import "../styles/map.css";
 import MapFilter from "../components/MapFilter";
+import Modal from "../components/Modal";
+import SatelliteList from "../components/SatelliteList";
+
+import Message from "../components/Message";
+import { TypeMessage } from "../types/MessageConfig";
+import type { MessageConfig } from "../types/MessageConfig";
 
 const ClickHandler: React.FC = () => {
   const { setFilter } = useFilter();
@@ -38,35 +46,58 @@ const UpdateMap: React.FC = () => {
   return null;
 };
 
+
 const Mapa: React.FC = () => {
   const { filter } = useFilter();
-  const position: [number, number] = [filter.latitude, filter.longitude];
-  console.log(position);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [messageConfig, setMessageConfig] = useState<MessageConfig>({
+    type: TypeMessage.Info,
+    message: "",
+    show: false,
+  });
+
+  const position: [number, number] = [
+    filter.latitude || -15.7942,
+    filter.longitude || -47.8822,
+  ];
+
   return (
-      
-      
+    <div className="map-container" style={{ width: "100%", height: "100vh" }}>
+      <MapFilter setMessageConfig={setMessageConfig} />
 
-    <div className="map-container">
-      
-      <div>
-        <div style={{ width: "100%", height: "100vh"}}>
-          <MapFilter/>
-          <MapContainer center={position} zoom={12} style={{ height: "100%", width: "100%" }}>
-            
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <Message
+        type={messageConfig.type}
+        message={messageConfig.message}
+        show={messageConfig.show}
+        onClose={() => setMessageConfig({ ...messageConfig, show: false })}
+        duration={3000}
+      />
 
-            <ClickHandler />
-            <UpdateMap />
-            <Marker position={position} key={`${position[0]}-${position[1]}`}>
-              <Popup>
+      <MapContainer center={position} zoom={12} style={{ height: "100%", width: "100%" }}>
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <ClickHandler />
+        <UpdateMap />
+        <Marker
+          position={position}
+          eventHandlers={{
+            click: () => {
+              setIsModalOpen(true); // abre o modal ao clicar no marker
+            },
+          }}
+        >
+          <Popup>
                 Coordenadas: <br />
                 Lat: {filter.latitude.toFixed(5)} <br />
                 Lng: {filter.longitude.toFixed(5)}
-              </Popup>
-            </Marker>
-          </MapContainer>
-        </div>
-      </div>
+            </Popup>
+        </Marker>
+      </MapContainer>
+
+       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Lista de Satélites">
+        <SatelliteList />
+       </Modal>
     </div>
   );
 };

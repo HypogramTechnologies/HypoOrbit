@@ -1,53 +1,49 @@
-import React, { useState} from "react";
+import React from "react";
 import { useFilter } from "../context/FilterMapContext";
-import "leaflet/dist/leaflet.css";
+import { validateCoordinates } from "../utils/validateCoordinates";
+import type { MapFilterProps } from "../types/MessageConfig";
+import  { TypeMessage } from "../types/MessageConfig";
 import "../styles/mapFilter.css";
-import {validateCoordinates} from "../utils/validateCoordinates";
 
+const MapFilter:  React.FC<MapFilterProps> = ({ setMessageConfig }) => {
+  const { setFilter } = useFilter();
 
+  const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const coordinates = e.target.value.trim();
+    console.log(coordinates);
 
+    if (validateCoordinates(coordinates)) {
+      const [latStr, lngStr] = coordinates.split(",");
+      const lat = parseFloat(latStr);
+      const lng = parseFloat(lngStr);
 
-
-const MapFilter: React.FC = () => {
-    const { setFilter } = useFilter();
-    
-    const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const coordinates = e.target.value.trim();
-        console.log(coordinates);
-        
-         //Validar se está dentro do formato esperado
-        if (validateCoordinates(coordinates)){
-            let collectionCoordinates = []
-            collectionCoordinates = coordinates.split(',');
-            console.log(collectionCoordinates);
-
-            if(collectionCoordinates.length >= 1){
-                const lat =  parseFloat(collectionCoordinates[0]);
-                const lng = parseFloat(collectionCoordinates[1]);
-                setFilter({ latitude: lat, longitude: lng })
-            }
-            
-            console.log('Certo')
-        }else{
-            console.log('Erro')
-        }
-        
+      if (!isNaN(lat) && !isNaN(lng)) {
+        setFilter({ latitude: lat, longitude: lng });
+        setMessageConfig({
+          type: TypeMessage.Success,
+          message: "Coordenadas válidas. Mapa será atualizado.",
+          show: true,
+        });
+      }
+    } else {
+      setMessageConfig({
+        type: TypeMessage.Error,
+        message: "Coordenadas inválidas.",
+        show: true,
+      });
     }
+  };
 
-  
-
-   
-
-
-    //Futuramento verificar se é algum endereço via api para transformar em latitude/longitude
-    // setFilter({ latitude: lat, longitude: lng });
-
-    return(
-        <>
-           <input id="input-search" type="text" defaultValue="" onBlur={inputChange} placeholder="ex: -15.793889, -47.882778" className="filter-container"/>
-        </>
-    );
+  return (
+    <input
+      id="input-search"
+      type="text"
+      defaultValue=""
+      onBlur={inputChange}
+      placeholder="ex: -15.793889, -47.882778"
+      className="filter-container"
+    />
+  );
 };
-
 
 export default MapFilter;
