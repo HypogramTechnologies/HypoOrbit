@@ -38,7 +38,10 @@ export class SyncSatelliteController {
   //Inserção em massa de satélites
   async setupSatellites(req: Request, res: Response) {
     try {
-      const collections = await stacService.getCollections();
+      const collectionsData = await stacService.getCollections();
+      const collections: IStacCollection[] = collectionsData.collections || [];
+
+      console.log(collections[0])
       if (!collections) {
         return res.status(500).json({ message: "Falha ao buscar coleções do STAC." });
       }
@@ -52,7 +55,7 @@ export class SyncSatelliteController {
 
       return res
         .status(201)
-        .json({ message: "Satélites sincronizados com sucesso." });
+        .json({ message: "Satélites sincronizados com sucesso.", collections});
     } catch (error) {
       console.error(error);
       return res

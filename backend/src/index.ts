@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import satelliteRoutes from './routes/satellite';
 import stacRoutes from './routes/stac'
 import geocodeRoutes from './routes/geocode'
+import syncSatelliteRoutes from './routes/syncSatellite'
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 
 // Rotas
 app.use('/api/satellites', satelliteRoutes);
+app.use('/api/sync', syncSatelliteRoutes);
 app.use('/api/stac', stacRoutes);
 app.use('/api/geocode', geocodeRoutes);
 
