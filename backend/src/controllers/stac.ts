@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { StacService } from '../services/stac';
-import { StacSearchParams } from '../types/IStacSearchParams';
+import { IStacSearchClientParams, StacSearchParams } from '../types/IStacSearchParams';
+import { stacQuery } from '../utils/stacQuery';
 
 const service = new StacService()
 
@@ -73,10 +74,12 @@ export class StacController {
 
   // POST /stac/search
   async search(req: Request, res: Response) {
-    const params: StacSearchParams = req.body;
+    const params: IStacSearchClientParams = req.body;
+    
+    const query: StacSearchParams = stacQuery(params)
 
     try {
-      const data = await service.searchItems(params);
+      const data = await service.searchItems(query);
       return res.json(data);
     } catch (err) {
       console.error(err);
