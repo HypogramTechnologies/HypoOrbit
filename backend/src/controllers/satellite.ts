@@ -2,30 +2,16 @@ import { Request, Response } from "express";
 import SatelliteModel from "../models/Satellite";
 import SatelliteItemAssetsModel from "../models/SatelliteItemAssets";
 import { IStacCollection } from "../types/IStacCollection";
+import { SatelliteService } from "../services/satellite";
+
+const service = new SatelliteService();
 
 export class SatelliteController {
   async createSatellite(req: Request, res: Response) {
     try {
-      const { item_assets, ...satelliteData }: IStacCollection = req.body;
-
-      const existing = await SatelliteModel.findOne({ id: satelliteData.id });
-      if (existing) {
+      const satellite = await service.createSatelliteFromStac(req.body);
+      if (!satellite) {
         return res.status(409).json({ message: "Satélite já existe." });
-      }
-
-      const satellite = new SatelliteModel(satelliteData);
-      await satellite.save();
-
-      if (item_assets) {
-        await Promise.all(
-          Object.entries(item_assets).map(([key, value]) =>
-            SatelliteItemAssetsModel.create({
-              key,
-              ...value,
-              satellite: satellite._id,
-            })
-          )
-        );
       }
 
       res
@@ -50,11 +36,19 @@ export class SatelliteController {
   async getSatelliteById(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const satellite = await SatelliteModel.findOne({ id });
+
+      if (!id) {
+        return res
+          .status(400)
+          .json({ message: "Parâmetro 'id' é obrigatório." });
+      }
+
+      const satellite = await service.getSatelliteById(id);
       if (!satellite) {
         return res.status(404).json({ message: "Satélite não encontrado." });
       }
       res.status(200).json(satellite);
+      
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Erro ao buscar satélite.", error });
@@ -92,7 +86,9 @@ export class SatelliteController {
         return res.status(404).json({ message: "Satélite não encontrado." });
       }
 
-      const assets = await SatelliteItemAssetsModel.find({ satellite: satellite._id });
+      const assets = await SatelliteItemAssetsModel.find({
+        satellite: satellite._id,
+      });
 
       res.status(200).json({ ...satellite.toObject(), item_assets: assets });
     } catch (error) {

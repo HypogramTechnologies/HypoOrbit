@@ -21,7 +21,7 @@ const SatelliteSchema: Schema = new Schema({
     license: { type: String, required: true },
     extent: { type: Object, required: true },
     links: { type: Array, required: true },
-}, { timestamps: true });
+}, { timestamps: true, collection: 'satellite'});
 
 export default mongoose.model<IStacCollection>('Satellite', SatelliteSchema);
 
