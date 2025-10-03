@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import satelliteRoutes from './routes/satelliteRoutes';
+import satelliteRoutes from './routes/satellite';
 import stacRoutes from './routes/stac'
 import geocodeRoutes from './routes/geocode'
 

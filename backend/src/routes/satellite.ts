@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { SatelliteController } from '../controllers/SatelliteController';
+import { SatelliteController } from '../controllers/satellite';
 
 const satelliteRoutes = Router();
 const controller = new SatelliteController();
