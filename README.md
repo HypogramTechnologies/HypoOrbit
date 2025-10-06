@@ -116,7 +116,6 @@ npm run dev
 |[IH - 025]| Protótipo do componente para listar os satélites                                              | Eduardo Henrique Alves Arantes           | ✔               | https://trello.com/c/xHCHx9q0                                        |                      |
 |[DW - 018]| Criar componente do mapa                                                                      | Andressa Stephane Toledo da Silva        | ✔               | https://trello.com/c/495AoU4K                                        |                      |
 |[DW - 021]| Capturar clique e converter para coordenadas                                                  |                                               | ✔               | https://trello.com/c/LcAJ0ovL                                        |                      |
-|     | Validar coordenadas manuais                                                                   |                                               | ❌               | https://trello.com/c/7GEoQl8h                                        |                      |
 |[DW - 033]| Exibir mensagem de erro se a coordenada for inválida.                                          | Andressa Stephane Toledo da Silva       | ✔               | https://trello.com/c/FWJqi45t                                        |                      |
 |[TP - 014]| Consumir JSON da STAC API                                                                     | Adson Ottoni Balbino Filho               | ✔               | https://trello.com/c/LYdwj4cB                                        |                      |
 |[DW - 019]| Criar componente de listagem de satélites                                                     | Adson Ottoni Balbino Filho               | ✔               | https://trello.com/c/zXJHF9K3                                        |                      |
@@ -130,7 +129,7 @@ npm run dev
 |[GP - 003]| Documentação e planejamento                                                        | Carlos Eduardo da Silva Magalhães         | ✔               | https://trello.com/c/6AJweeEe                                        |                      |
 |[DW - 005]| Estudo das séries temporais de imagens disponibilizadas por cada satélite           | Gustavo de Moraes Silva                  | ✔               | https://trello.com/c/dV50F1zv                                        |                      |
 |[GP - 015]| Build e execução           | Gustavo de Moraes Silva                  | ✔               | https://trello.com/c/pcmSwNyD                                       |                      |
-|[GP - 020]| Preparação do ambiente           | Gustavo de Moraes Silva                  | ⏳              | https://trello.com/c/AOG0cuhy                                      |                      |
+|[GP - 020]| Preparação do ambiente           | Gustavo de Moraes Silva                  | ✔              | https://trello.com/c/AOG0cuhy                                      |                      |
 
 
 
