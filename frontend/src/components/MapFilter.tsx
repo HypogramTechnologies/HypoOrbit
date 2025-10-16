@@ -1,11 +1,13 @@
 import React from "react";
 import { useFilter } from "../context/FilterMapContext";
 import { validateCoordinates } from "../utils/validateCoordinates";
-import type { MapFilterProps } from "../types/MessageConfig";
-import  { TypeMessage } from "../types/MessageConfig";
+import type { MapFilterProps,MapFilterPropsExtended } from "../types/MessageConfig";
+import { TypeMessage } from "../types/MessageConfig";
 import "../styles/mapFilter.css";
 
-const MapFilter:  React.FC<MapFilterProps> = ({ setMessageConfig }) => {
+
+
+const MapFilter: React.FC<MapFilterPropsExtended> = ({ setMessageConfig, isFiltroVisible }) => {
   const { setFilter } = useFilter();
 
   const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +36,8 @@ const MapFilter:  React.FC<MapFilterProps> = ({ setMessageConfig }) => {
     }
   };
 
+  // Aqui você decide exibir ou não
+
   return (
     <input
       id="input-search"
@@ -41,7 +45,7 @@ const MapFilter:  React.FC<MapFilterProps> = ({ setMessageConfig }) => {
       defaultValue=""
       onBlur={inputChange}
       placeholder="ex: -15.793889, -47.882778"
-      className="filter-container"
+      className={`filter-container ${isFiltroVisible ? "menu-visible" : "menu-hidden"}`}
     />
   );
 };

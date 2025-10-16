@@ -3,8 +3,10 @@ import type { ISatelliteCardProps } from '../types/ISatelliteCardProps';
 import SatelliteCard from './SatelliteCard';
 import { StacService } from '../services/StacService';
 import "../styles/satelliteList.css";
+import type { SatelliteProps } from '../types/SatelliteProps';
 
-const SatelliteList: React.FC = () => {
+const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible }) => {
+// const SatelliteList: React.FC = () => {
   const [satellite, setSatellite] = useState<ISatelliteCardProps[]>([]);
   const service = new StacService();
 
@@ -19,7 +21,8 @@ const SatelliteList: React.FC = () => {
   }, []);
 
   return (
-    <div className='satellite-list-container'>
+    <div className={`${isFiltroVisible ? "satellite-list-container-visible" : "satellite-list-container-hidden"
+              }`}>
       {satellite.map(item => (
         <SatelliteCard
           key={item.id}                        

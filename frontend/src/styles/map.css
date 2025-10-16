@@ -1,5 +1,11 @@
 .map-container {
   flex: 1;     
-  height: 100vh; 
-  width: 80%;
+  height: 94vh !important;
+  width: 100% !important;
+  position: relative;   
+  z-index: 1;
+}
+
+.leaflet-left {
+    left: 96%;
 }
