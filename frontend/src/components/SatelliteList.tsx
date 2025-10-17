@@ -4,12 +4,23 @@ import SatelliteCard from './SatelliteCard';
 import { StacService } from '../services/StacService';
 import "../styles/satelliteList.css";
 import type { SatelliteProps } from '../types/SatelliteProps';
+import SatelliteFilter from './SatelliteFilter';
 
-const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible }) => {
+import Message from "../components/Message";
+import { TypeMessage } from "../types/MessageConfig";
+import type { MessageConfig } from "../types/MessageConfig";
+
+const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin }) => {
 // const SatelliteList: React.FC = () => {
   const [satellite, setSatellite] = useState<ISatelliteCardProps[]>([]);
   const service = new StacService();
 
+  const [messageConfig, setMessageConfig] = useState<MessageConfig>({
+    type: TypeMessage.Info,
+    message: "",
+    show: false,
+  });
+  
   useEffect(() => {
     service.getInfoCollection()
       .then((response) => {
@@ -21,8 +32,10 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible }) => {
   }, []);
 
   return (
+    
     <div className={`${isFiltroVisible ? "satellite-list-container-visible" : "satellite-list-container-hidden"
               }`}>
+      {/* <SatelliteFilter setMessageConfig={setMessageConfig} origin={origin}/> */}
       {satellite.map(item => (
         <SatelliteCard
           key={item.id}                        

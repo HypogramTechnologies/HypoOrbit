@@ -30,7 +30,7 @@ export default function SatelliteView() {
             <Menu />
           </div>
 
-          <SatelliteList isFiltroVisible={isFiltroVisible} />
+          <SatelliteList isFiltroVisible={isFiltroVisible} origin='SatelliteView'/>
         </div>
       </FiltroProvider>
     </div>
