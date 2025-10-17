@@ -1,0 +1,64 @@
+.filtro-style {
+  color: white;
+}
+
+.icon {
+  color: var(--primary-color);
+  font-size: 24px;
+}
+
+.icon-container {
+  align-content: center;
+}
+
+
+.toggle-button {
+  position: absolute;
+  top: 10px;
+  z-index: 1000;
+  background-color: transparent;
+  color: white;
+  padding: 3px 3px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 5%;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.toggle-button:hover {
+  background-color: var(--background-color);
+  transform: scale(1.05);
+}
+
+
+
+/* === Filtro lateral === */
+.filtro-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  background-color: var(--background-color);
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  padding: 16px;
+  z-index: 900;
+  color: white;
+}
+
+/* Visível */
+.filtro-visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Oculto */
+.filtro-hidden {
+  transform: translateX(-100%);
+  opacity: 0;
+  pointer-events: none; /* evita clique no filtro escondido */
+}
