@@ -1,28 +1,39 @@
-/* Header principal */
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  background: var(--background-linear-gradient);
-  z-index: 1000;
+    position: relative; 
+    top: 0;          
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: var(--background-color);
+    z-index: 10;   
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
 }
 
-/* Logo dentro do header */
-.header-logo {
-  height: 50px;
-  object-fit: contain;
-}
 
-/* Container de links */
 .header-container {
-  display: flex;
-  align-items: center;
-  gap: 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: left 0.4s ease; 
+    position: relative;
+  
 }
 
+
+.title{
+  left: 4rem;
+  position: relative;
+}
+
+
+.header-filtro-hidden {
+    transform: translateX(0);
+    transition: transform 0.4s ease;
+}
+
+.header-filtro-visible {
+    transform: translateX(20rem);
+    transition: transform 0.4s ease;
+}

@@ -1,9 +1,48 @@
-.satellite-list-container {
-  width: 100%;
-  overflow-y: auto;     
-  padding: 1rem;
 
+.satellite-list-container-visible {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1rem;  gap: 1rem;
+  gap: 1rem;
+
+  margin-top: 50px; 
+  overflow-y: auto;
+  flex: 1; 
+  position: relative; 
+  transition: width 0.3s ease; 
+  margin-left: 300px;
+}
+
+.satellite-list-container-hidden {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+
+  margin-top: 50px; 
+  overflow-y: auto;
+  flex: 1; 
+  position: relative; 
+  transition: width 0.3s ease; 
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden; 
+}
+
+.filtro-container,
+.main-content > div:first-child { 
+  width: 250px; 
+}
+
+.main-content > .satellite-list-container {
+  flex: 1; 
+  transition: width 0.3s ease;
+  overflow-y: auto;
 }

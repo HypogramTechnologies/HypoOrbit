@@ -2,9 +2,18 @@
     position: absolute;
     z-index: 1000;
     margin-top: 20px;
-    margin-left: 70px;
     border-radius: var(--border-radius);
     padding: 10px;
     background-color: var(--background-color);
     color: var(--color-light) !important;
+}
+
+.menu-visible{
+    margin-left: 22rem;
+   
+}
+
+.menu-hidden{
+    margin-left: 2rem;
+   
 }

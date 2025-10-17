@@ -1,15 +1,13 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useFilter } from "../context/FilterMapContext";
-
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-
 import "../styles/map.css";
 import MapFilter from "../components/MapFilter";
 import Modal from "../components/Modal";
 import SatelliteList from "../components/SatelliteList";
-
+import type { MapProps } from  "../types/MapProps";
 import Message from "../components/Message";
 import { TypeMessage } from "../types/MessageConfig";
 import type { MessageConfig } from "../types/MessageConfig";
@@ -47,7 +45,7 @@ const UpdateMap: React.FC = () => {
 };
 
 
-const Mapa: React.FC = () => {
+const Mapa: React.FC<MapProps> = ({ isFiltroVisible }) => {
   const { filter } = useFilter();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,7 +63,7 @@ const Mapa: React.FC = () => {
 
   return (
     <div className="map-container" style={{ width: "100%", height: "100vh" }}>
-      <MapFilter setMessageConfig={setMessageConfig} />
+      <MapFilter setMessageConfig={setMessageConfig} isFiltroVisible={isFiltroVisible}  />
 
       <Message
         type={messageConfig.type}
@@ -96,7 +94,7 @@ const Mapa: React.FC = () => {
       </MapContainer>
 
        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Lista de Satélites">
-        <SatelliteList />
+        <SatelliteList isFiltroVisible={isFiltroVisible} />
        </Modal>
     </div>
   );
