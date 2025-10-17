@@ -45,8 +45,7 @@ export class WTSSController {
 
   // GET /wtss/time_series/:coverage/:attributes/:startDate/:endDate/:latitude/:longitude
   async timeSeries(req: Request, res: Response) {
-    const { coverage } = req.params;
-    const { attributes, startDate, endDate, latitude, longitude } = req.query;
+    const { coverage, attributes, startDate, endDate, latitude, longitude } = req.params;
     if (
       !coverage ||
       !attributes ||
@@ -59,7 +58,7 @@ export class WTSSController {
     }
     try {
       const data = await service.getTimeSeries(
-        coverage,
+        coverage as string,
         (attributes as string).split(","),
         new Date(startDate as string),
         new Date(endDate as string),

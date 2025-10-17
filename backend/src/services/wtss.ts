@@ -4,7 +4,7 @@ import { IWTSSCoverages, IWTSSTimesSeries, ICoverageMetadata } from "../types/IW
 
 export class WTSSService {
   async getCoverages() {
-    const response = await wtss.get<IWTSSCoverages>("/coverages");
+    const response = await wtss.get<IWTSSCoverages>("/list_coverages");
     return response.data as IWTSSCoverages;
   }
 
