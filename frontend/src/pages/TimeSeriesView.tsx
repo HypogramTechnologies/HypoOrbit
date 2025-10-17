@@ -28,8 +28,6 @@ export default function TimeSeriesView() {
           >
             <Menu />
           </div>
-
-          {/* <SatelliteList isFiltroVisible={isFiltroVisible} /> */}
         </div>
       </FiltroProvider>
     </div>

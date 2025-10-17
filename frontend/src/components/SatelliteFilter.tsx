@@ -1,13 +1,16 @@
 import React from "react";
-import { useFilter } from "../context/FilterMapContext";
+import { useFilter } from "../context/FilterSatelliteContext";
 import { validateCoordinates } from "../utils/validateCoordinates";
-import type { MapFilterProps,MapFilterPropsExtended } from "../types/MessageConfig";
+import type { SatelliteFilterProps } from "../types/MessageConfig";
 import { TypeMessage } from "../types/MessageConfig";
-import "../styles/mapFilter.css";
+import "../styles/satelliteFilter.css";
 
-const MapFilter: React.FC<MapFilterPropsExtended> = ({ setMessageConfig, isFiltroVisible }) => {
+const SatelliteFilter: React.FC<SatelliteFilterProps> = ({ setMessageConfig, origin}) => {
+
+  //origin //para controlar visibilidade
+
   const { setFilter } = useFilter();
-
+ 
   const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const coordinates = e.target.value.trim();
     console.log(coordinates);
@@ -18,7 +21,7 @@ const MapFilter: React.FC<MapFilterPropsExtended> = ({ setMessageConfig, isFiltr
       const lng = parseFloat(lngStr);
 
       if (!isNaN(lat) && !isNaN(lng)) {
-        setFilter({ latitude: lat, longitude: lng });
+        // setFilter({ latitude: lat, longitude: lng });
         setMessageConfig({
           type: TypeMessage.Success,
           message: "Coordenadas válidas. Mapa será atualizado.",
@@ -36,14 +39,14 @@ const MapFilter: React.FC<MapFilterPropsExtended> = ({ setMessageConfig, isFiltr
 
   return (
     <input
-      id="input-search"
+      id="input-name-satellite"
       type="text"
       defaultValue=""
       onBlur={inputChange}
-      placeholder="ex: -15.793889, -47.882778"
-      className={`filter-container ${isFiltroVisible ? "menu-visible" : "menu-hidden"}`}
+      placeholder="Nome do satélite ou coleção"
+      className=""
     />
   );
 };
 
-export default MapFilter;
+export default SatelliteFilter;
