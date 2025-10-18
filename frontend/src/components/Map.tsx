@@ -94,7 +94,7 @@ const Mapa: React.FC<MapProps> = ({ isFiltroVisible }) => {
       </MapContainer>
 
        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Lista de Satélites">
-        <SatelliteList isFiltroVisible={isFiltroVisible} origin='Map'/>
+        <SatelliteList isFiltroVisible={isFiltroVisible} origin='Map' coordinates = {position}/>
        </Modal>
     </div>
   );

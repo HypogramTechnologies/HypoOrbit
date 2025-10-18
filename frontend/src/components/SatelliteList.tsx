@@ -22,13 +22,31 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin }) =>
   });
   
   useEffect(() => {
-    service.getInfoCollection()
+
+    if (coordinates.length < 0){
+      service.getInfoCollection()
       .then((response) => {
 
         const data = response.data as { listCollection: ISatelliteCardProps[] };
         setSatellite(data.listCollection);
       })
       .catch(err => console.error("Erro na requisição:", err));
+    }else{
+      
+      const query:IStacSearchParams = {
+        latitude: coordinates[0],
+        longitude: coordinates[1]
+      }
+
+      service.searchCollections(query)
+      .then((response) => {
+
+        const data = response.data as { listCollection: ISatelliteCardProps[] };
+        setSatellite(data.listCollection);
+      })
+      .catch(err => console.error("Erro na requisição:", err));
+    }
+    
   }, []);
 
   return (
