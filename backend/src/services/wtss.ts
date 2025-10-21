@@ -1,6 +1,11 @@
 import wtss from "../config/wtss";
-import { IWTSSCoverages, IWTSSTimesSeries, ICoverageMetadata } from "../types/IWTSSCoverages";
-
+import {
+  IWTSSCoverages,
+  IWTSSTimesSeries,
+  ICoverageMetadata,
+  IBand,
+  IAttributesCoverages,
+} from "../types/IWTSSCoverages";
 
 export class WTSSService {
   async getCoverages() {
@@ -29,5 +34,21 @@ export class WTSSService {
       }&latitude=${latitude}&longitude=${longitude}`
     );
     return response.data;
+  }
+
+  async getAttributesCoverages(coverages: string[]) {
+    const coveragesAttributes: IAttributesCoverages[] = [];
+    for (const coverage of coverages) {
+      const data = await this.getCoverageDetails(coverage);
+      if (data && data.bands) {
+        coveragesAttributes.push({
+          coverage: coverage,
+          attributes: data.bands
+            .map((band: IBand) => band.name)
+            .filter((name: string) => ["NDVI", "EVI", "NBR"].includes(name)),
+        });
+      }
+    }
+    return coveragesAttributes;
   }
 }

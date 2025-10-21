@@ -4,7 +4,10 @@ import {
   IWTSSCoverages,
   IWTSSTimesSeries,
   ICoverageMetadata,
+  IBand,
+  IAttributesCoverages,
 } from "../types/IWTSSCoverages";
+import { get } from "http";
 
 const service = new WTSSService();
 
@@ -45,7 +48,8 @@ export class WTSSController {
 
   // GET /wtss/time_series/:coverage/:attributes/:startDate/:endDate/:latitude/:longitude
   async timeSeries(req: Request, res: Response) {
-    const { coverage, attributes, startDate, endDate, latitude, longitude } = req.params;
+    const { coverage, attributes, startDate, endDate, latitude, longitude } =
+      req.params;
     if (
       !coverage ||
       !attributes ||
@@ -72,6 +76,84 @@ export class WTSSController {
     } catch (err) {
       console.error(err);
       return res.status(500).json({ error: "Erro ao buscar série temporal" });
+    }
+  }
+
+  async attributesCoverages(req: Request, res: Response) {
+    const { coverages } = req.body as { coverages?: string[] };
+    if (!coverages || !Array.isArray(coverages)) {
+      return res.status(400).json({ error: "Coverages inválidas" });
+    }
+    try {
+      const coverageAttributes: IAttributesCoverages[] =
+        await service.getAttributesCoverages(coverages);
+
+      if (!coverageAttributes) {
+        return res
+          .status(404)
+          .json({ error: "Atributos das coverages não encontrados" });
+      }
+      return res.json({ coverages: coverageAttributes });
+    } catch (err) {
+      console.error(err);
+      return res
+        .status(500)
+        .json({ error: "Erro ao buscar atributos das coverages" });
+    }
+  }
+
+  async timeSeriesCoverages(req: Request, res: Response) {
+    const { coverages, startDate, endDate, latitude, longitude } = req.body as {
+      coverages?: string[];
+      startDate?: string;
+      endDate?: string;
+      latitude?: number;
+      longitude?: number;
+    };
+
+    if (
+      !coverages?.length ||
+      !startDate ||
+      !endDate ||
+      latitude === undefined ||
+      longitude === undefined
+    ) {
+      return res.status(400).json({ error: "Parâmetros insuficientes" });
+    }
+
+    try {
+      const coverageAttributes = await service.getAttributesCoverages(
+        coverages
+      );
+      if (!coverageAttributes?.length) {
+        return res.status(404).json({
+          error: "Atributos das coverages não encontrados",
+        });
+      }
+
+      const coveragesTimesSeries: IWTSSTimesSeries[] = [];
+
+      for (const { coverage, attributes } of coverageAttributes) {
+        if (!attributes?.length) continue;
+
+        const timesSeries = await service.getTimeSeries(
+          coverage,
+          attributes,
+          new Date(startDate),
+          new Date(endDate),
+          latitude,
+          longitude
+        );
+
+        coveragesTimesSeries.push(timesSeries);
+      }
+
+      return res.json({ timeSeries: coveragesTimesSeries });
+    } catch (err) {
+      console.error(err);
+      return res
+        .status(500)
+        .json({ error: "Erro ao buscar séries temporais das coverages" });
     }
   }
 }

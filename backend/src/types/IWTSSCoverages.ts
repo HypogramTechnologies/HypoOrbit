@@ -63,3 +63,7 @@ export interface IWTSSTimeSeriesAttribute {
   values: number[];
 }
 
+export interface IAttributesCoverages {
+  coverage: string;
+  attributes?: string[];
+}

@@ -13,4 +13,10 @@ wtssRouter.get('/coverage/:coverage', wtssController.coverageDetails);
 // GET /wtss/time_series/:coverage/:attributes/:startDate/:endDate/:latitude/:longitude
 wtssRouter.get('/time_series/:coverage/:attributes/:startDate/:endDate/:latitude/:longitude', wtssController.timeSeries);
 
+// POST /wtss/attributes_coverages
+wtssRouter.post('/attributes_coverages', wtssController.attributesCoverages);
+
+// POST /wtts/time_series_coverages
+wtssRouter.post('/time_series_coverages', wtssController.timeSeriesCoverages);
+
 export default wtssRouter;
