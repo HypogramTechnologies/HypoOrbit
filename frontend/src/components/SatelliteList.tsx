@@ -10,9 +10,10 @@ import Message from "../components/Message";
 import { TypeMessage } from "../types/MessageConfig";
 import type { MessageConfig } from "../types/MessageConfig";
 
-const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin }) => {
-// const SatelliteList: React.FC = () => {
+const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coordinates }) => {
+
   const [satellite, setSatellite] = useState<ISatelliteCardProps[]>([]);
+  const [loading, setLoading] = useState(true);
   const service = new StacService();
 
   const [messageConfig, setMessageConfig] = useState<MessageConfig>({
@@ -23,6 +24,8 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin }) =>
   
   useEffect(() => {
 
+    setLoading(true);
+
     if (coordinates.length < 0){
       service.getInfoCollection()
       .then((response) => {
@@ -30,21 +33,21 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin }) =>
         const data = response.data as { listCollection: ISatelliteCardProps[] };
         setSatellite(data.listCollection);
       })
-      .catch(err => console.error("Erro na requisição:", err));
-    }else{
-      
-      const query:IStacSearchParams = {
-        latitude: coordinates[0],
-        longitude: coordinates[1]
-      }
+      .catch(err => console.error("Erro na requisição:", err))
+      .finally(() => setLoading(false));
 
-      service.searchCollections(query)
+    }else{
+
+      service.getCollectionsByCoordinates(coordinates)
       .then((response) => {
 
         const data = response.data as { listCollection: ISatelliteCardProps[] };
+
+        console.log(data.listCollection)
         setSatellite(data.listCollection);
       })
-      .catch(err => console.error("Erro na requisição:", err));
+      .catch(err => console.error("Erro na requisição:", err))
+      .finally(() => setLoading(false));
     }
     
   }, []);
@@ -54,7 +57,10 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin }) =>
     <div className={`${isFiltroVisible ? "satellite-list-container-visible" : "satellite-list-container-hidden"
               }`}>
       {/* <SatelliteFilter setMessageConfig={setMessageConfig} origin={origin}/> */}
-      {satellite.map(item => (
+
+      {loading ? (
+        <p style={{ textAlign: "center", padding: "20px" }}>Carregando satélites...</p>
+      ) : satellite.map(item => (
         <SatelliteCard
           key={item.id}                        
           id={item.id}
@@ -67,7 +73,6 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin }) =>
     </div>
   );
 };
-
 
 
 export default SatelliteList;

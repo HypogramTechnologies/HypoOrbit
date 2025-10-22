@@ -8,6 +8,7 @@ export interface IStacSearchClientParams{
   limit?: number;               //integer (limit) Default 10
   query?: object; 
   km?: number;
+  metaOnly?:boolean;
 }
 
 export interface StacSearchParams {

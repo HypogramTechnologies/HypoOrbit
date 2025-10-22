@@ -1,6 +1,6 @@
 import { IStacSearchClientParams, StacSearchParams } from "../types/IStacSearchParams"
 
-function kmToLatitudeLongitude(km: number = 1, latitude: number = 0) {
+export function kmToLatitudeLongitude(km: number = 1, latitude: number = 0) {
     const deltaLatitude = km / 111;
     const deltaLongitude = km / (111 * Math.cos(latitude * (Math.PI / 180)));
 
