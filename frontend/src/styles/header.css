@@ -25,6 +25,7 @@
 .title{
   left: 4rem;
   position: relative;
+  color: var(--color-light);
 }
 
 

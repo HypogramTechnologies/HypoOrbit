@@ -4,6 +4,7 @@ import Menu from "../components/Menu";
 import Header from "../components/Header";
 import { useState } from "react";
 import { FiltroProvider } from "../context/FilterMapContext";
+import TimeSeriesCard from "../components/TimeSeriesCard";
 
 export default function TimeSeriesView() {
   const [isFiltroVisible, setIsFiltroVisible] = useState(true);
@@ -27,9 +28,9 @@ export default function TimeSeriesView() {
               }`}
           >
             <Menu />
+            
           </div>
-
-          {/* <SatelliteList isFiltroVisible={isFiltroVisible} /> */}
+          <TimeSeriesCard />
         </div>
       </FiltroProvider>
     </div>

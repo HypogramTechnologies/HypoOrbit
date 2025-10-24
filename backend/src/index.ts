@@ -6,6 +6,7 @@ import satelliteRoutes from './routes/satellite';
 import stacRoutes from './routes/stac'
 import geocodeRoutes from './routes/geocode'
 import syncSatelliteRoutes from './routes/syncSatellite'
+import wtssRouter from './routes/wtss';
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use('/api/satellites', satelliteRoutes);
 app.use('/api/sync', syncSatelliteRoutes);
 app.use('/api/stac', stacRoutes);
 app.use('/api/geocode', geocodeRoutes);
+app.use('/api/wtss', wtssRouter);
 
 //Conectar ao MongoDB
 mongoose.connect(MONGO_URI)

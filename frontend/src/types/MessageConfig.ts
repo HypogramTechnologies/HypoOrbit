@@ -17,6 +17,11 @@ export interface MapFilterProps {
   setMessageConfig: React.Dispatch<React.SetStateAction<MessageConfig>>;
 }
 
+export interface SatelliteFilterProps {
+  setMessageConfig: React.Dispatch<React.SetStateAction<MessageConfig>>;
+  origin: string;
+}
+
 export interface MapFilterPropsExtended extends MapFilterProps {
   isFiltroVisible: boolean;
 }
