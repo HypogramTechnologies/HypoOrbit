@@ -11,8 +11,8 @@ import { TypeMessage } from "../types/MessageConfig";
 import type { MessageConfig } from "../types/MessageConfig";
 
 const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coordinates }) => {
-
-  const [satellite, setSatellite] = useState<ISatelliteCardProps[]>([]);
+  const [satellites, setSatellites] = useState<ISatelliteCardProps[]>([]);
+  const [filteredSatellites, setFilteredSatellites] = useState<ISatelliteCardProps[]>([]);
   const [loading, setLoading] = useState(true);
   const service = new StacService();
 
@@ -21,60 +21,71 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coor
     message: "",
     show: false,
   });
-  
-  useEffect(() => {
 
+  useEffect(() => {
     setLoading(true);
 
-    if (coordinates.length < 0){
-      service.getInfoCollection()
-      .then((response) => {
+    const fetchSatellites = coordinates && coordinates.length > 0 
+      ? service.getCollectionsByCoordinates(coordinates)
+      : service.getInfoCollection();
 
+    fetchSatellites
+      .then((response) => {
         const data = response.data as { listCollection: ISatelliteCardProps[] };
-        setSatellite(data.listCollection);
+        setSatellites(data.listCollection);
+        setFilteredSatellites(data.listCollection); // Inicialmente mostra todos
       })
       .catch(err => console.error("Erro na requisição:", err))
       .finally(() => setLoading(false));
 
-    }else{
-
-      service.getCollectionsByCoordinates(coordinates)
-      .then((response) => {
-
-        const data = response.data as { listCollection: ISatelliteCardProps[] };
-
-        console.log(data.listCollection)
-        setSatellite(data.listCollection);
-      })
-      .catch(err => console.error("Erro na requisição:", err))
-      .finally(() => setLoading(false));
-    }
-    
-  }, []);
+  }, [coordinates]);
 
   return (
-    
-    <div className={`${isFiltroVisible ? "satellite-list-container-visible" : "satellite-list-container-hidden"
-              }`}>
-      {/* <SatelliteFilter setMessageConfig={setMessageConfig} origin={origin}/> */}
-
-      {loading ? (
-        <p style={{ textAlign: "center", padding: "20px" }}>Carregando satélites...</p>
-      ) : satellite.map(item => (
-        <SatelliteCard
-          key={item.id}                        
-          id={item.id}
-          title={item.title}
-          updatedTime={item.updatedTime}
-          gsd={item.gsd}
-          spectralIndices={item.spectralIndices}
+    <div className='satellite-list-container'>
+      {messageConfig.show && <Message {...messageConfig} />}
+      
+      <div className={
+        origin === "Map"
+          ? "satellite-filter-list-container-hidden"
+          : isFiltroVisible
+            ? "satellite-filter-list-container-visible"
+            : "satellite-filter-list-container-hidden"
+      }>
+        <SatelliteFilter
+          satellites={satellites}
+          setFilteredSatellites={setFilteredSatellites}
+          setMessageConfig={setMessageConfig}
+          origin={origin}
         />
-      ))}
+      </div>
+
+      
+      <div className={
+        origin === "Map"
+          ? "satellite-list-container-hidden"
+          : isFiltroVisible
+            ? "satellite-list-container-visible"
+            : "satellite-list-container-hidden"
+      }>
+        {loading ? (
+          <p style={{ textAlign: "center", padding: "20px" }}>Carregando satélites...</p>
+        ) : filteredSatellites.length === 0 ? (
+          <p style={{ textAlign: "center", padding: "20px" }}>Nenhum satélite encontrado.</p>
+        ) : (
+          filteredSatellites.map(item => (
+            <SatelliteCard
+              key={item.id}                        
+              id={item.id}
+              title={item.title}
+              updatedTime={item.updatedTime}
+              gsd={item.gsd}
+              spectralIndices={item.spectralIndices}
+            />
+          ))
+        )}
+      </div>
     </div>
   );
 };
 
-
 export default SatelliteList;
-
-

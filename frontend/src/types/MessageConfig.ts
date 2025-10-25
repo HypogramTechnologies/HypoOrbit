@@ -17,9 +17,19 @@ export interface MapFilterProps {
   setMessageConfig: React.Dispatch<React.SetStateAction<MessageConfig>>;
 }
 
+export interface ISatellite {
+  id: string;
+  title: string;
+}
+
 export interface SatelliteFilterProps {
   setMessageConfig: React.Dispatch<React.SetStateAction<MessageConfig>>;
   origin: string;
+
+  
+  satellites: ISatellite[];
+
+  setFilteredSatellites: React.Dispatch<React.SetStateAction<ISatellite[]>>;
 }
 
 export interface MapFilterPropsExtended extends MapFilterProps {
