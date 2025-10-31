@@ -62,6 +62,8 @@ const Mapa: React.FC<MapProps> = ({ isFiltroVisible }) => {
     filter.longitude || -47.8822,
   ];
 
+  
+
   return (
     <div className="map-container" style={{ width: "100%", height: "100vh" }}>
       <MapFilter setMessageConfig={setMessageConfig} isFiltroVisible={isFiltroVisible}  />

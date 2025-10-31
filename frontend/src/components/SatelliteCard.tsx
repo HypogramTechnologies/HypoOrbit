@@ -12,7 +12,6 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
   const { selectedSatellites, setSelectedSatellites } = useFilter();
   const checkboxId = `checkbox-${id}`;
 
-  // Verifica se o satélite já está selecionado
   const isChecked = selectedSatellites.some((s) => s.id === id);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,13 +19,11 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
 
     setSelectedSatellites((prev) => {
       if (checked) {
-        // adiciona somente se não existir
         if (!prev.some((s) => s.id === id)) {
           return [...prev, { id, hasTimeSeries }];
         }
-        return prev; // já está na lista, não duplica
+        return prev; 
       } else {
-        // remove apenas o desmarcado
         return prev.filter((s) => s.id !== id);
       }
     });
