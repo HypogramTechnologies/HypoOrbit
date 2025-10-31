@@ -43,7 +43,9 @@ export class WTSSService {
       if (data && data.bands) {
         coveragesAttributes.push({
           coverage: coverage,
-          attributes: data.bands
+          attributes: data.bands.sort((a: IBand, b: IBand) =>
+            a.name.localeCompare(b.name)
+          )
             .map((band: IBand) => band.name)
             .filter((name: string) => ["NDVI", "EVI", "NBR"].includes(name)),
         });
