@@ -1,0 +1,80 @@
+.timeseries-container {
+  background: #1f1f1f;
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+  color: var(--color-light);
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  transition: transform 0.25s ease, box-shadow 0.3s ease;
+}
+
+.timeseries-container:hover {
+  /* transform: translateY(-4px); */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+}
+
+.timeseries-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding: 0 0.3rem;
+}
+
+.timeseries-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  letter-spacing: 0.5px;
+}
+
+#chart {
+  background-color: #242424;
+  border-radius: var(--border-radius);
+  padding: 1rem;
+/*   display: flex;
+  justify-content: center;
+  align-items: center; */
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background-color 0.3s ease;
+}
+
+#chart:hover {
+  background-color: #2a2a2a;
+}
+
+.apexcharts-menu {
+  background-color: #1e1e1e !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 6px !important;
+}
+
+.apexcharts-menu-item {
+  color: #f0f0f0 !important;
+  font-size: 13px !important;
+  transition: background-color 0.2s ease;
+}
+
+.apexcharts-menu-item:hover {
+  background-color: rgba(249, 115, 22, 0.2) !important;
+  color: #f97316 !important;
+}
+
+@media (max-width: 768px) {
+  .timeseries-container {
+    padding: 1rem;
+    max-width: 95%;
+  }
+
+  .timeseries-title {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,180 @@
+.satellite-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  /* width: 100%; */
+  gap: 25px;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+  flex: 1;
+}
+
+.filter-item label {
+  font-size: 14px;
+  color: var(--color-light);
+  font-weight: 600;
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+}
+
+.filter-item input,
+.filter-item select {
+  padding: 10px 12px;
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  font-size: 14px;
+  background-color: #ffffff;
+  color: var(--color-dark);
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.filter-item input:focus,
+.filter-item select:focus {
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 4px var(--secondary-color);
+}
+
+.filter-item select {
+  cursor: pointer;
+}
+
+/* Date range (duas datas lado a lado) */
+.date-range {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.date-range span {
+  font-size: 14px;
+  color: var(--color-light);
+}
+
+/* Botões */
+.button-group {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  flex: none;
+  margin-top: 26px;
+}
+
+.btn {
+  padding: 10px 22px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #fff;
+}
+
+.btn.compare {
+  background: var(--background-linear-gradient);
+ 
+}
+
+.btn.compare:hover {
+  box-shadow: 0 2px 6px var(--primary-color);
+}
+
+
+.react-datepicker {
+  background-color: #1f1f1f !important;
+  color: var(--color-light);
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  font-family: var(--font-family);
+}
+
+.react-datepicker__header {
+  background-color: var(--primary-color);
+  border-bottom: none;
+}
+
+.react-datepicker__current-month,
+.react-datepicker__day-name,
+.react-datepicker__day {
+  color: var(--color-light);
+}
+
+.react-datepicker__day:hover {
+  background-color: var(--secondary-color);
+  color: #fff;
+}
+
+.react-datepicker__day--selected {
+  background-color: var(--secondary-color) !important;
+  color: #fff !important;
+}
+
+.date-input {
+  padding: 10px 12px;
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  background-color: #fff;
+  color: var(--color-dark);
+  width: 130px;
+  cursor: pointer;
+}
+
+.css-13cymwt-control{
+  border-radius: var(--border-radius) !important;
+  color: black;
+  border: 1px solid var(--primary-color);
+}
+
+
+
+.satellite-select-control {
+  border: 1px solid var(--primary-color) !important;
+  border-radius: var(--border-radius) !important;
+  color: var(--color-dark) !important;
+  /* min-height: 40px !important; */
+  font-family: var(--font-family) !important;
+  
+}
+
+.satellite-select-menu {
+  background-color: var(--background-color);
+  border-radius: var(--border-radius);
+  color: var(--color-dark);
+  /* max-height: 200px;  */
+  overflow-y: auto;
+  z-index: 9999;
+}
+
+.satellite-select-option {
+  padding: 8px 12px;
+  cursor: pointer;
+  background-color: var(--background-color);
+  color: var(--color-light);
+}
+
+.satellite-select-option.focused {
+  background-color: var(--primary-color);
+  color:#000 ;
+}
+
+.satellite-select-option.selected {
+  background-color: var(--secondary-color);
+  color: #000;
+}
+
+.satellite-select-multi-value {
+  background-color: var(--secondary-color);
+  border-radius: var(--border-radius);
+}
+
+.satellite-select-multi-value-label {
+  color: #000;
+}
+
+.satellite-select-placeholder {
+  color: red;
+}

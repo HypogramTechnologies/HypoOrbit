@@ -31,14 +31,7 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({ id, title, updatedTime, 
                     </p>
                 )}
             </div>
-
-            {/* {spectralIndices && spectralIndices.length > 0 && (
-                <div className="spectral-section">
-                    <i className="fa-solid fa-layer-group card-icon blue"></i>
-                    <span>{spectralIndices.length} bandas</span>
-                </div>
-            )} */}
-
+            
             <div className="card-button-container">
                 <button className="card-button">
                     <i className="fa-solid fa-eye card-icon"></i> Visualizar
