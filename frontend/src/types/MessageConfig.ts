@@ -22,14 +22,21 @@ export interface ISatellite {
   title: string;
 }
 
+export interface ISatelliteCardProps {
+  id: string;
+  title:string
+  updatedTime?: string;
+  gsd?: number;
+  spectralIndices?: string[];
+  hasTimeSeries: boolean;
+}
+
 export interface SatelliteFilterProps {
   setMessageConfig: React.Dispatch<React.SetStateAction<MessageConfig>>;
   origin: string;
-
-  
-  satellites: ISatellite[];
-
-  setFilteredSatellites: React.Dispatch<React.SetStateAction<ISatellite[]>>;
+  // satellites: ISatellite[];
+  satellites: ISatelliteCardProps[];
+  setFilteredSatellites: React.Dispatch<React.SetStateAction<ISatelliteCardProps[]>>;
 }
 
 export interface MapFilterPropsExtended extends MapFilterProps {

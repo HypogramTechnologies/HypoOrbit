@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.0.1",
+    "apexcharts": "^5.3.5",
     "axios": "^1.12.2",
     "leaflet": "^1.9.4",
     "react": "^19.1.1",
+    "react-apexcharts": "^1.8.0",
     "react-datepicker": "^8.8.0",
     "react-dom": "^19.1.1",
     "react-leaflet": "^5.0.0",

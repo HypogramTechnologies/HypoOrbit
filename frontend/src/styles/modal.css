@@ -15,11 +15,15 @@
   background-color: var(--background-color);
   padding: 30px;
   border-radius: var(--border-radius);
-  width: 50%;
-  height: 50%;
+  /* width: 50%; */
+  height: 70%;
   overflow-y: auto;
   position: relative;
   color: var(--color-light);
+}
+
+.modal-overlay.shifted {
+  transform: translateX(var(--menu-width)); 
 }
 
 .modal-close-button {

@@ -4,7 +4,8 @@ import Menu from "../components/Menu";
 import SatelliteList from "../components/SatelliteList";
 import Header from "../components/Header";
 import { useState } from "react";
-import { FiltroProvider } from "../context/FilterMapContext";
+import { FiltroProvider as FilterMapProvider } from "../context/FilterMapContext";
+import { FiltroProvider as FilterSatelliteProvider } from "../context/FilterSatelliteContext"; 
 
 export default function SatelliteView() {
   const [isFiltroVisible, setIsFiltroVisible] = useState(true);
@@ -15,7 +16,7 @@ export default function SatelliteView() {
 
   return (
     <div className="container">
-      <FiltroProvider>
+      <FilterMapProvider>
         <Header
           onToggleFiltro={toggleFiltroVisibility}
           isFiltroVisible={isFiltroVisible}
@@ -29,10 +30,11 @@ export default function SatelliteView() {
           >
             <Menu />
           </div>
-
-          <SatelliteList isFiltroVisible={isFiltroVisible} origin='SatelliteView'/>
+          <FilterSatelliteProvider>
+            <SatelliteList isFiltroVisible={isFiltroVisible} origin='SatelliteView' coordinates={[]}/>
+          </FilterSatelliteProvider>
         </div>
-      </FiltroProvider>
+      </FilterMapProvider>
     </div>
 
   );

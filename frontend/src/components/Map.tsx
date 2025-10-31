@@ -11,6 +11,7 @@ import type { MapProps } from  "../types/MapProps";
 import Message from "../components/Message";
 import { TypeMessage } from "../types/MessageConfig";
 import type { MessageConfig } from "../types/MessageConfig";
+import { FiltroProvider as FilterSatelliteProvider } from "../context/FilterSatelliteContext"; 
 
 const ClickHandler: React.FC = () => {
   const { setFilter } = useFilter();
@@ -81,7 +82,7 @@ const Mapa: React.FC<MapProps> = ({ isFiltroVisible }) => {
           position={position}
           eventHandlers={{
             click: () => {
-              setIsModalOpen(true); // abre o modal ao clicar no marker
+              setIsModalOpen(true); 
             },
           }}
         >
@@ -92,10 +93,11 @@ const Mapa: React.FC<MapProps> = ({ isFiltroVisible }) => {
             </Popup>
         </Marker>
       </MapContainer>
-
-       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Lista de Satélites">
-        <SatelliteList isFiltroVisible={isFiltroVisible} origin='Map' coordinates = {position}/>
-       </Modal>
+        <FilterSatelliteProvider>
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Lista de Satélites" isFiltroVisible={isFiltroVisible}>
+          <SatelliteList isFiltroVisible={isFiltroVisible} origin='Map' coordinates = {position}/>
+        </Modal>
+       </FilterSatelliteProvider>
     </div>
   );
 };

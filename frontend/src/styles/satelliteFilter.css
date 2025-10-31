@@ -8,7 +8,7 @@
 .filter-item {
   display: flex;
   flex-direction: column;
-  min-width: 220px;
+  /* min-width: 220px; */
   flex: 1;
 }
 
@@ -57,7 +57,7 @@
 /* Botões */
 .button-group {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 10px;
   flex: none;
   margin-top: 26px;
