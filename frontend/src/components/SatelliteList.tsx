@@ -23,7 +23,7 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coor
 
   useEffect(() => {
     setLoading(true);
-    
+    console.log('coordinates',coordinates);
     const fetchSatellites =
       coordinates && coordinates.length > 0
         ? service.getCollectionsByCoordinates(coordinates)
@@ -32,7 +32,7 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coor
     fetchSatellites
       .then((response) => {
         const data = response.data as { listCollection: ISatelliteCardProps[] };
-        console.log(data);
+        console.log('data',data);
         const normalizedSatellites = data.listCollection.map((sat) => ({
           ...sat,
           hasTimeSeries: sat.hasTimeSeries ?? false, 

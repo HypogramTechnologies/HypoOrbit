@@ -8,7 +8,6 @@
   gap: 1rem;
   margin-top: 30px; 
   overflow-y: auto;
-  flex: 1; 
   position: relative; 
   transition: width 0.3s ease; 
   margin-left: 300px;

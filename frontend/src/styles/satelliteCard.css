@@ -106,7 +106,7 @@
 }
 
 .card-button {
-  background: var(--background-linear-gradient);
+  background: var(--button-color);
   color: white;
   border: none;
   padding: 8px 18px;

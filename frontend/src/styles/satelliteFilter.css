@@ -2,8 +2,11 @@
   display: flex;
   flex-wrap: wrap;
   /* width: 100%; */
+  margin-right: 15px;
   gap: 25px;
 }
+
+
 
 .filter-item {
   display: flex;
@@ -42,7 +45,6 @@
   cursor: pointer;
 }
 
-/* Date range (duas datas lado a lado) */
 .date-range {
   display: flex;
   align-items: center;
@@ -54,13 +56,13 @@
   color: var(--color-light);
 }
 
-/* Botões */
 .button-group {
   display: flex;
   align-items: center;
   gap: 10px;
   flex: none;
   margin-top: 26px;
+  margin-right: 10%;
 }
 
 .btn {
@@ -75,14 +77,13 @@
 }
 
 .btn.compare {
-  background: var(--background-linear-gradient);
+  background: var(--button-color);
  
 }
 
 .btn.compare:hover {
   box-shadow: 0 2px 6px var(--primary-color);
 }
-
 
 .react-datepicker {
   background-color: #1f1f1f !important;
@@ -177,4 +178,13 @@
 
 .satellite-select-placeholder {
   color: red;
+}
+
+
+.filter-tags{
+  margin-top: 29px;
+}
+
+.marginRight10{
+  margin-right: 10px;
 }
