@@ -3,11 +3,11 @@ import React from "react";
 import "../styles/modal.css";
 import type { ModalProps } from '../types/Modal';
 
-const Modal: React.FC<ModalProps & { title?: string }> = ({ isOpen, onClose, children, title }) => {
+const Modal: React.FC<ModalProps & { title?: string }> = ({ isOpen, onClose, children, title,isFiltroVisible }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
+    <div className={`modal-overlay ${isFiltroVisible ? "shifted" : ""}`}>
       <div className="modal-container">
         {title && <h2 className="modal-title">{title}</h2>}
 

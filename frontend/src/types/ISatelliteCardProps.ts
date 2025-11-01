@@ -4,4 +4,5 @@ export interface ISatelliteCardProps {
   updatedTime?: string;
   gsd?: number;
   spectralIndices?: string[];
+  hasTimeSeries: boolean;
 }

@@ -111,10 +111,10 @@ export class StacController {
         
         const [minLon, minLat, maxLon, maxLat] = c.bbox[0];
 
-        return userLat >= Math.min(minLat, maxLat) &&
-           userLat <= Math.max(minLat, maxLat) &&
-           userLong >= Math.min(minLon, maxLon) &&
-           userLong <= Math.max(minLon, maxLon);
+        return  userLat >= minLat &&
+                userLat <= maxLat &&
+                userLong >= minLon &&
+                userLong <= maxLon
       });
 
       return res.json({ listCollection });

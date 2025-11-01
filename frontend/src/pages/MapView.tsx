@@ -4,8 +4,9 @@ import "../styles/menuVisible.css";
 import Mapa from "../components/Map";
 import Menu from "../components/Menu";
 import Header from "../components/Header";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiltroProvider } from "../context/FilterMapContext";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function MapView() {
   const [isFiltroVisible, setIsFiltroVisible] = useState(true);
@@ -13,6 +14,15 @@ export default function MapView() {
   const toggleFiltroVisibility = () => {
     setIsFiltroVisible((prev) => !prev);
   };
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      navigate("/map", { replace: true });
+    }
+  }, [location.pathname, navigate]);
 
   return (
     <div className="page-container">

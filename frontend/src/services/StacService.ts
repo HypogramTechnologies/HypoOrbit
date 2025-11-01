@@ -8,9 +8,14 @@ export class StacService{
         return data;
     }
 
-    async getCollectionsByCoordinates(coordinates:number[]){
-        const data = await api.get(`/stac/collections?metaOnly=true&latitude=${coordinates[0]}&longitude=${coordinates[1]}`);
-        return data;
+    async getCollectionsByCoordinates(coordinates: number[]) {
+        const [lat, long] = coordinates;
+
+        const response = await api.get(
+            `/stac/collections/by-coordinates?lat=${lat}&long=${long}`
+        );
+
+        return response;
     }
 
     async searchItemsCollections(params:IStacSearchParams){

@@ -13,3 +13,4 @@ export interface FilterSatellite {
   coverage_area: string;
   coverage_country: string;
 }
+
