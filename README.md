@@ -143,8 +143,22 @@ npm run dev
 
 #### 📋 Tarefas  
 
-| ID  | Nome                                                 | Responsáveis                                  | Tarefa Finalizada | Link                                                                 | Requisitos atendidos                       |
-|-----|------------------------------------------------------|-----------------------------------------------|-------------------|----------------------------------------------------------------------|-------------------------------------------|
+| ID         | Nome                                                                                         | Responsáveis                                      | Tarefa Finalizada | Link                                                               | Requisitos atendidos |
+|-------------|----------------------------------------------------------------------------------------------|---------------------------------------------------|-------------------|--------------------------------------------------------------------|----------------------|
+| [TP - 045]  | Recuperar informação de tempo de atualização do satélite dos serviços disponibilizados (STAC/WTSS) | Eduardo Henrique Alves Arantes                    | ✔                 | https://trello.com/c/iMzkCBFi                                      |                      |
+| [DW - 040]  | Componente de filtragem de dados do satélite (Período/Nome)                                  | Andressa Stephane Toledo da Silva                 | ✔                 | https://trello.com/c/AJJwfPHD                                      |                      |
+| [GP - 051]  | Configuração do sistema                                                                      | Adson Ottoni Balbino Filho                        | ✔                 | https://trello.com/c/ejNEjnTa                                      |                      |
+| [DW - 046]  | Componente de visualização das séries temporais                                              | Carlos Eduardo da Silva Magalhães                 | ✔                 | https://trello.com/c/JZ180FpA                                      |                      |
+| [EU - 047]  | Wireframes                                                                                   | Andressa Stephane Toledo da Silva                 | ✔                 | https://trello.com/c/ikf24AyR                                      |                      |
+| [EU - 048]  | Fluxo de usuário                                                                             | Andressa Stephane Toledo da Silva                 | ✔                 | https://trello.com/c/kSsH3IIC                                      |                      |
+| [EU - 049]  | Protótipo interativo no figma                                                                | Andressa Stephane Toledo da Silva                 | ✔                 | https://trello.com/c/EIA4xsY6                                      |                      |
+| [EU - 050]  | Mini teste de usabilidade                                                                    | Andressa Stephane Toledo da Silva                 | ✔                 | https://trello.com/c/fFzu5a7H                                      |                      |
+| [TP - 043]  | Integrar serviço de filtro de satélites a partir da localização informada com a interface     | Adson Ottoni Balbino Filho                        | ✔                 | https://trello.com/c/kmcEer01                                      |                      |
+| [TP - 044]  | Serviço para recuperar as séries temporais do WTSS                                           | Carlos Eduardo da Silva Magalhães                 | ✔                 | https://trello.com/c/Nxsvgc3f                                      |                      |
+| [IH - 042]  | Criar componente de HELP                                                                     | Eduardo Henrique Alves Arantes                    | ✔                 | https://trello.com/c/JwyZW9DW                                      |                      |
+| [TP - 041]  | Serviço para recuperar os satélites disponíveis no WTSS                                      | Carlos Eduardo da Silva Magalhães                 | ✔                 | https://trello.com/c/4Bl96un1                                      |                      |
+| [DW - 039]  | Expandir e retrair menu de navegação                                                         | Andressa Stephane Toledo da Silva                 | ✔                 | https://trello.com/c/MMt6lOVR                                      |                      |
+-|
 
 
 #### 📉 Burndown  
