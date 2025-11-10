@@ -24,9 +24,13 @@ export class SearchesController {
           country?: string;
           postcode?: string;
         };
-        location = `${name ? name : ""}${district ? `${name ? ", " : ""}${district}` : ""}${city ? ` ${city}` : ""}${state ? ` - ${state}` : ""}${country ? `, ${country}` : ""}${postcode ? ` ${postcode}` : ""}`.trim();
-
-
+        location = `${name ?? ""}${
+          district ? `${name ? ", " : ""}${district}` : ""
+        }${city ? `${district || name ? ", " : ""}${city}` : ""}${
+          state ? ` - ${state}` : ""
+        }${country ? `, ${country}` : ""}${
+          postcode ? `, ${postcode}` : ""
+        }`.trim();
       }
 
       const newSearch = new SearchesModel({
