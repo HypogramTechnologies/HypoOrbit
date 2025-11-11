@@ -15,12 +15,15 @@
 .card-satellite-icon {
   color: var(--primary-color);
   font-size: 18px;
+  border: solid 1px;
+  padding: 12px;
+  border-radius: 10px;
 }
 
 .name-text {
   font-size: 18px;
   font-weight: 600;
-  color: #1f2937;
+  color: white;
   margin: 0;
   word-break: break-word;
 }
@@ -36,7 +39,7 @@
   display: flex;
   gap: 16px;
   font-size: 14px;
-  color: #374151;
+  color: var(--color-light);
   margin-bottom: 12px;
 }
 
@@ -84,13 +87,14 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between; 
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--primary-color);
   border-radius: 12px;
   padding: 16px;
   margin: 16px;
-  background: #fff;
+  background: var(--background-card-color);
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
 }
 
 .card-button-container {
@@ -110,11 +114,11 @@
   color: white;
   border: none;
   padding: 8px 18px;
-  border-radius: 20px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   font-weight: 500;
   box-shadow: 0 2px 4px rgba(0,0,0,0.12);
- 
+  width: 90%;
 }
 
 .card-button:hover {

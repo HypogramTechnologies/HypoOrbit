@@ -13,7 +13,10 @@ type FilterSatelliteContextType = {
   applyFilter: () => void;
   selectedSatellites: SelectedSatellite[];
   setSelectedSatellites: React.Dispatch<React.SetStateAction<SelectedSatellite[]>>;
+  activeTag: string;
+  setActiveTag: React.Dispatch<React.SetStateAction<string>>;
 };
+
 
 const defaultFilterSatellite: FilterSatellite = {
   name_satellite: "",
@@ -31,6 +34,8 @@ const FilterSatelliteContext = createContext<FilterSatelliteContextType>({
   applyFilter: () => {},
   selectedSatellites: [],
   setSelectedSatellites: () => {},
+  activeTag: "todos",
+  setActiveTag: () => {}, 
 });
 
 export const FiltroProvider = ({ children }: { children: React.ReactNode }) => {
@@ -38,6 +43,7 @@ export const FiltroProvider = ({ children }: { children: React.ReactNode }) => {
   const [appliedFilter, setAppliedFilter] = useState<FilterSatellite>(defaultFilterSatellite);
   const [firstApply, setFirstApply] = useState(true);
   const [selectedSatellites, setSelectedSatellites] = useState<SelectedSatellite[]>([]);
+  const [activeTag, setActiveTag] = useState<string>("todos"); // 👈 aqui
 
   const applyFilter = () => {
     if (firstApply) {
@@ -48,7 +54,6 @@ export const FiltroProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Log apenas quando o estado realmente muda
   useEffect(() => {
     console.log("📡 selectedSatellites atualizado:", selectedSatellites);
   }, [selectedSatellites]);
@@ -62,11 +67,14 @@ export const FiltroProvider = ({ children }: { children: React.ReactNode }) => {
         applyFilter,
         selectedSatellites,
         setSelectedSatellites,
+        activeTag,
+        setActiveTag, 
       }}
     >
       {children}
     </FilterSatelliteContext.Provider>
   );
 };
+
 
 export const useFilter = () => useContext(FilterSatelliteContext);

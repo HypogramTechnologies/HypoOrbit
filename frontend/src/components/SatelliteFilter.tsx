@@ -14,11 +14,14 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
   satellites,
   setFilteredSatellites,
 }) => {
-  const { selectedSatellites } = useFilter(); // não vamos mais sobrescrever aqui
+  const { selectedSatellites, setSelectedSatellites, activeTag, setActiveTag } = useFilter();
+
   const [name, setName] = useState("");
   const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
+
+  const [currentFiltered, setCurrentFiltered] = useState(satellites);
 
   // monta opções do combo
   const satelliteOptions = satellites.map((sat) => ({
@@ -30,22 +33,22 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
   useEffect(() => {
     let filtered = satellites;
 
-    // filtro por nome digitado
     if (name.trim()) {
       filtered = filtered.filter((sat) =>
         sat.title.toLowerCase().includes(name.toLowerCase())
       );
     }
 
-    // filtro por combo de seleção
     if (selectedOptions.length > 0) {
       const selectedIds = selectedOptions.map((opt) => opt.value);
       filtered = filtered.filter((sat) => selectedIds.includes(sat.id));
     }
 
     setFilteredSatellites(filtered);
+    setCurrentFiltered(filtered);
   }, [name, selectedOptions, satellites, setFilteredSatellites]);
 
+  // Botões de ação
   const handleComparerClick = () => {
     if (!startDate || !endDate) {
       setMessageConfig({
@@ -63,8 +66,10 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
         message: "Nenhum satélite selecionado.",
         show: true,
       });
-      return;
+      return; // ✅ sai antes de alterar qualquer coisa
     }
+
+    setActiveTag("selecionados");
 
     const selectedIds = selectedSatellites.map((s) => s.id);
     const filtered = satellites.filter((sat) => selectedIds.includes(sat.id));
@@ -72,15 +77,59 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
   };
 
   const handleShowAll = () => {
+    setActiveTag("todos");
     setFilteredSatellites(satellites);
     setSelectedOptions([]);
     setName("");
   };
 
   const handleTimeTemporaisClick = () => {
+    setActiveTag("series");
     const temporais = satellites.filter((sat) => sat.hasTimeSeries);
     setFilteredSatellites(temporais);
   };
+
+  const handleSelectAll = () => {
+    const allToSelect = currentFiltered.map((sat) => ({
+      id: sat.id,
+      hasTimeSeries: sat.hasTimeSeries,
+    }));
+    setSelectedSatellites(allToSelect);
+    setMessageConfig({
+      type: TypeMessage.Success,
+      message: "Todos os satélites visíveis foram selecionados.",
+      show: true,
+    });
+
+    if (activeTag === "selecionados") {
+      const filtered = satellites.filter((sat) =>
+        allToSelect.some((sel) => sel.id === sat.id)
+      );
+      setFilteredSatellites(filtered);
+    }
+  };
+
+  const handleClearSelection = () => {
+  setSelectedSatellites([]); 
+
+  setMessageConfig({
+    type: TypeMessage.Info,
+    message: "Seleção limpa com sucesso.",
+    show: true,
+  });
+
+  if (selectedOptions.length > 0) {
+    const selectedIds = selectedOptions.map((opt) => opt.value);
+    const filtered = satellites.filter((sat) => selectedIds.includes(sat.id));
+    setFilteredSatellites(filtered);
+    return; 
+  }
+
+  if (activeTag === "selecionados") {
+    setFilteredSatellites(satellites);
+    setActiveTag("todos");
+  }
+};
 
   return (
     <div className="satellite-filter-container">
@@ -94,20 +143,7 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
         />
       </div>
 
-      {/* <div className="filter-item">
-        <label>Satélite</label>
-        <Select
-          isMulti
-          options={satelliteOptions}
-          value={selectedOptions}
-          onChange={(selected) => setSelectedOptions(selected as any[])}
-          placeholder="Selecione um ou mais satélites..."
-          menuPortalTarget={document.body}
-          className="satellite-select"
-        />
-      </div> */}
-
-       <div className="filter-item">
+      <div className="filter-item">
         <label>Satélite</label>
         <Select
           isMulti
@@ -115,8 +151,8 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
           value={selectedOptions}
           onChange={(selected) => setSelectedOptions(selected as any)}
           placeholder="Selecione um ou mais satélites..."
-          menuPortalTarget={document.body} 
-          className="satellite-select" 
+          menuPortalTarget={document.body}
+          className="satellite-select"
           classNames={{
             control: () => "satellite-select-control",
             menu: () => "satellite-select-menu",
@@ -193,29 +229,57 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
         </>
       )}
 
+     
       <div className="filter-tags">
-        {origin === "Map" && (
+        
+
+      {origin === "Map" && (
+        <>
           <button
-            className="tag tag-warning marginRight10"
+            className="tag tag-success marginRight10"
+            onClick={handleSelectAll}
+          >
+            Selecionar todos
+          </button>
+
+          <button
+            className="tag tag-danger marginRight10"
+            onClick={handleClearSelection}
+          >
+            Limpar seleção
+          </button>
+
+          <button
+            className={`tag tag-warning marginRight10 ${
+              activeTag === "selecionados" ? "active" : ""
+            }`}
             onClick={handleShowSelected}
           >
             Selecionados
           </button>
-        )}
+        </>
+      )}
 
         <button
-          className="tag tag-wtss marginRight10"
+          className={`tag tag-wtss marginRight10 ${
+            activeTag === "series" ? "active" : ""
+          }`}
           onClick={handleTimeTemporaisClick}
         >
           Séries temporais
         </button>
 
         <button
-          className="tag tag-info marginRight10"
+          className={`tag tag-info marginRight10 ${
+            activeTag === "todos" ? "active" : ""
+          }`}
           onClick={handleShowAll}
         >
           Todos
         </button>
+
+        
+       
       </div>
     </div>
   );

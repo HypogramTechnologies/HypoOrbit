@@ -54,7 +54,7 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coor
 
   return (
     <div className="satellite-list-container">
-      {messageConfig.show && <Message {...messageConfig} />}
+      {messageConfig.show && <Message {...messageConfig} onClose={() => setMessageConfig({ ...messageConfig, show: false })}/>}
 
      
       <div
@@ -99,7 +99,7 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coor
               gsd={item.gsd}
               spectralIndices={item.spectralIndices}
               hasTimeSeries={item.hasTimeSeries ?? false} 
-              
+              origin={origin}
             />
             
           ))
