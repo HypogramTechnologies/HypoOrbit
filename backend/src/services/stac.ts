@@ -31,4 +31,13 @@ export class StacService {
     const response = await stac.post(`/search`, params);
     return response.data;
   }
+
+  // ✅ GET /collections/:id/update-time
+  async getCollectionUpdateTime(collectionID: string) {
+    const response = await stac.get(`/collections/${collectionID}`);
+    const collection = response.data;
+    const updated = collection?.properties?.updated;
+    const temporalEnd = collection?.extent?.temporal?.interval?.[0]?.[1];
+    return updated || temporalEnd || 'Data de atualização não encontrada';
+  }
 }

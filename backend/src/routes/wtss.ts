@@ -19,4 +19,8 @@ wtssRouter.post('/attributes_coverages', wtssController.attributesCoverages);
 // POST /wtts/time_series_coverages
 wtssRouter.post('/time_series_coverages', wtssController.timeSeriesCoverages);
 
+// GET /stac/collections/:id/update-time
+wtssRouter.get('/coverage/:coverage/update-time', wtssController.getUpdateTime);
+
+
 export default wtssRouter;
