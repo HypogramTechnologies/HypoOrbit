@@ -9,6 +9,7 @@ import TimeSeriesCard from "../components/TimeSeriesCard";
 import { WTSSService } from "../services/WTSSService";
 import type { IWTSSResponse } from "../types/IWTSSResponse";
 import type { IWTSSRequest } from "../types/IWTSSRequest";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function TimeSeriesView() {
   const [isFiltroVisible, setIsFiltroVisible] = useState(true);
@@ -34,7 +35,7 @@ export default function TimeSeriesView() {
         "myd11a2-6.1",
         "myd13q1-6.1",
         "S2-16D-2"
-    ],
+      ],
       startDate: "2022-09-01",
       endDate: "2024-03-01",
       latitude: "-15.5898283072306",
@@ -81,15 +82,17 @@ export default function TimeSeriesView() {
 
           <div
             className={
-              isFiltroVisible
+              isLoading 
+                ? "timeseries-loading-container"
+                : isFiltroVisible
                 ? "timeseries-list-container-visible"
                 : "timeseries-list-container-hidden"
             }
           >
-            {isLoading && <p>Carregando dados...</p>}
+            {isLoading && <LoadingSpinner />}
             {error && <p className="error">{error}</p>}
 
-            {timeSeriesData?.timeSeries.map((ts, index) => (
+            {!isLoading && timeSeriesData?.timeSeries.map((ts, index) => (
               <TimeSeriesCard
                 key={index}
                 coverage={ts.query.coverage}
