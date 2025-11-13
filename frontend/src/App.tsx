@@ -6,16 +6,19 @@ import Rotas from './routes/Routes';
 import "./index.css";
 import { FiltroProvider } from "./context/FilterMapContext"; 
 import Help from "./components/Help";
+import { ModalProvider } from "./context/ModalContext";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <FiltroProvider>
-      <div className="container-style">
-        <BrowserRouter>
-          <Rotas />
-        </BrowserRouter>
-        <Help />
-      </div>
-    </FiltroProvider>
+    <ModalProvider>
+      <FiltroProvider>
+        <div className="container-style">
+          <BrowserRouter>
+            <Rotas />
+          </BrowserRouter>
+          <Help />
+        </div>
+      </FiltroProvider>
+    </ModalProvider>
   </StrictMode>
 );

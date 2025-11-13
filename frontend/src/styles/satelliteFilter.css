@@ -30,7 +30,7 @@
   border-radius: var(--border-radius);
   font-size: 14px;
   background-color: var(--background-card-color);
-  color: var(--color-dark);
+  color: var(--color-light);
   outline: none;
   transition: all 0.3s ease;
 }
@@ -191,7 +191,7 @@
 
 
 .filter-tags{
-  margin-top: 29px;
+  /* margin-top: 29px; */
 }
 
 .marginRight10{
