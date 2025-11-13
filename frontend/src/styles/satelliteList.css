@@ -4,7 +4,7 @@
   min-height: 400px; 
   width: 100%;
   overflow-y: auto;
-  margin-top: 30px;
+  margin-top: 10px;
   padding-right: 15px; 
   transition: margin-left 0.3s ease, width 0.3s ease; 
 }
@@ -44,7 +44,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 1rem;
-  margin-top: 30px; 
+  /* margin-top: 30px;  */
   overflow-y: auto;
   flex: 1; 
   position: relative; 
