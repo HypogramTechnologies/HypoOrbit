@@ -91,3 +91,11 @@
   transition: width 0.3s ease;
   overflow-y: auto;
 }
+
+.overlay-center {
+  pointer-events: none;
+}
+
+.overlay-center .empty-card {
+  pointer-events: auto;
+}

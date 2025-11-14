@@ -1,6 +1,7 @@
 import "../index.css";
 import "../styles/menuVisible.css";
 import "../styles/timeSeriesModal.css";
+import "../styles/loadingSpinner.css"; 
 
 import { useState, useEffect } from "react";
 import TimeSeriesCard from "../components/TimeSeriesCard";
@@ -18,7 +19,6 @@ export default function TimeSeriesModal({ params }: TimeSeriesModalProps) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Evita chamada sem parâmetros válidos
     if (
       !params?.coverages?.length ||
       !params.startDate ||
@@ -58,14 +58,51 @@ export default function TimeSeriesModal({ params }: TimeSeriesModalProps) {
     fetchData();
   }, [params]);
 
+  const noData =
+    !isLoading &&
+    error === null &&
+    timeSeriesData !== null &&
+    (!timeSeriesData.timeSeries || timeSeriesData.timeSeries.length === 0);
+
   return (
     <div className="container">
       <div className="main-content">
         <div className="timeseries-list-container">
-          {isLoading && <p>Carregando dados...</p>}
-          {error && <p className="error">{error}</p>}
+          {isLoading && (
+            <div><></> /* placeholder to keep markup simple; LoadingSpinner is rendered elsewhere in your app */</div>
+          )}
 
-          {timeSeriesData?.timeSeries?.length ? (
+          {error && (
+            <div className="overlay-center" role="alert">
+              <div className="empty-card">
+                <p className="empty-title">{error}</p>
+                <button
+                  className="back-to-map-btn"
+                  onClick={() => (window.location.href = "/map")}
+                >
+                  Voltar ao mapa
+                </button>
+              </div>
+            </div>
+          )}
+
+          {noData && (
+            <div className="overlay-center" aria-hidden={false}>
+              <div className="empty-card">
+                <p className="empty-title">Nenhuma série temporal encontrada.</p>
+                <button
+                  className="back-to-map-btn"
+                  onClick={() => (window.location.href = "/map")}
+                >
+                  Voltar ao mapa
+                </button>
+              </div>
+            </div>
+          )}
+
+          {timeSeriesData &&
+            timeSeriesData.timeSeries &&
+            timeSeriesData.timeSeries.length > 0 &&
             timeSeriesData.timeSeries.map((ts, index) => (
               <TimeSeriesCard
                 key={index}
@@ -73,10 +110,7 @@ export default function TimeSeriesModal({ params }: TimeSeriesModalProps) {
                 timeline={ts.result.timeline}
                 attributes={ts.result.attributes}
               />
-            ))
-          ) : (
-            !isLoading && !error && <p>Nenhuma série temporal encontrada.</p>
-          )}
+            ))}
         </div>
       </div>
     </div>
