@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
-import { useFilter } from "../context/FilterSatelliteContext";
-import type { SatelliteFilterProps } from "../types/MessageConfig";
+import { useFilter as useFilterSatellite } from "../context/FilterSatelliteContext";
+import { useFilter as useFilterMap } from "../context/FilterMapContext";
 import { TypeMessage } from "../types/MessageConfig";
+import type { SatelliteFilterProps } from "../types/Satellite";
+import type { IWTSSRequest } from "../types/IWTSSRequest";
 import "../styles/satelliteFilter.css";
 import "../index.css";
+import TimeSeriesModal from "../pages/TimeSeriesModal";
+import { useGlobalModal } from "../context/ModalContext";
 
 const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
   setMessageConfig,
@@ -14,22 +18,28 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
   satellites,
   setFilteredSatellites,
 }) => {
-  const { selectedSatellites, setSelectedSatellites, activeTag, setActiveTag } = useFilter();
+  const {
+    selectedSatellites,
+    setSelectedSatellites,
+    activeTag,
+    setActiveTag,
+  } = useFilterSatellite();
 
+  const { filter } = useFilterMap(); // ✅ usa o filtro com latitude/longitude do mapa
   const [name, setName] = useState("");
   const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
-  const [startDate, setStartDate] = useState<Date | undefined>();
-  const [endDate, setEndDate] = useState<Date | undefined>();
-
   const [currentFiltered, setCurrentFiltered] = useState(satellites);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
-  // monta opções do combo
+  const { openModal } = useGlobalModal();
+
   const satelliteOptions = satellites.map((sat) => ({
     value: sat.id,
     label: sat.title,
   }));
 
-  // aplica o filtro (nome + combo)
+  // 🔍 Filtro por nome e seleção
   useEffect(() => {
     let filtered = satellites;
 
@@ -48,7 +58,16 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
     setCurrentFiltered(filtered);
   }, [name, selectedOptions, satellites, setFilteredSatellites]);
 
-  // Botões de ação
+  // 🔄 Atualiza a lista ao mudar tag “selecionados”
+  useEffect(() => {
+    if (activeTag === "selecionados") {
+      const selectedIds = selectedSatellites.map((s) => s.id);
+      const filtered = satellites.filter((sat) => selectedIds.includes(sat.id));
+      setFilteredSatellites(filtered);
+    }
+  }, [selectedSatellites, activeTag, satellites, setFilteredSatellites]);
+
+  // 🛰️ Botão comparar → abre o modal de séries temporais
   const handleComparerClick = () => {
     if (!startDate || !endDate) {
       setMessageConfig({
@@ -56,9 +75,40 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
         message: "Selecione o período antes de comparar.",
         show: true,
       });
+      return;
     }
+
+    if (!filter.latitude || !filter.longitude) {
+      setMessageConfig({
+        type: TypeMessage.Warning,
+        message: "Selecione um ponto no mapa antes de comparar.",
+        show: true,
+      });
+      return;
+    }
+
+    if (selectedSatellites.length === 0) {
+      setMessageConfig({
+        type: TypeMessage.Warning,
+        message: "Selecione pelo menos um satélite para comparar.",
+        show: true,
+      });
+      return;
+    }
+
+    const params: IWTSSRequest = {
+      coverages: selectedSatellites.map((s) => s.id),
+      startDate: startDate.toISOString().split("T")[0],
+      endDate: endDate.toISOString().split("T")[0],
+      latitude: filter.latitude.toString(),
+      longitude: filter.longitude.toString(),
+    };
+
+    console.log("📦 Parâmetros WTSS:", params);
+    openModal(<TimeSeriesModal params={params}/>, "Séries Temporais");
   };
 
+  // 🧭 Funções auxiliares de filtro
   const handleShowSelected = () => {
     if (selectedSatellites.length === 0) {
       setMessageConfig({
@@ -66,7 +116,7 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
         message: "Nenhum satélite selecionado.",
         show: true,
       });
-      return; // ✅ sai antes de alterar qualquer coisa
+      return;
     }
 
     setActiveTag("selecionados");
@@ -110,26 +160,25 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
   };
 
   const handleClearSelection = () => {
-  setSelectedSatellites([]); 
+    setSelectedSatellites([]);
+    setMessageConfig({
+      type: TypeMessage.Info,
+      message: "Seleção limpa com sucesso.",
+      show: true,
+    });
 
-  setMessageConfig({
-    type: TypeMessage.Info,
-    message: "Seleção limpa com sucesso.",
-    show: true,
-  });
+    if (selectedOptions.length > 0) {
+      const selectedIds = selectedOptions.map((opt) => opt.value);
+      const filtered = satellites.filter((sat) => selectedIds.includes(sat.id));
+      setFilteredSatellites(filtered);
+      return;
+    }
 
-  if (selectedOptions.length > 0) {
-    const selectedIds = selectedOptions.map((opt) => opt.value);
-    const filtered = satellites.filter((sat) => selectedIds.includes(sat.id));
-    setFilteredSatellites(filtered);
-    return; 
-  }
-
-  if (activeTag === "selecionados") {
-    setFilteredSatellites(satellites);
-    setActiveTag("todos");
-  }
-};
+    if (activeTag === "selecionados") {
+      setFilteredSatellites(satellites);
+      setActiveTag("todos");
+    }
+  };
 
   return (
     <div className="satellite-filter-container">
@@ -174,7 +223,7 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
             <label>Período para comparar</label>
             <div className="date-range">
               <DatePicker
-                selected={startDate}
+                selected={startDate ?? undefined}
                 onChange={(date) => {
                   if (date && endDate && date > endDate) {
                     setMessageConfig({
@@ -185,11 +234,11 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
                     });
                     return;
                   }
-                  setStartDate(date ?? undefined);
+                  setStartDate(date ?? null);
                 }}
                 selectsStart
-                startDate={startDate}
-                endDate={endDate}
+                startDate={startDate ?? undefined}
+                endDate={endDate ?? undefined}
                 dateFormat="dd/MM/yyyy"
                 placeholderText="Data inicial"
                 className="date-input"
@@ -197,7 +246,7 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
               />
               <span>até</span>
               <DatePicker
-                selected={endDate}
+                selected={endDate ?? undefined}
                 onChange={(date) => {
                   if (date && startDate && date < startDate) {
                     setMessageConfig({
@@ -208,11 +257,11 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
                     });
                     return;
                   }
-                  setEndDate(date ?? undefined);
+                  setEndDate(date ?? null);
                 }}
                 selectsEnd
-                startDate={startDate}
-                endDate={endDate}
+                startDate={startDate ?? undefined}
+                endDate={endDate ?? undefined}
                 minDate={startDate ?? undefined}
                 dateFormat="dd/MM/yyyy"
                 placeholderText="Data final"
@@ -229,36 +278,33 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
         </>
       )}
 
-     
       <div className="filter-tags">
-        
+        {origin === "Map" && (
+          <>
+            <button
+              className="tag tag-success marginRight10"
+              onClick={handleSelectAll}
+            >
+              Selecionar todos
+            </button>
 
-      {origin === "Map" && (
-        <>
-          <button
-            className="tag tag-success marginRight10"
-            onClick={handleSelectAll}
-          >
-            Selecionar todos
-          </button>
+            <button
+              className="tag tag-danger marginRight10"
+              onClick={handleClearSelection}
+            >
+              Limpar seleção
+            </button>
 
-          <button
-            className="tag tag-danger marginRight10"
-            onClick={handleClearSelection}
-          >
-            Limpar seleção
-          </button>
-
-          <button
-            className={`tag tag-warning marginRight10 ${
-              activeTag === "selecionados" ? "active" : ""
-            }`}
-            onClick={handleShowSelected}
-          >
-            Selecionados
-          </button>
-        </>
-      )}
+            <button
+              className={`tag tag-warning marginRight10 ${
+                activeTag === "selecionados" ? "active" : ""
+              }`}
+              onClick={handleShowSelected}
+            >
+              Selecionados
+            </button>
+          </>
+        )}
 
         <button
           className={`tag tag-wtss marginRight10 ${
@@ -277,9 +323,6 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
         >
           Todos
         </button>
-
-        
-       
       </div>
     </div>
   );

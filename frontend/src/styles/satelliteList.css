@@ -4,7 +4,7 @@
   min-height: 400px; 
   width: 100%;
   overflow-y: auto;
-  margin-top: 30px;
+  margin-top: 10px;
   padding-right: 15px; 
   transition: margin-left 0.3s ease, width 0.3s ease; 
 }
@@ -22,29 +22,29 @@
 
 .satellite-list-container-visible {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 1rem;
   margin-left: 300px; 
 }
 
 .satellite-filter-list-container-visible {
-  margin-top: 30px;
+  margin-top: 10px;
   overflow-y: auto;
   margin-left: 300px;
 }
 
 .satellite-filter-list-container-hidden {
   gap: 1rem;
-  margin-top: 30px; 
+  margin-top: 10px; 
   overflow-y: auto;
   flex: 1; 
 }
 
 .satellite-list-container-hidden {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 1rem;
-  margin-top: 30px; 
+  /* margin-top: 30px;  */
   overflow-y: auto;
   flex: 1; 
   position: relative; 

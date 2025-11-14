@@ -156,4 +156,18 @@ export class WTSSController {
         .json({ error: "Erro ao buscar séries temporais das coverages" });
     }
   }
+
+  async getUpdateTime(req: Request, res: Response) {
+    const { coverage } = req.params;
+    if (!coverage) return res.status(400).json({ error: 'Coverage não fornecida' });
+
+    try {
+      const updateTime = await service.getCoverageUpdateTime(coverage);
+      res.json({ updateTime });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Erro ao recuperar tempo de atualização' });
+    }
+  }
+
 }
