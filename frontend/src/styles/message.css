@@ -56,6 +56,14 @@
   border: 1px solid #b6d4fe;
 }
 
+.message-close {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 16px;
+  cursor: pointer;
+}
+
 /* Animação */
 @keyframes slideIn {
   from {

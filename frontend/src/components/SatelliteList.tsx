@@ -8,6 +8,7 @@ import SatelliteFilter from "./SatelliteFilter";
 import Message from "../components/Message";
 import { TypeMessage } from "../types/MessageConfig";
 import type { MessageConfig } from "../types/MessageConfig";
+import LoadingSpinner from "./LoadingSpinner";
 
 const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coordinates }) => {
   const [satellites, setSatellites] = useState<ISatelliteCardProps[]>([]);
@@ -52,11 +53,23 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coor
       .finally(() => setLoading(false));
   }, [coordinates]);
 
+  const getContainerClassName = () => {
+    if (loading) {
+      return "satellite-loading-container";
+    }
+    return origin === "Map"
+      ? "satellite-list-container-hidden"
+      : isFiltroVisible
+      ? "satellite-list-container-visible"
+      : "satellite-list-container-hidden";
+  };
+
+
   return (
     <div className="satellite-list-container">
-      {messageConfig.show && <Message {...messageConfig} />}
+      {messageConfig.show && <Message {...messageConfig} onClose={() => setMessageConfig({ ...messageConfig, show: false })}/>}
 
-     
+      
       <div
         className={
           origin === "Map"
@@ -76,16 +89,10 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coor
 
       
       <div
-        className={
-          origin === "Map"
-            ? "satellite-list-container-hidden"
-            : isFiltroVisible
-            ? "satellite-list-container-visible"
-            : "satellite-list-container-hidden"
-        }
+        className={getContainerClassName()}
       >
         {loading ? (
-          <p style={{ textAlign: "center", padding: "20px" }}>Carregando satélites...</p>
+          <LoadingSpinner />
         ) : filteredSatellites.length === 0 ? (
           <p style={{ textAlign: "center", padding: "20px" }}>Nenhum satélite encontrado.</p>
         ) : (
@@ -99,7 +106,7 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coor
               gsd={item.gsd}
               spectralIndices={item.spectralIndices}
               hasTimeSeries={item.hasTimeSeries ?? false} 
-              
+              origin={origin}
             />
             
           ))

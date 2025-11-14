@@ -8,7 +8,9 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
   title,
   gsd,
   hasTimeSeries,
+  origin
 }) => {
+
   const { selectedSatellites, setSelectedSatellites } = useFilter();
   const checkboxId = `checkbox-${id}`;
 
@@ -31,15 +33,19 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
 
   return (
     <div className="card-container">
+      {origin === "Map" && (
       <div className="card-checkbox">
+       
         <input
           type="checkbox"
           id={checkboxId}
           checked={isChecked}
           onChange={handleCheckboxChange}
         />
+        
         <label htmlFor={checkboxId}></label>
       </div>
+      )}
 
       <div className="card-header">
         <i className="fa-solid fa-satellite card-satellite-icon"></i>
@@ -50,7 +56,7 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
         {id && <p className="id-text">ID: {id.toUpperCase()}</p>}
         {gsd && (
           <p>
-            <i className="fa-solid fa-location-dot card-icon red"></i> {gsd}m
+            <i className="fa-solid fa-location-dot card-icon blue"></i> {gsd}m
           </p>
         )}
       </div>

@@ -17,27 +17,28 @@ export interface MapFilterProps {
   setMessageConfig: React.Dispatch<React.SetStateAction<MessageConfig>>;
 }
 
-export interface ISatellite {
-  id: string;
-  title: string;
-}
+// export interface ISatellite {
+//   id: string;
+//   title: string;
+// }
 
-export interface ISatelliteCardProps {
-  id: string;
-  title:string
-  updatedTime?: string;
-  gsd?: number;
-  spectralIndices?: string[];
-  hasTimeSeries: boolean;
-}
+// export interface ISatelliteCardProps {
+//   id: string;
+//   title:string
+//   updatedTime?: string;
+//   gsd?: number;
+//   spectralIndices?: string[];
+//   hasTimeSeries: boolean;
+//   origin?: string;
+// }
 
-export interface SatelliteFilterProps {
-  setMessageConfig: React.Dispatch<React.SetStateAction<MessageConfig>>;
-  origin: string;
-  // satellites: ISatellite[];
-  satellites: ISatelliteCardProps[];
-  setFilteredSatellites: React.Dispatch<React.SetStateAction<ISatelliteCardProps[]>>;
-}
+// export interface SatelliteFilterProps {
+//   setMessageConfig: React.Dispatch<React.SetStateAction<MessageConfig>>;
+//   origin: string;
+//   // satellites: ISatellite[];
+//   satellites: ISatelliteCardProps[];
+//   setFilteredSatellites: React.Dispatch<React.SetStateAction<ISatelliteCardProps[]>>;
+// }
 
 export interface MapFilterPropsExtended extends MapFilterProps {
   isFiltroVisible: boolean;

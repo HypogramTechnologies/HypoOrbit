@@ -13,6 +13,16 @@ type FilterSatelliteContextType = {
   applyFilter: () => void;
   selectedSatellites: SelectedSatellite[];
   setSelectedSatellites: React.Dispatch<React.SetStateAction<SelectedSatellite[]>>;
+  activeTag: string;
+  setActiveTag: React.Dispatch<React.SetStateAction<string>>;
+  latitude: number | null;
+  longitude: number | null;
+  setLatitude: React.Dispatch<React.SetStateAction<number | null>>;
+  setLongitude: React.Dispatch<React.SetStateAction<number | null>>;
+  startDate: Date | null;
+  endDate: Date | null;
+  setStartDate: React.Dispatch<React.SetStateAction<Date | null>>;
+  setEndDate: React.Dispatch<React.SetStateAction<Date | null>>;
 };
 
 const defaultFilterSatellite: FilterSatellite = {
@@ -31,6 +41,16 @@ const FilterSatelliteContext = createContext<FilterSatelliteContextType>({
   applyFilter: () => {},
   selectedSatellites: [],
   setSelectedSatellites: () => {},
+  activeTag: "todos",
+  setActiveTag: () => {},
+  latitude: null,
+  longitude: null,
+  setLatitude: () => {},
+  setLongitude: () => {},
+  startDate: null,
+  endDate: null,
+  setStartDate: () => {},
+  setEndDate: () => {},
 });
 
 export const FiltroProvider = ({ children }: { children: React.ReactNode }) => {
@@ -38,6 +58,12 @@ export const FiltroProvider = ({ children }: { children: React.ReactNode }) => {
   const [appliedFilter, setAppliedFilter] = useState<FilterSatellite>(defaultFilterSatellite);
   const [firstApply, setFirstApply] = useState(true);
   const [selectedSatellites, setSelectedSatellites] = useState<SelectedSatellite[]>([]);
+  const [activeTag, setActiveTag] = useState<string>("todos");
+
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
   const applyFilter = () => {
     if (firstApply) {
@@ -48,9 +74,8 @@ export const FiltroProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Log apenas quando o estado realmente muda
   useEffect(() => {
-    console.log("📡 selectedSatellites atualizado:", selectedSatellites);
+    console.log("📡 Satélites selecionados:", selectedSatellites);
   }, [selectedSatellites]);
 
   return (
@@ -62,6 +87,16 @@ export const FiltroProvider = ({ children }: { children: React.ReactNode }) => {
         applyFilter,
         selectedSatellites,
         setSelectedSatellites,
+        activeTag,
+        setActiveTag,
+        latitude,
+        longitude,
+        setLatitude,
+        setLongitude,
+        startDate,
+        endDate,
+        setStartDate,
+        setEndDate,
       }}
     >
       {children}
