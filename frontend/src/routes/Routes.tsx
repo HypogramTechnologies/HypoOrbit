@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import MapView from '../pages/MapView';
 import TimeSeriesView from '../pages/TimeSeriesView';
 import SatelliteView from '../pages/SatelliteView';
-import Message from '../components/Message';
 import Teste from '../components/teste';
 
 export default function Rotas() {

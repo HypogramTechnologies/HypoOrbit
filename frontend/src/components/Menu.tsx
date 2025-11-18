@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import "../styles/menu.css";
-import HeaderImg from "../assets/Header.png";
+import HeaderImg from "../assets/header.png";
 
 import { useNavigate, useLocation } from "react-router-dom";
 
