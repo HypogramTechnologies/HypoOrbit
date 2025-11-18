@@ -13,12 +13,13 @@ export class StacController {
       const metaOnly = req.query.metaOnly === 'true';
 
       if (metaOnly) {
-        const listCollection = data.collections.map((c: any) => ({
+        const listCollection = data.map((c: any) => ({
           id: c.id,
           title: c.title,
           updatedTime: c.properties?.updated || c.extent?.temporal?.interval?.[0]?.[1] || 'N/A',
           gsd: Math.max(...(c.summaries?.gsd || [])),
-          spectralIndices: c.summaries?.spectral_indices || []
+          hasTimeSeries: c.hasTimeSeries || false,
+          spectralIndices: c.wtss || []
         }));
         return res.json({ listCollection });
       }
@@ -97,13 +98,14 @@ export class StacController {
       const userLong = parseFloat(long as string);
       const data = await service.getCollections();
 
-      const listCollection = data.collections
+      const listCollection = data
         .map((c: any) => ({
           id: c.id,
           title: c.title,
           updatedTime: c.properties?.updated || c.extent?.temporal?.interval?.[0]?.[1] || 'N/A',
           gsd: Math.max(...(c.summaries?.gsd || [])),
-          spectralIndices: c.summaries?.spectral_indices || [],
+          hasTimeSeries: c.hasTimeSeries || false,
+          spectralIndices: c.wtss || [],
           bbox: c.extent?.spatial?.bbox
         }))
         .filter((c: any) => {
