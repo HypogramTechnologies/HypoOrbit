@@ -37,10 +37,30 @@
 
 .card-info {
   display: flex;
-  gap: 16px;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
   font-size: 14px;
   color: var(--color-light);
-  margin-bottom: 12px;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: var(--color-light);
+}
+
+.info-columns {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.card-icon {
+  font-size: 14px;
 }
 
 .updated-time {
