@@ -49,11 +49,14 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
 
       <div className="card-header">
         <i className="fa-solid fa-satellite card-satellite-icon"></i>
-        <h3 className="name-text">{title}</h3>
+
+        <div className="header-text">
+          <h3 className="name-text">{title}</h3>
+          {id && <p className="id-text">ID: {id.toUpperCase()}</p>}
+        </div>
       </div>
 
       <div className="card-info">
-        {id && <p className="id-text">ID: {id.toUpperCase()}</p>}
         <div className="info-row info-columns">
           {updatedTime && updatedTime !== "N/A" && (
             <p>
