@@ -24,19 +24,19 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coor
 
   useEffect(() => {
     setLoading(true);
-    console.log('coordinates',coordinates);
+
     const fetchSatellites =
       coordinates && coordinates.length > 0
         ? service.getCollectionsByCoordinates(coordinates)
         : service.getInfoCollection();
-    console.log('fetchSatellites',fetchSatellites)
+
     fetchSatellites
       .then((response) => {
         const data = response.data as { listCollection: ISatelliteCardProps[] };
-        console.log('data',data);
-        const normalizedSatellites = data.listCollection.map((sat) => ({
+
+        const normalizedSatellites = (data?.listCollection || []).map((sat) => ({
           ...sat,
-          hasTimeSeries: sat.hasTimeSeries ?? false, 
+          hasTimeSeries: sat.hasTimeSeries ?? false,
         }));
 
         setSatellites(normalizedSatellites);
@@ -54,9 +54,8 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coor
   }, [coordinates]);
 
   const getContainerClassName = () => {
-    if (loading) {
-      return "satellite-loading-container";
-    }
+    if (loading) return "satellite-loading-container";
+
     return origin === "Map"
       ? "satellite-list-container-hidden"
       : isFiltroVisible
@@ -64,12 +63,17 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coor
       : "satellite-list-container-hidden";
   };
 
-
   return (
     <div className="satellite-list-container">
-      {messageConfig.show && <Message {...messageConfig} onClose={() => setMessageConfig({ ...messageConfig, show: false })}/>}
+      {/* Global message component (top-right / global notifications) */}
+      {messageConfig.show && (
+        <Message
+          {...messageConfig}
+          onClose={() => setMessageConfig({ ...messageConfig, show: false })}
+        />
+      )}
 
-      
+      {/* Filter column */}
       <div
         className={
           origin === "Map"
@@ -87,17 +91,17 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coor
         />
       </div>
 
-      
-      <div
-        className={getContainerClassName()}
-      >
+      {/* List / loading / empty */}
+      <div className={getContainerClassName()}>
         {loading ? (
           <LoadingSpinner />
         ) : filteredSatellites.length === 0 ? (
-          <p style={{ textAlign: "center", padding: "20px" }}>Nenhum satélite encontrado.</p>
+          /* Empty message styled like TimeSeries (no button) */
+          <div className="empty-message" aria-live="polite">
+            Nenhum satélite encontrado.
+          </div>
         ) : (
           filteredSatellites.map((item) => (
-            
             <SatelliteCard
               key={item.id}
               id={item.id}
@@ -105,10 +109,9 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coor
               updatedTime={item.updatedTime}
               gsd={item.gsd}
               spectralIndices={item.spectralIndices}
-              hasTimeSeries={item.hasTimeSeries ?? false} 
+              hasTimeSeries={item.hasTimeSeries ?? false}
               origin={origin}
             />
-            
           ))
         )}
       </div>

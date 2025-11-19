@@ -1,5 +1,5 @@
 export interface IWTSSCoverages {
-  coverages: [];
+  coverages: string[];
 }
 
 export interface ICoverageMetadata {
@@ -65,5 +65,9 @@ export interface IWTSSTimeSeriesAttribute {
 
 export interface IAttributesCoverages {
   coverage: string;
-  attributes?: string[];
+  attributes: string[];
+}
+
+export interface IWTSSAttributesResponse {
+  coverages: IAttributesCoverages[];
 }

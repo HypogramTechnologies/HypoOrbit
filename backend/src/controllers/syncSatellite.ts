@@ -39,7 +39,7 @@ export class SyncSatelliteController {
   async setupSatellites(req: Request, res: Response) {
     try {
       const collectionsData = await stacService.getCollections();
-      const collections: IStacCollection[] = collectionsData.collections || [];
+      const collections: IStacCollection[] = collectionsData || [];
 
       console.log(collections[0])
       if (!collections) {

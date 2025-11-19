@@ -1,4 +1,3 @@
-import React from "react";
 import ReactApexChart from "react-apexcharts";
 import type { ITimeSeriesCardProps } from "../types/ITimeSeriesCardProps";
 

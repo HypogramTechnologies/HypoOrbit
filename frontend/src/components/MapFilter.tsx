@@ -1,7 +1,7 @@
 import React from "react";
 import { useFilter } from "../context/FilterMapContext";
 import { validateCoordinates } from "../utils/validateCoordinates";
-import type { MapFilterProps,MapFilterPropsExtended } from "../types/MessageConfig";
+import type { MapFilterPropsExtended } from "../types/MessageConfig";
 import { TypeMessage } from "../types/MessageConfig";
 import "../styles/mapFilter.css";
 
