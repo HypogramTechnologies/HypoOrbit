@@ -42,4 +42,6 @@ export interface MapFilterProps {
 
 export interface MapFilterPropsExtended extends MapFilterProps {
   isFiltroVisible: boolean;
+  openHistory: boolean;
+  setOpenHistory: (value: boolean) => void;
 }
