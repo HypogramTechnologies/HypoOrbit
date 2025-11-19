@@ -1,17 +1,27 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useFilter } from "../context/FilterMapContext";
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMapEvents,
+  useMap,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "../styles/map.css";
 import MapFilter from "../components/MapFilter";
+import { SearchService } from "../services/SearchService";
 import Modal from "../components/Modal";
 import SatelliteList from "../components/SatelliteList";
-import type { MapProps } from  "../types/MapProps";
+import type { MapProps } from "../types/MapProps";
 import Message from "../components/Message";
 import { TypeMessage } from "../types/MessageConfig";
 import type { MessageConfig } from "../types/MessageConfig";
-import { FiltroProvider as FilterSatelliteProvider } from "../context/FilterSatelliteContext"; 
+import { FiltroProvider as FilterSatelliteProvider } from "../context/FilterSatelliteContext";
+
+const searchService = new SearchService();
 
 const ClickHandler: React.FC = () => {
   const { setFilter } = useFilter();
@@ -27,7 +37,6 @@ const ClickHandler: React.FC = () => {
 
   return null;
 };
-
 
 const UpdateMap: React.FC = () => {
   const { filter } = useFilter();
@@ -45,7 +54,6 @@ const UpdateMap: React.FC = () => {
   return null;
 };
 
-
 const Mapa: React.FC<MapProps> = ({ isFiltroVisible }) => {
   const { filter } = useFilter();
 
@@ -62,11 +70,22 @@ const Mapa: React.FC<MapProps> = ({ isFiltroVisible }) => {
     filter.longitude || -47.8822,
   ];
 
-  
+  const [openHistory, setOpenHistory] = useState(false);
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      setOpenHistory(false);
+    }
+  }, [isModalOpen]);
 
   return (
     <div className="map-container" style={{ width: "100%", height: "100vh" }}>
-      <MapFilter setMessageConfig={setMessageConfig} isFiltroVisible={isFiltroVisible}  />
+      <MapFilter
+        setMessageConfig={setMessageConfig}
+        isFiltroVisible={isFiltroVisible}
+        openHistory={openHistory}
+        setOpenHistory={setOpenHistory}
+      />
 
       <Message
         type={messageConfig.type}
@@ -76,30 +95,53 @@ const Mapa: React.FC<MapProps> = ({ isFiltroVisible }) => {
         duration={3000}
       />
 
-      <MapContainer center={position} zoom={12} style={{ height: "100%", width: "100%" }}>
+      <MapContainer
+        center={position}
+        zoom={12}
+        style={{ height: "100%", width: "100%" }}
+      >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <ClickHandler />
         <UpdateMap />
         <Marker
           position={position}
           eventHandlers={{
-            click: () => {
-              setIsModalOpen(true); 
+            click: async () => {
+              setIsModalOpen(true);
+
+              try {
+                await searchService.createSearch(
+                  filter.latitude,
+                  filter.longitude
+                );
+                console.log("Busca salva a partir do Marker!");
+              } catch (err) {
+                console.error("Erro ao salvar busca:", err);
+              }
             },
           }}
         >
           <Popup>
-                Coordenadas: <br />
-                Lat: {filter.latitude.toFixed(5)} <br />
-                Lng: {filter.longitude.toFixed(5)}
-            </Popup>
+            Coordenadas: <br />
+            Lat: {filter.latitude.toFixed(5)} <br />
+            Lng: {filter.longitude.toFixed(5)}
+          </Popup>
         </Marker>
       </MapContainer>
-        <FilterSatelliteProvider>
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Lista de Satélites" isFiltroVisible={isFiltroVisible}>
-          <SatelliteList isFiltroVisible={isFiltroVisible} origin='Map' coordinates = {position}/>
+      <FilterSatelliteProvider>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="Lista de Satélites"
+          isFiltroVisible={isFiltroVisible}
+        >
+          <SatelliteList
+            isFiltroVisible={isFiltroVisible}
+            origin="Map"
+            coordinates={position}
+          />
         </Modal>
-       </FilterSatelliteProvider>
+      </FilterSatelliteProvider>
     </div>
   );
 };
