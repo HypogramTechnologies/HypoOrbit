@@ -38,15 +38,14 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
 
     const satelliteMapped = stacToSatelliteData(stacData, itemsData);
     satelliteMapped.spectralIndices = spectralIndices;
-    console.log('satelliteMapped', satelliteMapped);
+
     setSelectedSatellite(satelliteMapped);
     setIsModalOpen(true);
      
   } catch (err) {
-    console.error("Erro ao buscar detalhes do satélite", err);
+    console.error("Erro ao buscar detalhes do satélite.", err);
   }
 };
-
 
   const handleCloseModal = () => {
       setIsModalOpen(false);
@@ -85,7 +84,6 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
       )}
 
       <div className="card-header">
-        {/* Assumindo que você tem a fonte Font Awesome configurada */}
         <i className="fa-solid fa-satellite card-satellite-icon"></i> 
 
         <div className="header-text">
@@ -98,8 +96,6 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
         <div className="info-row info-columns">
           {updatedTime && updatedTime !== "N/A" && (
             <p>
-              {/* Note: fa-duotone fa-regular fa-calendar pode estar incorreto, 
-              o Font Awesome geralmente usa apenas 'fa-regular' ou 'fa-solid' */}
               <i className="fa-regular fa-calendar"></i>{" "}
               {updatedTime}
             </p>
@@ -128,7 +124,6 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
         </button>
       </div>
 
-      {/* AJUSTE CHAVE: Passando o satélite mapeado e a função de fechar */}
       {selectedSatellite && isModalOpen && (
         <Modal
           isOpen={isModalOpen}

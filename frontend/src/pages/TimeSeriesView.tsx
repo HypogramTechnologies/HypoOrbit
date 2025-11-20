@@ -1,44 +1,49 @@
 import "../index.css";
 import "../styles/menuVisible.css";
 import "../styles/timeSeriesView.css";
-import "../styles/loadingSpinner.css"; 
+import "../styles/loadingSpinner.css";
+
 import Menu from "../components/Menu";
 import Header from "../components/Header";
 import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import { FiltroProvider } from "../context/FilterMapContext";
 import TimeSeriesCard from "../components/TimeSeriesCard";
 import { WTSSService } from "../services/WTSSService";
+
 import type { IWTSSResponse } from "../types/IWTSSResponse";
 import type { IWTSSRequest } from "../types/IWTSSRequest";
+
 import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function TimeSeriesView() {
-  const [isFiltroVisible, setIsFiltroVisible] = useState(true);
+  // const [isFiltroVisible, setIsFiltroVisible] = useState(true);
+  
   const [timeSeriesData, setTimeSeriesData] = useState<IWTSSResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const paramsFromRoute = location.state?.params as IWTSSRequest | undefined;
+  const [isFiltroVisible, setIsFiltroVisible] = useState(!paramsFromRoute);
   const toggleFiltroVisibility = () => {
     setIsFiltroVisible((prev) => !prev);
   };
 
   useEffect(() => {
+    if (!paramsFromRoute) {
+      setError("Falha ao carregar as séries temporais");
+      return;
+    }
+
     const params: IWTSSRequest = {
-      coverages: [
-        "CBERS4-MUX-2M-1",
-        "CBERS4-WFI-16D-2",
-        "CBERS-WFI-8D-1",
-        "LANDSAT-16D-1",
-        "mod11a2-6.1",
-        "mod13q1-6.1",
-        "myd11a2-6.1",
-        "myd13q1-6.1",
-        "S2-16D-2"
-      ],
-      startDate: "2022-09-01",
-      endDate: "2024-03-01",
-      latitude: "-15.5898283072306",
-      longitude: "-47.5288794633165",
+      coverages: paramsFromRoute.coverages,
+      startDate: paramsFromRoute.startDate,
+      endDate: paramsFromRoute.endDate,
+      latitude: paramsFromRoute.latitude,
+      longitude: paramsFromRoute.longitude,
     };
 
     const service = new WTSSService();
@@ -49,7 +54,6 @@ export default function TimeSeriesView() {
         setError(null);
 
         const response = await service.getTimeSeriesCoverages(params);
-        console.log(response);
 
         setTimeSeriesData(response.data as IWTSSResponse);
       } catch (err) {
@@ -61,7 +65,7 @@ export default function TimeSeriesView() {
     };
 
     fetchData();
-  }, []);
+  }, [paramsFromRoute]);
 
   const noData =
     !isLoading &&
@@ -102,9 +106,10 @@ export default function TimeSeriesView() {
               <div className="overlay-center" role="alert">
                 <div className="empty-card">
                   <p className="empty-title">{error}</p>
+
                   <button
                     className="back-to-map-btn"
-                    onClick={() => (window.location.href = "/map")}
+                    onClick={() => navigate("/map")}
                   >
                     Voltar ao mapa
                   </button>
@@ -113,12 +118,13 @@ export default function TimeSeriesView() {
             )}
 
             {noData && (
-              <div className="overlay-center" aria-hidden={false}>
+              <div className="overlay-center">
                 <div className="empty-card">
                   <p className="empty-title">Nenhuma série temporal encontrada.</p>
+
                   <button
                     className="back-to-map-btn"
-                    onClick={() => (window.location.href = "/map")}
+                    onClick={() => navigate("/map")}
                   >
                     Voltar ao mapa
                   </button>

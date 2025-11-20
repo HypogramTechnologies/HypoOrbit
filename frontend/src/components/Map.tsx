@@ -28,8 +28,6 @@ const ClickHandler: React.FC = () => {
   const map = useMapEvents({
     click(e) {
       const { lat, lng } = e.latlng;
-      console.log("Coordenadas clicadas:", lat, lng);
-
       setFilter({ latitude: lat, longitude: lng });
       map.flyTo([lat, lng], 14, { animate: true, duration: 1 });
     },
@@ -114,7 +112,7 @@ const Mapa: React.FC<MapProps> = ({ isFiltroVisible }) => {
                   filter.latitude,
                   filter.longitude
                 );
-                console.log("Busca salva a partir do Marker!");
+                console.log("Busca salva a partir do Marker.");
               } catch (err) {
                 console.error("Erro ao salvar busca:", err);
               }

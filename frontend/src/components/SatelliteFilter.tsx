@@ -11,6 +11,7 @@ import "../styles/satelliteFilter.css";
 import "../index.css";
 import TimeSeriesModal from "../pages/TimeSeriesModal";
 import { useGlobalModal } from "../context/ModalContext";
+import { useNavigate } from "react-router-dom";
 
 const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
   setMessageConfig,
@@ -25,7 +26,8 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
     setActiveTag,
   } = useFilterSatellite();
 
-  const { filter } = useFilterMap(); // ✅ usa o filtro com latitude/longitude do mapa
+  const navigate = useNavigate();
+  const { filter } = useFilterMap(); 
   const [name, setName] = useState("");
   const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
   const [currentFiltered, setCurrentFiltered] = useState(satellites);
@@ -58,7 +60,6 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
     setCurrentFiltered(filtered);
   }, [name, selectedOptions, satellites, setFilteredSatellites]);
 
-  // 🔄 Atualiza a lista ao mudar tag “selecionados”
   useEffect(() => {
     if (activeTag === "selecionados") {
       const selectedIds = selectedSatellites.map((s) => s.id);
@@ -67,7 +68,6 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
     }
   }, [selectedSatellites, activeTag, satellites, setFilteredSatellites]);
 
-  // 🛰️ Botão comparar → abre o modal de séries temporais
   const handleComparerClick = () => {
     if (!startDate || !endDate) {
       setMessageConfig({
@@ -87,10 +87,20 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
       return;
     }
 
-    if (selectedSatellites.length === 0) {
+    if (selectedSatellites.some(s => !s.hasTimeSeries)) {
       setMessageConfig({
         type: TypeMessage.Warning,
-        message: "Selecione pelo menos um satélite para comparar.",
+        message: "Selecione apenas satélites que possuem séries temporais (NDVI, EVI e NBR).",
+        show: true,
+      });
+      return;
+    }
+
+
+    if (selectedSatellites.length < 2) {
+      setMessageConfig({
+        type: TypeMessage.Warning,
+        message: "Selecione pelo menos dois satélites para comparar.",
         show: true,
       });
       return;
@@ -104,11 +114,11 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
       longitude: filter.longitude.toString(),
     };
 
-    console.log("📦 Parâmetros WTSS:", params);
-    openModal(<TimeSeriesModal params={params}/>, "Séries Temporais");
+    // openModal(<TimeSeriesModal params={params}/>, "Séries Temporais");
+    navigate("/timeseries", { state: { params } });
+
   };
 
-  // 🧭 Funções auxiliares de filtro
   const handleShowSelected = () => {
     if (selectedSatellites.length === 0) {
       setMessageConfig({

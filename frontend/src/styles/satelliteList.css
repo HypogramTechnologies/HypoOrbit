@@ -61,7 +61,8 @@
   display: flex;
   flex: 1;
   overflow: hidden;
-  margin-left: 15px;
+  /* margin-left: 15px; */
+  background-color: var(--background-card-color);
 }
 
 .filtro-container,
