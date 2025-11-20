@@ -62,7 +62,9 @@ export class WTSSService {
     const data = await this.getCoverageDetails(coverage);
     const timeline: string[] = (data as any)?.timeline;
     if (timeline && timeline.length > 0) {
-      return timeline[timeline.length - 1] ?? "Data de atualização não encontrada";
+      return (
+        timeline[timeline.length - 1] ?? "Data de atualização não encontrada"
+      );
     }
     const updateTime =
       (data as any)?.dateRange?.end ||
@@ -71,5 +73,53 @@ export class WTSSService {
       (data as any)?.last_update;
 
     return updateTime || "Data de atualização não encontrada";
+  }
+
+  async calculateStatistics(coveragesTimesSeries: IWTSSTimesSeries[]) {
+    const grouped: Record<string, number[]> = {};
+
+    for (const coverageData of coveragesTimesSeries) {
+      for (const attribute of coverageData.result.attributes) {
+        if (!attribute || attribute.attribute == null) continue;
+        const key = String(attribute.attribute);
+        const values = attribute.values.filter((v) => v !== null && !isNaN(v)) as number[];
+        if (!grouped[key]) {
+          grouped[key] = [];
+        }
+        grouped[key].push(...values);
+      }
+    }
+
+    const statistics: Record<string, any> = {};
+    /* console.log("Grouped values:");
+    console.log(grouped); */
+    for (const attributeName in grouped) {
+      const values = grouped[attributeName] ?? [];
+
+      if (values.length === 0) {
+        statistics[attributeName] = {
+          avg: 0,
+          max: 0,
+          min: 0,
+          count: 0,
+        };
+        continue;
+      }
+
+      const sum = values.reduce((acc, val) => acc + val, 0);
+      const avg = parseFloat(( sum / values.length).toFixed(2));
+      const max = Math.max(...values);
+      const min = Math.min(...values);
+
+      statistics[attributeName] = {
+        avg,
+        max,
+        min,
+        count: values.length,
+      };
+    }
+    /* console.log("Calculated statistics:");
+    console.log(statistics); */
+    return statistics;
   }
 }

@@ -157,6 +157,24 @@ export class WTSSController {
     }
   }
 
+  async statisticsTimeSeriesCoverages(req: Request, res: Response) {
+    const coveragesTimesSeries = req.body.timeSeries as IWTSSTimesSeries[];
+    if (!coveragesTimesSeries || !Array.isArray(coveragesTimesSeries)) {
+      return res.status(400).json({ error: "Séries temporais inválidas" });
+    }
+    try {
+      const statistics = await service.calculateStatistics(coveragesTimesSeries);
+      /* console.log("statistics:");
+      console.log(statistics); */
+      return res.json({ statistics });
+    } catch (err) {
+      console.error(err);
+      return res
+        .status(500)
+        .json({ error: "Erro ao calcular estatísticas das séries temporais" });
+    }
+  }
+
   async getUpdateTime(req: Request, res: Response) {
     const { coverage } = req.params;
     if (!coverage) return res.status(400).json({ error: 'Coverage não fornecida' });
