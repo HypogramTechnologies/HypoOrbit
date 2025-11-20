@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFilter } from "../context/FilterSatelliteContext";
 import type { ISatelliteCardProps } from "../types/ISatelliteCardProps";
 import "../styles/satelliteCard.css";
+import Modal from "../components/Modal";
+import { SatelliteDetailView } from "../components/SatelliteDetailView"; 
+import { StacService } from "../services/StacService";
+import { stacToSatelliteData } from "../utils/stacToSatelliteData";
+import type { ISatelliteData as IMappedSatelliteDetail } from "../types/SatelliteData";
+
+
+const service = new StacService();
 
 const SatelliteCard: React.FC<ISatelliteCardProps> = ({
   id,
@@ -14,8 +22,33 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
 }) => {
   const { selectedSatellites, setSelectedSatellites } = useFilter();
   const checkboxId = `checkbox-${id}`;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSatellite, setSelectedSatellite] = useState<IMappedSatelliteDetail | null>(null); 
 
   const isChecked = selectedSatellites.some((s) => s.id === id);
+
+
+  const handleOpenModal = async () => {
+    try {
+      // 1. Busca os dados da coleção STAC
+      const response = await service.getCollectionById(id);
+      const stacData = response.data;
+   
+      const satelliteMapped = stacToSatelliteData(stacData);
+
+      setSelectedSatellite(satelliteMapped);
+      setIsModalOpen(true); 
+     
+    } catch (err) {
+      console.error("Erro ao buscar detalhes do satélite", err);
+    }
+  };
+
+  const handleCloseModal = () => {
+      setIsModalOpen(false);
+     
+  };
+
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
@@ -48,7 +81,8 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
       )}
 
       <div className="card-header">
-        <i className="fa-solid fa-satellite card-satellite-icon"></i>
+        {/* Assumindo que você tem a fonte Font Awesome configurada */}
+        <i className="fa-solid fa-satellite card-satellite-icon"></i> 
 
         <div className="header-text">
           <h3 className="name-text">{title}</h3>
@@ -60,7 +94,9 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
         <div className="info-row info-columns">
           {updatedTime && updatedTime !== "N/A" && (
             <p>
-              <i className="fa-duotone fa-regular fa-calendar"></i>{" "}
+              {/* Note: fa-duotone fa-regular fa-calendar pode estar incorreto, 
+              o Font Awesome geralmente usa apenas 'fa-regular' ou 'fa-solid' */}
+              <i className="fa-regular fa-calendar"></i>{" "}
               {updatedTime}
             </p>
           )}
@@ -83,10 +119,26 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
       </div>
 
       <div className="card-button-container">
-        <button className="card-button">
+        <button className="card-button" onClick={handleOpenModal}>
           <i className="fa-solid fa-eye card-icon"></i> Visualizar
         </button>
       </div>
+
+      {/* AJUSTE CHAVE: Passando o satélite mapeado e a função de fechar */}
+      {selectedSatellite && isModalOpen && (
+        <Modal
+          isOpen={isModalOpen}
+
+          onClose={handleCloseModal} 
+          title="Detalhamento"
+          isFiltroVisible={false}
+        > 
+          <SatelliteDetailView 
+            satellite={selectedSatellite}
+            onClose={handleCloseModal} 
+          />
+        </Modal>
+      )}
     </div>
   );
 };

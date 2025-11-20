@@ -1,0 +1,235 @@
+
+.satellite-data-view {
+  background-color: var(--background-color); 
+  color: var(--color-light);
+  border-radius: var(--border-radius);;
+  overflow: hidden;
+  /* max-width: 600px; */
+  margin: 20px;
+}
+
+.header {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border-bottom: 1px solid #3b4261; */
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.tags {
+  display: flex;
+  gap: 8px;
+  font-size: 0.8rem;
+}
+
+.tag {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.tag.landsat {
+  background-color: #f59e0b;
+  color: #fff;
+}
+
+.tag.resolution {
+  background-color: var(--secondary-color);
+  color: #fff;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #c0caf5;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.tabs-nav {
+  display: flex;
+  border-bottom: 1px solid var(--primary-color);
+  margin-top: 20px;
+}
+
+.tab-button {
+  flex-grow: 1;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-button:hover {
+  background-color: #24283b;
+}
+
+.tab-button.active {
+  color: var(--color-light);
+  border-bottom-color: var(--primary-color);
+}
+
+.tab-content {
+  padding: 16px;
+}
+
+/* Estilos de Campo de Dados */
+.data-field {
+  margin-bottom: 32px;
+}
+
+.data-field h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  color: var(--primary-color);
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+
+.data-field p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  white-space: pre-wrap; /* Para quebras de linha no Polygon */
+}
+
+/* Estilos Específicos da Aba Bandas */
+.band-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.band-item {
+  background-color: var(--background-card-color);
+  border-radius: var(--border-radius);
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.band-info {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.band-info strong {
+  font-size: 1rem;
+  color: white;
+  font-weight: 600;
+}
+
+.band-info span {
+  font-size: 0.85rem;
+  color: var(--color-light);;
+}
+
+.wavelength {
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  padding: 4px 24px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+/* Estilos Específicos da Aba Temporal */
+.temporal-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.temporal-block {
+  /* background-color: var(--background-card-color);
+  padding: 12px;
+  border-radius: 4px;
+  */
+
+  text-align: center; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid var(--primary-color);
+  border-radius: 12px;
+  padding: 16px;
+  /* margin: 2px; */
+  /* margin-top: 16px; */
+  background: var(--background-card-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s 
+ease, box-shadow 0.2s 
+ease;
+}
+
+.temporal-block p {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-light);
+  margin-bottom: 4px;
+}
+
+.temporal-block strong {
+  font-size: 1.1rem;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.total-period {
+  grid-column: 1 / 3;
+  background-color: var(--primary-color);
+  padding: 12px;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: bold;
+  color: var(--color-light);
+  margin-top: 16px;
+}
+
+/* Estilos Específicos da Aba Metadados */
+.metadata-stac .code-block {
+
+  border-radius: 4px;
+  padding: 12px;
+  white-space: pre-wrap;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  overflow-x: auto;
+    border: 1px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 16px;
+    background: var(--background-card-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s 
+ease, box-shadow 0.2s 
+ease;
+}
+
+.metadata-stac .code-block strong {
+    color: var(--primary-color); /* Cor para chaves no JSON simulado */
+    font-weight: normal;
+}
+
+.metadata-stac .code-block span.value {
+    color: #ffffff; /* Cor para valores de string */
+}
+
+.metadata-stac .code-block span.number {
+    color: #ff9e64; /* Cor para valores numéricos */
+}

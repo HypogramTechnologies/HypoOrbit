@@ -23,4 +23,9 @@ export class StacService{
         return data;
     }
 
+    async getCollectionById(id: string) {
+        const response = await api.get(`/stac/collections/${id}`);
+        return response;
+    }
+
 }
