@@ -29,20 +29,24 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
 
 
   const handleOpenModal = async () => {
-    try {
-      // 1. Busca os dados da coleção STAC
-      const response = await service.getCollectionById(id);
-      const stacData = response.data;
-   
-      const satelliteMapped = stacToSatelliteData(stacData);
+  try {
+    const response = await service.getCollectionById(id);
+    const stacData = response.data;
 
-      setSelectedSatellite(satelliteMapped);
-      setIsModalOpen(true); 
+    const itemsResponse = await service.getCollectionItems(id);
+    const itemsData = (itemsResponse.data as { features?: unknown[] }).features || [];
+
+    const satelliteMapped = stacToSatelliteData(stacData, itemsData);
+    satelliteMapped.spectralIndices = spectralIndices;
+    console.log('satelliteMapped', satelliteMapped);
+    setSelectedSatellite(satelliteMapped);
+    setIsModalOpen(true);
      
-    } catch (err) {
-      console.error("Erro ao buscar detalhes do satélite", err);
-    }
-  };
+  } catch (err) {
+    console.error("Erro ao buscar detalhes do satélite", err);
+  }
+};
+
 
   const handleCloseModal = () => {
       setIsModalOpen(false);
@@ -135,7 +139,6 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
         > 
           <SatelliteDetailView 
             satellite={selectedSatellite}
-            onClose={handleCloseModal} 
           />
         </Modal>
       )}

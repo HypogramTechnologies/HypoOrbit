@@ -1,7 +1,7 @@
 // src/components/SatelliteDetailView.tsx
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
+import {
   faInfoCircle,
   faTh,
   faClock,
@@ -9,24 +9,16 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 // Importa o tipo de dado completo que será recebido
 import type { ISatelliteData, ISpectralBand } from '../types/SatelliteData';
-import '../styles/satelliteDetailView.css'; 
-
+import '../styles/satelliteDetailView.css';
+import { extractPlatformName } from '../utils/extractPlatformName';
 // 🚨 CORREÇÃO PRINCIPAL: O componente agora recebe o objeto ISatelliteData completo
 interface SatelliteDetailViewProps {
-  satellite: ISatelliteData; // Recebe os dados já mapeados
-  onClose: () => void;
+  satellite: ISatelliteData;
 }
 
-// Ícones (Definidos anteriormente)
-// ... (faInfoCircle, faTh, faClock, faFileAlt, etc.)
+const SatelliteDetailView: React.FC<SatelliteDetailViewProps> = ({ satellite }) => {
+  const [activeTab, setActiveTab] = useState<'overview' | 'bands' | 'temporal' | 'metadata' | 'images'>('overview');
 
-const SatelliteDetailView: React.FC<SatelliteDetailViewProps> = ({ satellite, onClose }) => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'bands' | 'temporal' | 'metadata'>('overview');
-  
-  // NENHUMA LÓGICA DE LOADING OU useEffect É NECESSÁRIA!
-  // Os dados vêm diretamente do prop `satellite`.
-
-  // Desestruturação de dados garantida
   const {
     title,
     description,
@@ -37,27 +29,85 @@ const SatelliteDetailView: React.FC<SatelliteDetailViewProps> = ({ satellite, on
     startDate,
     endDate,
     totalPeriod,
-    metadataStac
-  } = satellite; // Usa o prop diretamente
-  
-  // ... (renderMetadataStac e TabContent permanecem iguais)
+    metadataStac,
+    items
+  } = satellite;
+
+  const hasImages = items?.some((item: any) => {
+    const assets = item.assets || {};
+    return (
+      assets.thumbnail?.href ||
+      assets.rendered?.href ||
+      assets.visual?.href ||
+      assets.overview?.href
+    );
+  });
+
+  const { spectralIndices } = satellite;
+  const colorMap: { [key: string]: string } = {
+    NBR: "#f97316",
+    NDVI: "#01A664",
+    EVI: "#0397CD",
+  };
+
+  const spectralDescription: { [key: string]: string } = {
+    NDVI: "Índice de Vegetação Normalizado — mede vigor da vegetação.",
+    EVI: "Índice de Vegetação Aprimorado — mais sensível em áreas densas.",
+    NBR: "Índice de Área Queimada — útil para detectar queimadas.",
+  };
+
+
+  const renderSpectralIndicesTags = () => {
+    const attrs = spectralIndices?.attributes;
+
+    console.log("spectralIndices?.attributes", attrs);
+
+    // Se não for array, tenta transformar em array pelas keys do objeto
+    const indices = Array.isArray(attrs)
+      ? attrs
+      : attrs && typeof attrs === "object"
+        ? Object.keys(attrs)
+        : [];
+
+    if (indices.length === 0) return null;
+
+    return indices.map(index => {
+      const bgColor = colorMap[index] || "#6b7280";
+      const description = spectralDescription[index] || "Índice Espectral";
+
+      return (
+        <span
+          key={index}
+          className="tag spectral-index"
+          style={{ backgroundColor: bgColor, color: "#fff" }}
+          data-tooltip={description}
+        >
+          {index}
+        </span>
+      );
+    });
+  };
+
+
+
+
+
   const renderMetadataStac = () => {
-    // ... lógica de renderização de Metadados ...
     const additionalMeta = Object.entries(metadataStac.additionalMetadata)
       .map(([key, value]) => {
         let displayValue;
         if (typeof value === 'string' && value.startsWith('"') && value.endsWith('"')) {
-             displayValue = `<span class="value">${value}</span>`;
+          displayValue = `<span class="value">${value}</span>`;
         } else if (typeof value === 'number' || typeof value === 'boolean') {
-            displayValue = `<span class="number">${value}</span>`;
+          displayValue = `<span class="number">${value}</span>`;
         } else {
-            displayValue = value;
+          displayValue = value;
         }
 
         return `\t  <strong>"${key}"</strong>: ${displayValue}`;
       })
       .join(',\n');
-      
+
     const codeBlockContent = `
 {
   <strong>"ID"</strong>: <span class="value">"${metadataStac.id}"</span>
@@ -71,16 +121,15 @@ ${additionalMeta}
     return (
       <div className="metadata-stac data-field">
         <h4><FontAwesomeIcon icon={faFileAlt} /> Metadados STAC</h4>
-        <div 
-          className="code-block" 
+        <div
+          className="code-block"
           dangerouslySetInnerHTML={{ __html: codeBlockContent }}
         />
       </div>
     );
   };
-  
+
   const TabContent: React.FC = () => {
-    // ... lógica de renderização das Tabs ...
     switch (activeTab) {
       case 'overview':
         return (
@@ -89,7 +138,7 @@ ${additionalMeta}
               <h4><FontAwesomeIcon icon={faInfoCircle} /> Descrição</h4>
               <p>{description}</p>
             </div>
-            <div className="temporal-info"> 
+            <div className="temporal-info">
               <div className="temporal-block data-field">
                 <p>Resolução espacial</p>
                 <strong>{spatialResolution}</strong>
@@ -147,6 +196,41 @@ ${additionalMeta}
         );
       case 'metadata':
         return renderMetadataStac();
+
+      case 'images':
+        if (!hasImages) return null;
+        return (
+          <div className="data-field">
+            <h4><FontAwesomeIcon icon={faTh} /> Imagens</h4>
+
+            <div className="image-grid">
+              {items.map((item: any, index: number) => {
+                const assets = item.assets || {};
+
+                const image =
+                  assets.thumbnail?.href ||
+                  assets.rendered?.href ||
+                  assets.visual?.href ||
+                  assets.overview?.href ||
+                  null;
+
+                if (!image) return null;
+
+                return (
+                  <div key={index} className="image-card">
+                    <img src={image} alt={`Item ${index}`} />
+                    <p className="image-date">
+                      {item.properties?.datetime?.split("T")[0] || "Sem data"}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+
+
+
       default:
         return null;
     }
@@ -154,47 +238,79 @@ ${additionalMeta}
 
 
   const titleParts = title.split(' - ');
-  const platformMatch = titleParts.find(part => part.includes('LC'));
-  const platformTag = platformMatch?.match(/(LC\d)/)?.[0] || 'Plataforma'; 
+  // const platformRegexList = [
+  //   /LC[\s\-_]*\d+/i,                 // Landsat LC08, LC 08, LC-08
+  //   /Landsat[\s\-_]*\d+/i,           // Landsat-8, Landsat 9
+  //   /S\d+[A-Z]?/i,                   // S2A, S2B, S3
+  //   /Sentinel[\s\-_]*\d+[A-Z]?/i,    // Sentinel-2A, Sentinel 2B
+  //   /CBERS[\s\-_]*\d+[A-Z]?/i,       // CBERS-4, CBERS 4A
+  //   /MODIS/i,                        // MODIS (Aqua/Terra)
+  //   /Aqua/i,                         // Aqua
+  //   /Terra/i,                        // Terra
+  //   /NOAA[\s\-_]*\d+/i,              // NOAA-20
+  //   /GOES[\s\-_]*\d+/i               // GOES-16
+  // ];
+
+  // // Procura em titleParts um match com qualquer regex acima
+  // const platformMatch = titleParts.find(part =>
+  //   platformRegexList.some(regex => regex.test(part))
+  // );
+
+  // // Retorna o texto original exatamente como veio
+  // const platformTag = platformMatch || 'Plataforma'; 
+  const platformTag = extractPlatformName(titleParts);
   const resolutionTag = spatialResolution || 'N/A';
   const displayTitle = titleParts[0] ? titleParts.join(' - ') : title;
 
 
   return (
     <div className="satellite-data-view">
-      <div className="header">
-        <i className="fa-solid fa-satellite card-satellite-icon"></i> 
-        <h2>{displayTitle}</h2>
+      <div className="header-data-view">
+        <div className="left-content">
+          <i className="fa-solid fa-satellite card-satellite-icon"></i>
+          <h2>{displayTitle}</h2>
+        </div>
         <div className="tags">
+          {renderSpectralIndicesTags()}
           <span className="tag landsat">{platformTag.replace('LC', 'Landsat-')}</span>
           <span className="tag resolution">{resolutionTag}</span>
         </div>
-        <button className="close-btn" onClick={onClose}>
+        {/* <button className="close-btn" onClick={onClose}>
           &times;
-        </button>
+        </button> */}
+
       </div>
 
       <nav className="tabs-nav">
-        {/* ... botões de aba ... */}
-        <button 
+
+        <button
           className={`tab-button ${activeTab === 'overview' ? 'active' : ''}`}
           onClick={() => setActiveTab('overview')}
         >
-          Visão Geral
+          Visão geral
         </button>
-        <button 
+        <button
           className={`tab-button ${activeTab === 'bands' ? 'active' : ''}`}
           onClick={() => setActiveTab('bands')}
         >
           Bandas
         </button>
-        <button 
+        {hasImages && (
+          <button
+            className={`tab-button ${activeTab === 'images' ? 'active' : ''}`}
+            onClick={() => setActiveTab('images')}
+          >
+            Imagens
+          </button>
+        )}
+
+        <button
           className={`tab-button ${activeTab === 'temporal' ? 'active' : ''}`}
           onClick={() => setActiveTab('temporal')}
         >
           Temporal
         </button>
-        <button 
+        <button
           className={`tab-button ${activeTab === 'metadata' ? 'active' : ''}`}
           onClick={() => setActiveTab('metadata')}
         >
@@ -209,4 +325,4 @@ ${additionalMeta}
   );
 };
 
-export { SatelliteDetailView }; // Exporta a nova interface de props
+export { SatelliteDetailView };

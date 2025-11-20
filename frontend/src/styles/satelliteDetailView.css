@@ -8,7 +8,7 @@
   margin: 20px;
 }
 
-.header {
+.header-data-view {
   padding: 16px;
   display: flex;
   justify-content: space-between;
@@ -16,7 +16,7 @@
   /* border-bottom: 1px solid #3b4261; */
 }
 
-.header h2 {
+.header-data-view h2 {
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
@@ -28,6 +28,12 @@
   font-size: 0.8rem;
 }
 
+.left-content {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+}
+
 .tag {
   padding: 4px 8px;
   border-radius: 4px;
@@ -35,12 +41,12 @@
 }
 
 .tag.landsat {
-  background-color: #f59e0b;
+  background-color: #830bf5;
   color: #fff;
 }
 
 .tag.resolution {
-  background-color: var(--secondary-color);
+  background-color: #d94097;
   color: #fff;
 }
 
@@ -73,7 +79,8 @@
 }
 
 .tab-button:hover {
-  background-color: #24283b;
+  background-color: var(--primary-color);
+  color: white;
 }
 
 .tab-button.active {
@@ -232,4 +239,85 @@ ease;
 
 .metadata-stac .code-block span.number {
     color: #ff9e64; /* Cor para valores numéricos */
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.image-card {
+  background-color: var(--background-card-color);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  border: 1px solid ;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease;
+}
+
+.image-card:hover {
+  transform: scale(1.03);
+}
+
+
+.image-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid var(--primary-color);
+}
+
+.image-date {
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 8px;
+  color: var(--color-light);
+}
+
+.tag.spectral-index {
+  position: relative;
+  cursor: default;
+}
+
+/* Tooltip */
+.tag.spectral-index::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: -38px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f2335;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  border: 1px solid var(--primary-color);
+  transition: opacity 0.2s ease;
+  z-index: 20;
+}
+
+/* Seta */
+.tag.spectral-index::before {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #1f2335 transparent transparent transparent;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 20;
+}
+
+.tag.spectral-index:hover::after,
+.tag.spectral-index:hover::before {
+  opacity: 1;
 }

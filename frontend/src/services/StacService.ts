@@ -28,4 +28,8 @@ export class StacService{
         return response;
     }
 
+    async getCollectionItems(id: string) {
+        const response = await api.get(`/stac/collections/${id}/items`);
+        return response;
+    }
 }

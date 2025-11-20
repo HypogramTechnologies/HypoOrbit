@@ -132,7 +132,7 @@ const Mapa: React.FC<MapProps> = ({ isFiltroVisible }) => {
         <Modal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          title="Lista de Satélites"
+          title="Lista de satélites"
           isFiltroVisible={isFiltroVisible}
         >
           <SatelliteList

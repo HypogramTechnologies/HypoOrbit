@@ -1,4 +1,4 @@
-import type { SatelliteData } from "./SatelliteData";
+import type { ISatelliteData } from "./SatelliteData";
 
 export interface ISatelliteCardProps {
   id: string;
@@ -8,7 +8,7 @@ export interface ISatelliteCardProps {
   spectralIndices?: ISatelliteCardAttributesProps;
   hasTimeSeries: boolean;
   origin?: string;
-  satelliteData?:SatelliteData;
+  satelliteData?:ISatelliteData;
 }
 
 export interface ISatelliteCardAttributesProps {

@@ -12,9 +12,9 @@
   overflow: hidden;
 }
 
-.modal-overlay.shifted {
+/* .modal-overlay.shifted {
   transform: translateX(var(--menu-width));
-}
+} */
 
 .modal-container {
   background-color: var(--background-color);

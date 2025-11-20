@@ -1,4 +1,3 @@
-
 import type { ISatelliteData, ISpectralBand, IStacMetadata } from "../types/SatelliteData";
 
 const formatDate = (dateString: string): string => {
@@ -23,9 +22,9 @@ const calculatePeriod = (startDateISO: string, endDateISO: string): string => {
   } catch {
     return 'N/A';
   }
-}
+};
 
-export const stacToSatelliteData = (stacData: any): ISatelliteData => {
+export const stacToSatelliteData = (stacData: any, itemsData: any[]): ISatelliteData => {
   const {
     id,
     title,
@@ -33,7 +32,7 @@ export const stacToSatelliteData = (stacData: any): ISatelliteData => {
     extent,
     properties,
     license,
-    providers,
+    providers
   } = stacData;
 
   const resolution_x = properties?.['eo:bands']?.[0]?.['resolution_x'];
@@ -42,33 +41,37 @@ export const stacToSatelliteData = (stacData: any): ISatelliteData => {
   const providerName = providers?.[0]?.name || 'N/A';
   
   const bbox = extent?.spatial?.bbox?.[0];
-  const spatialCoverage = bbox ? 
-    `Tipo: Polygon \n[${bbox[0]}, ${bbox[1]}, ${bbox[2]}, ${bbox[3]}]` : 
-    'N/A';
+  const spatialCoverage = bbox 
+    ? `Tipo: Polygon \n[${bbox[0]}, ${bbox[1]}, ${bbox[2]}, ${bbox[3]}]` 
+    : 'N/A';
 
-  // --- 2. Bandas (Bands) ---
+  // --- Bandas Espectrais ---
   const spectralBands: ISpectralBand[] = (properties?.['eo:bands'] || [])
     .map((band: any) => {
-      // Prioriza o nome comum, senão o nome da banda
+      console.log('band',band);
       const name = band.common_name?.toUpperCase() || band.name || 'Banda Desconhecida';
       const descriptionText = band.description || 'N/A';
       
       let wavelength = 'N/A';
       
-      if (band.min_wavelength && band.max_wavelength) {
+      if (band.center_wavelength) {
+        wavelength = `${band.center_wavelength} µm`;
+      } 
+      else if (band.min_wavelength && band.max_wavelength) {
         wavelength = `${band.min_wavelength}-${band.max_wavelength} µm`;
-      } else if (band.min_wavelength) {
+      } 
+      else if (band.min_wavelength) {
         wavelength = `> ${band.min_wavelength} µm`;
-      } else if (band.max_wavelength) {
+      } 
+      else if (band.max_wavelength) {
         wavelength = `< ${band.max_wavelength} µm`;
       }
-    
+
       return {
         name: `${name} - ${descriptionText}`,
-        wavelength: wavelength,
+        wavelength,
       };
     });
-    
 
   const temporalInterval = extent?.temporal?.interval?.[0];
   const startDateISO = temporalInterval?.[0] || '';
@@ -87,13 +90,12 @@ export const stacToSatelliteData = (stacData: any): ISatelliteData => {
     id: id || 'N/A',
     license: license || 'N/A',
     additionalMetadata: {
-      "platform": `"${platform}"`,
-      "instrument": `"${instrument}"`,
-      "processingLevel": `"${processingLevel}"`,
-      "CloudcoverMax": cloudCoverMax,
+      platform: `"${platform}"`,
+      instrument: `"${instrument}"`,
+      processingLevel: `"${processingLevel}"`,
+      CloudcoverMax: cloudCoverMax,
     }
   };
-
 
   return {
     title: title || 'N/A',
@@ -106,5 +108,6 @@ export const stacToSatelliteData = (stacData: any): ISatelliteData => {
     endDate,
     totalPeriod,
     metadataStac,
+    items: itemsData || [],
   };
 };

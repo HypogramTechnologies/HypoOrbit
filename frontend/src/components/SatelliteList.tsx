@@ -71,7 +71,6 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coor
         />
       )}
 
-      {/* Filter column */}
       <div
         className={
           origin === "Map"
