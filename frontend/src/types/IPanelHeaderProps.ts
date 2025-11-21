@@ -3,4 +3,5 @@ export default interface PanelHeaderProps {
   chips?: { key: string; avg: number }[];
   onExport?: () => void;
   onDetails?: () => void;
+  isExpanded: boolean;
 }

@@ -1,0 +1,23 @@
+.card-tab-view {
+    padding: 0 16px 16px 16px;
+}
+
+.tab-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--text-color-white, #fff);
+}
+
+.tab-subtitle {
+    font-size: 14px;
+    color: var(--text-color-light, #a0a0a0);
+    margin-bottom: 24px;
+}
+
+.index-cards-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; 
+    justify-content: flex-start;
+}

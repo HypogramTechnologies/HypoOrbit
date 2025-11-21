@@ -134,6 +134,9 @@ export default function TimeSeriesView() {
                 onExport={() => console.log("export")}
                 onDetails={() => console.log("detalhes")}
                 defaultExpanded={false}
+                statisticsData={statisticsData}
+                timeSeriesData={timeSeriesData}
+                filterParams={paramsFromRoute}
               ></PanelContainer>
             )}
             <div

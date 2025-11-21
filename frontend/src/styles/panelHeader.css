@@ -8,6 +8,10 @@
   --color-ndvi: #01A664; 
   --color-evi: #0397CD;
 
+    --bg-nbr: #fef3c7;      
+    --bg-ndvi: #dcfce7;     
+    --bg-evi: #e0f2fe;  
+
   --button-details-color: #38763d; 
 }
 
@@ -57,22 +61,22 @@
 }
 
 .chip-NBR {
-  background: var(--color-nbr);
-  color: #fff; 
+  background: var(--bg-nbr);
+  color: var(--color-nbr);
   border-color: var(--color-nbr);
   opacity: 1;
 }
 
 .chip-NDVI {
-  background: var(--color-ndvi);
-  color: #fff;
+  background: var(--bg-ndvi);
+  color: var(--color-ndvi);
   border-color: var(--color-ndvi);
   opacity: 1;
 }
 
 .chip-EVI {
-  background: var(--color-evi);
-  color: #fff;
+  background: var(--bg-evi);
+  color: var(--color-evi);
   border-color: var(--color-evi);
   opacity: 1;
 }

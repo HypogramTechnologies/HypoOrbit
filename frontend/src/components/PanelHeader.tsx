@@ -7,6 +7,7 @@ export default function PanelHeader({
   chips = [],
   onExport,
   onDetails,
+  isExpanded,
 }: IPanelHeaderProps) {
   return (
     <div className="panel-header">
@@ -38,8 +39,17 @@ export default function PanelHeader({
 
         {onDetails && (
           <button className="btn-details" onClick={onDetails}>
-            <span className="material-symbols-outlined">pan_zoom</span>
-            Detalhes
+            {isExpanded ? (
+              <>
+                <span className="material-symbols-outlined">close_fullscreen</span>
+                Recolher
+              </>
+            ) : (
+              <>
+                <span className="material-symbols-outlined">open_in_full</span>
+                Detalhes
+              </>
+            )}
           </button>
         )}
       </div>
