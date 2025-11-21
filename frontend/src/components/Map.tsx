@@ -120,10 +120,12 @@ const Mapa: React.FC<MapProps> = ({ isFiltroVisible }) => {
           }}
         >
           <Popup>
-            Coordenadas: <br />
-            Lat: {filter.latitude.toFixed(5)} <br />
-            Lng: {filter.longitude.toFixed(5)}
-          </Popup>
+          <div className="popup-content">
+            <strong>Coordenadas</strong> <br />
+            Lat: <span className="popup-coord">{filter.latitude.toFixed(5)}</span> <br />
+            Lng: <span className="popup-coord">{filter.longitude.toFixed(5)}</span>
+          </div>
+        </Popup>
         </Marker>
       </MapContainer>
       <FilterSatelliteProvider>
