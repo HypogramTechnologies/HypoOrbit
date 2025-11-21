@@ -10,3 +10,30 @@
     left: 96%;
     top: 50px;
 }
+
+/* Estilização do Popup do Leaflet */
+.leaflet-popup-content-wrapper {
+  background: var(--background-card-color) !important;
+  color: var(--color-light) !important;
+  border-radius: var(--border-radius) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid var(--primary-color) !important;
+}
+
+.leaflet-popup-tip {
+  background: var(--background-card-color) !important;
+}
+
+/* Conteúdo interno */
+.popup-content {
+  font-family: var(--font-family);
+  color: var(--color-light);
+  padding: 4px 2px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* Destaque dos valores de lat/lng */
+.popup-coord {
+  font-weight: 600;
+}
