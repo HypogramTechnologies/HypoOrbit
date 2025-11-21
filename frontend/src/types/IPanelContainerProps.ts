@@ -13,5 +13,6 @@ export default interface IPanelContainerProps {
   filterParams: IWTSSRequest | undefined;
   timeSeriesData: IWTSSResponse | null;
   statisticsData: IStatisticsWTSS | null;
+  onClearFilters: () => void;
 
 }

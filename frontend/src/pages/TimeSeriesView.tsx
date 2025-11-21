@@ -74,6 +74,13 @@ export default function TimeSeriesView() {
     fetchData();
   }, [paramsFromRoute]);
 
+  const handleClearFilters = () => {
+    setTimeSeriesData(null);
+    setStatisticsData(null);
+    navigate("/map");
+  }
+
+
   const noData =
     !isLoading &&
     error === null &&
@@ -137,6 +144,7 @@ export default function TimeSeriesView() {
                 statisticsData={statisticsData}
                 timeSeriesData={timeSeriesData}
                 filterParams={paramsFromRoute}
+                onClearFilters={handleClearFilters}
               ></PanelContainer>
             )}
             <div

@@ -39,7 +39,6 @@ export class WTSSService {
     return response.data;
   }
 
-  // ✅ Retorna apenas bandas de interesse ordenadas (NDVI, EVI, NBR)
   async getAttributesCoverages(coverages: string[]) {
     const coveragesAttributes: IAttributesCoverages[] = [];
     for (const coverage of coverages) {
@@ -120,6 +119,6 @@ export class WTSSService {
     }
     /* console.log("Calculated statistics:");
     console.log(statistics); */
-    return statistics;
+    return statistics.sorted ? statistics : Object.fromEntries(Object.entries(statistics).sort());
   }
 }

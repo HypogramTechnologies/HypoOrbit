@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartLine } from "@fortawesome/free-solid-svg-icons";
 import "../styles/indexCard.css";
-import type { IndexCardProps } from "../types/IndexCardProps";
+import type { IndexCardProps } from "../types/IIndexStats";
 
 export default function IndexCard({
   indexName,

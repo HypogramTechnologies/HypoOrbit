@@ -3,8 +3,8 @@ import PanelHeader from "./PanelHeader";
 // Certifique-se de que os imports dos tipos estão corretos:
 import type IPanelContainerProps from "../types/IPanelContainerProps";
 import type { TabKey } from "../types/IPanelContainerProps";
-import CardTabView from "./CardTabView"; 
-/* import FilterTabView from "./FilterTabView"; */
+import CardTabView from "./CardTabView";
+import FilterTabView from "./FilterTabView";
 import "../styles/panelContainer.css";
 
 const TABS: { key: TabKey; label: string }[] = [
@@ -21,6 +21,7 @@ export function PanelContainer({
   statisticsData,
   timeSeriesData,
   filterParams,
+  onClearFilters,
 }: IPanelContainerProps) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
   const [activeTab, setActiveTab] = useState<TabKey>(TABS[0].key);
@@ -41,7 +42,12 @@ export function PanelContainer({
         return <CardTabView statisticsData={statisticsData} />;
 
       case "filters":
-        /* return <FilterTabView filterParams={filterParams} />; */
+        return (
+          <FilterTabView
+            filterParams={filterParams}
+            onClearFilters={onClearFilters}
+          />
+        );
 
       case "export":
         return (
