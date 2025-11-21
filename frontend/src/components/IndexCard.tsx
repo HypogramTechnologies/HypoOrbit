@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartLine } from "@fortawesome/free-solid-svg-icons";
 import "../styles/indexCard.css";
-import type { IndexCardProps } from "../types/IIndexStats";
+import type { IIndexCardProps } from "../types/IIndexCardProps";
 
 export default function IndexCard({
   indexName,
@@ -10,7 +10,7 @@ export default function IndexCard({
   description,
   stats,
   colorClass,
-}: IndexCardProps) {
+}: IIndexCardProps) {
 
   return (
     <div className={`index-card index-card-${colorClass}`}>
