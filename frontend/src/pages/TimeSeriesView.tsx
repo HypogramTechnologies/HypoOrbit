@@ -5,6 +5,7 @@ import "../styles/loadingSpinner.css";
 
 import Menu from "../components/Menu";
 import Header from "../components/Header";
+import PanelContainer from "../components/PanelContainer";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -14,13 +15,19 @@ import { WTSSService } from "../services/WTSSService";
 
 import type { IWTSSResponse } from "../types/IWTSSResponse";
 import type { IWTSSRequest } from "../types/IWTSSRequest";
+import type { IStatisticsWTSS } from "../types/IStatisticsWTSS";
 
 import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function TimeSeriesView() {
   // const [isFiltroVisible, setIsFiltroVisible] = useState(true);
-  
-  const [timeSeriesData, setTimeSeriesData] = useState<IWTSSResponse | null>(null);
+
+  const [timeSeriesData, setTimeSeriesData] = useState<IWTSSResponse | null>(
+    null
+  );
+  const [statisticsData, setStatisticsData] = useState<IStatisticsWTSS | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -73,6 +80,25 @@ export default function TimeSeriesView() {
     timeSeriesData !== null &&
     (!timeSeriesData.timeSeries || timeSeriesData.timeSeries.length === 0);
 
+  useEffect(() => {
+    if (!timeSeriesData) return;
+
+    const service = new WTSSService();
+
+    const fetchStatistics = async () => {
+      try {
+        const response = await service.getTimeSeriesStatistics(timeSeriesData);
+        setStatisticsData(response.data as IStatisticsWTSS);
+        /* console.log('Statistics Data:')
+        console.log(statisticsData) */
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchStatistics();
+  }, [timeSeriesData]);
+
   return (
     <div className="container">
       <FiltroProvider>
@@ -91,57 +117,79 @@ export default function TimeSeriesView() {
             <Menu />
           </div>
 
-          <div
-            className={
-              isLoading
-                ? "timeseries-loading-container"
-                : isFiltroVisible
-                ? "timeseries-list-container-visible"
-                : "timeseries-list-container-hidden"
-            }
-          >
-            {isLoading && <LoadingSpinner />}
-
-            {error && (
-              <div className="overlay-center" role="alert">
-                <div className="empty-card">
-                  <p className="empty-title">{error}</p>
-
-                  <button
-                    className="back-to-map-btn"
-                    onClick={() => navigate("/map")}
-                  >
-                    Voltar ao mapa
-                  </button>
-                </div>
-              </div>
+          <div className="content-area">
+            {!noData && !error && (
+              <PanelContainer
+                title="Índices de vegetação"
+                chips={
+                  statisticsData
+                    ? Object.entries(statisticsData.statistics).map(
+                        ([key, stats]) => ({
+                          key,
+                          avg: stats.avg,
+                        })
+                      )
+                    : []
+                }
+                onExport={() => console.log("export")}
+                onDetails={() => console.log("detalhes")}
+                defaultExpanded={false}
+              ></PanelContainer>
             )}
+            <div
+              className={
+                isLoading
+                  ? "timeseries-loading-container"
+                  : isFiltroVisible
+                  ? "timeseries-list-container-visible"
+                  : "timeseries-list-container-hidden"
+              }
+            >
+              {isLoading && <LoadingSpinner />}
 
-            {noData && (
-              <div className="overlay-center">
-                <div className="empty-card">
-                  <p className="empty-title">Nenhuma série temporal encontrada.</p>
+              {error && (
+                <div className="overlay-center" role="alert">
+                  <div className="empty-card">
+                    <p className="empty-title">{error}</p>
 
-                  <button
-                    className="back-to-map-btn"
-                    onClick={() => navigate("/map")}
-                  >
-                    Voltar ao mapa
-                  </button>
+                    <button
+                      className="back-to-map-btn"
+                      onClick={() => navigate("/map")}
+                    >
+                      Voltar ao mapa
+                    </button>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {!noData &&
-              !error &&
-              timeSeriesData?.timeSeries?.map((ts, index) => (
-                <TimeSeriesCard
-                  key={index}
-                  coverage={ts.query.coverage}
-                  timeline={ts.result.timeline}
-                  attributes={ts.result.attributes}
-                />
-              ))}
+              {noData && (
+                <div className="overlay-center">
+                  <div className="empty-card">
+                    <p className="empty-title">
+                      Nenhuma série temporal encontrada.
+                    </p>
+
+                    <button
+                      className="back-to-map-btn"
+                      onClick={() => navigate("/map")}
+                    >
+                      Voltar ao mapa
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {!noData &&
+                !error &&
+                timeSeriesData?.timeSeries?.map((ts, index) => (
+                  <TimeSeriesCard
+                    key={index}
+                    coverage={ts.query.coverage}
+                    timeline={ts.result.timeline}
+                    attributes={ts.result.attributes}
+                  />
+                ))}
+            </div>
           </div>
         </div>
       </FiltroProvider>
