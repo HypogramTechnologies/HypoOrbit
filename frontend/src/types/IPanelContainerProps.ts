@@ -1,6 +1,6 @@
 export default interface IPanelContainerProps {
   title: string;
-  chips?: { label: string; value: string | number }[];
+  chips?: { key: string; avg: number }[];
   defaultExpanded?: boolean;
   onExport?: () => void;
   onDetails?: () => void;

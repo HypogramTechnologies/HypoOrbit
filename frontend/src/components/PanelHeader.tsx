@@ -20,9 +20,9 @@ export default function PanelHeader({
           {chips.map((chip, index) => (
             <span
               key={index}
-              className={`chip chip-${chip.label ?? "default"}`}
+              className={`chip chip-${chip.key ?? "default"}`}
             >
-              <strong>{chip.label}:</strong> {chip.value}
+              <strong>{chip.key}:</strong> {chip.avg}
             </span>
           ))}
         </div>

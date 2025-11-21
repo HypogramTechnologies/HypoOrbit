@@ -15,6 +15,7 @@ import { WTSSService } from "../services/WTSSService";
 
 import type { IWTSSResponse } from "../types/IWTSSResponse";
 import type { IWTSSRequest } from "../types/IWTSSRequest";
+import type { IStatisticsWTSS } from "../types/IStatisticsWTSS";
 
 import LoadingSpinner from "../components/LoadingSpinner";
 
@@ -22,6 +23,9 @@ export default function TimeSeriesView() {
   // const [isFiltroVisible, setIsFiltroVisible] = useState(true);
 
   const [timeSeriesData, setTimeSeriesData] = useState<IWTSSResponse | null>(
+    null
+  );
+  const [statisticsData, setStatisticsData] = useState<IStatisticsWTSS | null>(
     null
   );
   const [isLoading, setIsLoading] = useState(false);
@@ -76,6 +80,25 @@ export default function TimeSeriesView() {
     timeSeriesData !== null &&
     (!timeSeriesData.timeSeries || timeSeriesData.timeSeries.length === 0);
 
+  useEffect(() => {
+    if (!timeSeriesData) return;
+
+    const service = new WTSSService();
+
+    const fetchStatistics = async () => {
+      try {
+        const response = await service.getTimeSeriesStatistics(timeSeriesData);
+        setStatisticsData(response.data as IStatisticsWTSS);
+        /* console.log('Statistics Data:')
+        console.log(statisticsData) */
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchStatistics();
+  }, [timeSeriesData]);
+
   return (
     <div className="container">
       <FiltroProvider>
@@ -95,16 +118,24 @@ export default function TimeSeriesView() {
           </div>
 
           <div className="content-area">
-            <PanelContainer
-              title="Índices de vegetação"
-              chips={[
-                { label: "NDVI", value: "0.72" },
-                { label: "EVI", value: "0.89" },
-              ]}
-              onExport={() => console.log("export")}
-              onDetails={() => console.log("detalhes")}
-              defaultExpanded={false}
-            ></PanelContainer>
+            {!noData && !error && (
+              <PanelContainer
+                title="Índices de vegetação"
+                chips={
+                  statisticsData
+                    ? Object.entries(statisticsData.statistics).map(
+                        ([key, stats]) => ({
+                          key,
+                          avg: stats.avg,
+                        })
+                      )
+                    : []
+                }
+                onExport={() => console.log("export")}
+                onDetails={() => console.log("detalhes")}
+                defaultExpanded={false}
+              ></PanelContainer>
+            )}
             <div
               className={
                 isLoading

@@ -1,6 +1,6 @@
 export default interface PanelHeaderProps {
   title: string;
-  chips?: { label: string; value: string | number }[];
+  chips?: { key: string; avg: number }[];
   onExport?: () => void;
   onDetails?: () => void;
 }
