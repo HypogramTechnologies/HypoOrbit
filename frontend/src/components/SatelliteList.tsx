@@ -33,7 +33,6 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coor
     fetchSatellites
       .then((response) => {
         const data = response.data as { listCollection: ISatelliteCardProps[] };
-
         const normalizedSatellites = (data?.listCollection || []).map((sat) => ({
           ...sat,
           hasTimeSeries: sat.hasTimeSeries ?? false,
@@ -65,7 +64,6 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coor
 
   return (
     <div className="satellite-list-container">
-      {/* Global message component (top-right / global notifications) */}
       {messageConfig.show && (
         <Message
           {...messageConfig}
@@ -73,7 +71,6 @@ const SatelliteList: React.FC<SatelliteProps> = ({ isFiltroVisible, origin, coor
         />
       )}
 
-      {/* Filter column */}
       <div
         className={
           origin === "Map"

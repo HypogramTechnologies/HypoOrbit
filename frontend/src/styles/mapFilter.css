@@ -17,6 +17,7 @@
   background-color: var(--background-color);
   color: var(--color-light) !important;
   border: none;
+  width: 20rem;
 }
 
 .history-select {
@@ -57,6 +58,7 @@
   max-height: 200px;
   overflow-y: auto;
   box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  color: var(--color-light);
 }
 
 .history-dropdown li {

@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import ReactDOM from "react-dom"; // <- Import necessário para portal
 import Draggable from "react-draggable";
 import "../styles/modal.css";
 import type { ModalProps } from "../types/Modal";
@@ -10,11 +11,10 @@ const Modal: React.FC<ModalProps & { title?: string }> = ({
   title,
   isFiltroVisible,
 }) => {
-  const nodeRef = useRef(null); // ✅ evitar findDOMNode
+  const nodeRef = useRef(null);
 
   if (!isOpen) return null;
-
-  return (
+  return ReactDOM.createPortal(
     <div className={`modal-overlay ${isFiltroVisible ? "shifted" : ""}`}>
       <Draggable nodeRef={nodeRef} handle=".modal-header" cancel=".modal-content">
         <div ref={nodeRef} className="modal-container">
@@ -28,7 +28,8 @@ const Modal: React.FC<ModalProps & { title?: string }> = ({
           <div className="modal-content">{children}</div>
         </div>
       </Draggable>
-    </div>
+    </div>,
+    document.body 
   );
 };
 

@@ -1,44 +1,59 @@
 import "../index.css";
 import "../styles/menuVisible.css";
 import "../styles/timeSeriesView.css";
-import "../styles/loadingSpinner.css"; 
+import "../styles/loadingSpinner.css";
+
 import Menu from "../components/Menu";
 import Header from "../components/Header";
+import PanelContainer from "../components/PanelContainer";
 import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import { FiltroProvider } from "../context/FilterMapContext";
 import TimeSeriesCard from "../components/TimeSeriesCard";
 import { WTSSService } from "../services/WTSSService";
+
 import type { IWTSSResponse } from "../types/IWTSSResponse";
 import type { IWTSSRequest } from "../types/IWTSSRequest";
+import type { IStatisticsWTSS } from "../types/IStatisticsWTSS";
+import type { ExportFormat } from "../types/IExportTabViewProps";
+
+import exportTimeSeriesData from "../utils/exportTimeSeries";
+
 import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function TimeSeriesView() {
-  const [isFiltroVisible, setIsFiltroVisible] = useState(true);
-  const [timeSeriesData, setTimeSeriesData] = useState<IWTSSResponse | null>(null);
+  // const [isFiltroVisible, setIsFiltroVisible] = useState(true);
+
+  const [timeSeriesData, setTimeSeriesData] = useState<IWTSSResponse | null>(
+    null
+  );
+  const [statisticsData, setStatisticsData] = useState<IStatisticsWTSS | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const paramsFromRoute = location.state?.params as IWTSSRequest | undefined;
+  const [isFiltroVisible, setIsFiltroVisible] = useState(!paramsFromRoute);
   const toggleFiltroVisibility = () => {
     setIsFiltroVisible((prev) => !prev);
   };
 
   useEffect(() => {
+    if (!paramsFromRoute) {
+      setError("Falha ao carregar as séries temporais");
+      return;
+    }
+
     const params: IWTSSRequest = {
-      coverages: [
-        "CBERS4-MUX-2M-1",
-        "CBERS4-WFI-16D-2",
-        "CBERS-WFI-8D-1",
-        "LANDSAT-16D-1",
-        "mod11a2-6.1",
-        "mod13q1-6.1",
-        "myd11a2-6.1",
-        "myd13q1-6.1",
-        "S2-16D-2"
-      ],
-      startDate: "2022-09-01",
-      endDate: "2024-03-01",
-      latitude: "-15.5898283072306",
-      longitude: "-47.5288794633165",
+      coverages: paramsFromRoute.coverages,
+      startDate: paramsFromRoute.startDate,
+      endDate: paramsFromRoute.endDate,
+      latitude: paramsFromRoute.latitude,
+      longitude: paramsFromRoute.longitude,
     };
 
     const service = new WTSSService();
@@ -49,7 +64,6 @@ export default function TimeSeriesView() {
         setError(null);
 
         const response = await service.getTimeSeriesCoverages(params);
-        console.log(response);
 
         setTimeSeriesData(response.data as IWTSSResponse);
       } catch (err) {
@@ -61,13 +75,48 @@ export default function TimeSeriesView() {
     };
 
     fetchData();
-  }, []);
+  }, [paramsFromRoute]);
+
+  const handleClearFilters = () => {
+    setTimeSeriesData(null);
+    setStatisticsData(null);
+    navigate("/map");
+  }
+
+  const handleExport = (format: ExportFormat) => {
+    exportTimeSeriesData(
+      format,
+      timeSeriesData as IWTSSResponse,
+      paramsFromRoute as IWTSSRequest,
+      statisticsData
+    );
+};
+
 
   const noData =
     !isLoading &&
     error === null &&
     timeSeriesData !== null &&
     (!timeSeriesData.timeSeries || timeSeriesData.timeSeries.length === 0);
+
+  useEffect(() => {
+    if (!timeSeriesData) return;
+
+    const service = new WTSSService();
+
+    const fetchStatistics = async () => {
+      try {
+        const response = await service.getTimeSeriesStatistics(timeSeriesData);
+        setStatisticsData(response.data as IStatisticsWTSS);
+        /* console.log('Statistics Data:')
+        console.log(statisticsData) */
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchStatistics();
+  }, [timeSeriesData]);
 
   return (
     <div className="container">
@@ -87,55 +136,84 @@ export default function TimeSeriesView() {
             <Menu />
           </div>
 
-          <div
-            className={
-              isLoading
-                ? "timeseries-loading-container"
-                : isFiltroVisible
-                ? "timeseries-list-container-visible"
-                : "timeseries-list-container-hidden"
-            }
-          >
-            {isLoading && <LoadingSpinner />}
-
-            {error && (
-              <div className="overlay-center" role="alert">
-                <div className="empty-card">
-                  <p className="empty-title">{error}</p>
-                  <button
-                    className="back-to-map-btn"
-                    onClick={() => (window.location.href = "/map")}
-                  >
-                    Voltar ao mapa
-                  </button>
-                </div>
-              </div>
+          <div className="content-area">
+            {!noData && !error && (
+              <PanelContainer
+                title="Índices de vegetação"
+                chips={
+                  statisticsData
+                    ? Object.entries(statisticsData.statistics).map(
+                        ([key, stats]) => ({
+                          key,
+                          avg: stats.avg,
+                        })
+                      )
+                    : []
+                }
+                onExport={handleExport}
+                onDetails={() => console.log("detalhes")}
+                defaultExpanded={false}
+                statisticsData={statisticsData}
+                timeSeriesData={timeSeriesData}
+                filterParams={paramsFromRoute}
+                onClearFilters={handleClearFilters}
+              ></PanelContainer>
             )}
+            <div
+              id="list-graphs"
+              className={
+                isLoading
+                  ? "timeseries-loading-container"
+                  : isFiltroVisible
+                  ? "timeseries-list-container-visible"
+                  : "timeseries-list-container-hidden"
+              }
+            >
+              {isLoading && <LoadingSpinner />}
 
-            {noData && (
-              <div className="overlay-center" aria-hidden={false}>
-                <div className="empty-card">
-                  <p className="empty-title">Nenhuma série temporal encontrada.</p>
-                  <button
-                    className="back-to-map-btn"
-                    onClick={() => (window.location.href = "/map")}
-                  >
-                    Voltar ao mapa
-                  </button>
+              {error && (
+                <div className="overlay-center" role="alert">
+                  <div className="empty-card">
+                    <p className="empty-title">{error}</p>
+
+                    <button
+                      className="back-to-map-btn"
+                      onClick={() => navigate("/map")}
+                    >
+                      Voltar ao mapa
+                    </button>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {!noData &&
-              !error &&
-              timeSeriesData?.timeSeries?.map((ts, index) => (
-                <TimeSeriesCard
-                  key={index}
-                  coverage={ts.query.coverage}
-                  timeline={ts.result.timeline}
-                  attributes={ts.result.attributes}
-                />
-              ))}
+              {noData && (
+                <div className="overlay-center">
+                  <div className="empty-card">
+                    <p className="empty-title">
+                      Nenhuma série temporal encontrada.
+                    </p>
+
+                    <button
+                      className="back-to-map-btn"
+                      onClick={() => navigate("/map")}
+                    >
+                      Voltar ao mapa
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {!noData &&
+                !error &&
+                timeSeriesData?.timeSeries?.map((ts, index) => (
+                  <TimeSeriesCard
+                    key={index}
+                    coverage={ts.query.coverage}
+                    timeline={ts.result.timeline}
+                    attributes={ts.result.attributes}
+                  />
+                ))}
+            </div>
           </div>
         </div>
       </FiltroProvider>

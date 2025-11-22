@@ -1,0 +1,68 @@
+.filter-tab-view {
+  padding: 0 16px 16px 16px;
+}
+
+.tab-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: var(--text-color-white, #fff);
+}
+
+.tab-subtitle {
+  font-size: 14px;
+  color: var(--text-color-light, #a0a0a0);
+  margin-bottom: 24px;
+}
+
+.filters-applied-box {
+  background-color: var(--background-color-card, #2a2a2a);
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #444;
+}
+
+.filters-applied-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.filters-applied-box h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-color-white, #fff);
+  margin: 0;
+}
+
+.filters-description {
+  font-size: 13px;
+  color: var(--text-color-light, #a0a0a0);
+  margin-bottom: 20px;
+}
+
+.clear-filters-button {
+  background: none;
+  border: none;
+  color: #f87171;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.clear-filters-button:hover {
+  background-color: rgba(248, 113, 113, 0.1);
+}
+
+.clear-filters-button svg {
+  margin-right: 5px;
+}
+
+.filter-chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 10px;
+}

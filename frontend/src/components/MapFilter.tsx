@@ -5,6 +5,7 @@ import { SearchService } from "../services/SearchService";
 import type { MapFilterPropsExtended } from "../types/MessageConfig";
 import { TypeMessage } from "../types/MessageConfig";
 import "../styles/mapFilter.css";
+import { GeocodeService } from "../services/GeocodeService";
 
 const MapFilter: React.FC<MapFilterPropsExtended> = ({
   setMessageConfig,
@@ -14,54 +15,100 @@ const MapFilter: React.FC<MapFilterPropsExtended> = ({
 }) => {
   const [lastSearches, setLastSearches] = useState<any[]>([]);
   const { setFilter } = useFilter();
+  const [inputValue, setInputValue] = useState("");
 
   const inputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const coordinates = e.target.value.trim();
+    const text = e.target.value.trim();
 
-    if (!validateCoordinates(coordinates)) {
+
+    if (validateCoordinates(text)) {
+      const [latStr, lngStr] = text.split(",");
+      const lat = parseFloat(latStr);
+      const lng = parseFloat(lngStr);
+
+      if (isNaN(lat) || isNaN(lng)) return;
+
+      setFilter({ latitude: lat, longitude: lng });
+
       setMessageConfig({
-        type: TypeMessage.Error,
-        message: "Coordenadas inválidas.",
+        type: TypeMessage.Success,
+        message: "Coordenadas válidas. Mapa será atualizado.",
         show: true,
       });
+
+      try {
+        const service = new SearchService();
+        await service.createSearch(lat, lng);
+
+        const response = await service.getLastSearches();
+  
+        const lastSearchesData = (response as { data: any[] }).data;
+        setLastSearches(lastSearchesData);
+      } catch (error) {
+        console.error("Erro ao salvar busca:", error);
+      }
+
       return;
     }
 
-    const [latStr, lngStr] = coordinates.split(",");
-    const lat = parseFloat(latStr);
-    const lng = parseFloat(lngStr);
-
-    if (isNaN(lat) || isNaN(lng)) return;
-
-    setFilter({ latitude: lat, longitude: lng });
-
-    setMessageConfig({
-      type: TypeMessage.Success,
-      message: "Coordenadas válidas. Mapa será atualizado.",
-      show: true,
-    });
 
     try {
+      const geo = new GeocodeService();
+      const data_address = await geo.getAddress(text) as {
+        features?: Array<{
+          geometry: { coordinates: [number, number] };
+          [key: string]: any;
+        }>;
+        [key: string]: any;
+      };
+
+      console.log("text", text, data_address); 
+
+      if (!data_address || !data_address.features || data_address.features.length === 0) {
+        setMessageConfig({
+          type: TypeMessage.Error,
+          message: "Endereço não encontrado.",
+          show: true,
+        });
+        return;
+      }
+
+      const feature = data_address.features[0];
+      const [lng, lat] = feature.geometry.coordinates;
+
+      setInputValue(`${lat}, ${lng}`);
+
+      setFilter({ latitude: lat, longitude: lng });
+
+      setMessageConfig({
+        type: TypeMessage.Success,
+        message: "Endereço encontrado. Mapa atualizado.",
+        show: true,
+      });
+
       const service = new SearchService();
       await service.createSearch(lat, lng);
-
       const response = await service.getLastSearches();
+
       const data = (response as { data: any[] }).data;
-
       setLastSearches(data);
-    } catch (error) {
-      console.error("Erro ao salvar busca:", error);
-    }
-  };
 
-  /* const [openHistory, setOpenHistory] = useState(false); */
-  const [inputValue, setInputValue] = useState("");
+    } catch (error) {
+      console.error("Erro ao buscar endereço:", error);
+
+      setMessageConfig({
+        type: TypeMessage.Error,
+        message: "Erro ao buscar endereço.",
+        show: true,
+      });
+    }
+
+  };
 
   return (
     <div
-      className={`filter-box-container ${
-        isFiltroVisible ? "menu-visible" : "menu-hidden"
-      }`}
+      className={`filter-box-container ${isFiltroVisible ? "menu-visible" : "menu-hidden"
+        }`}
     >
       <div className="filter-box">
         <input
@@ -70,7 +117,7 @@ const MapFilter: React.FC<MapFilterPropsExtended> = ({
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onBlur={inputChange}
-          placeholder="ex: -15.793889, -47.882778"
+          placeholder="ex: -15.793889, -47.882778 ou Avenida Paulista, SP"
           className="filter-container"
         />
 

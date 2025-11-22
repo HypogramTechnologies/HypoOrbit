@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { WTSSController } from '../controllers/wtss';
+import wtss from '../config/wtss';
 
 const wtssRouter = Router();
 const wtssController = new WTSSController();
@@ -21,6 +22,8 @@ wtssRouter.post('/time_series_coverages', wtssController.timeSeriesCoverages);
 
 // GET /stac/collections/:id/update-time
 wtssRouter.get('/coverage/:coverage/update-time', wtssController.getUpdateTime);
+
+wtssRouter.post('/statistics', wtssController.statisticsTimeSeriesCoverages);
 
 
 export default wtssRouter;

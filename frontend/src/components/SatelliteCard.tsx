@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFilter } from "../context/FilterSatelliteContext";
 import type { ISatelliteCardProps } from "../types/ISatelliteCardProps";
 import "../styles/satelliteCard.css";
+import Modal from "../components/Modal";
+import { SatelliteDetailView } from "../components/SatelliteDetailView"; 
+import { StacService } from "../services/StacService";
+import { stacToSatelliteData } from "../utils/stacToSatelliteData";
+import type { ISatelliteData as IMappedSatelliteDetail } from "../types/SatelliteData";
+
+
+const service = new StacService();
 
 const SatelliteCard: React.FC<ISatelliteCardProps> = ({
   id,
@@ -14,8 +22,36 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
 }) => {
   const { selectedSatellites, setSelectedSatellites } = useFilter();
   const checkboxId = `checkbox-${id}`;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSatellite, setSelectedSatellite] = useState<IMappedSatelliteDetail | null>(null); 
 
   const isChecked = selectedSatellites.some((s) => s.id === id);
+
+
+  const handleOpenModal = async () => {
+  try {
+    const response = await service.getCollectionById(id);
+    const stacData = response.data;
+
+    const itemsResponse = await service.getCollectionItems(id);
+    const itemsData = (itemsResponse.data as { features?: unknown[] }).features || [];
+
+    const satelliteMapped = stacToSatelliteData(stacData, itemsData);
+    satelliteMapped.spectralIndices = spectralIndices;
+
+    setSelectedSatellite(satelliteMapped);
+    setIsModalOpen(true);
+     
+  } catch (err) {
+    console.error("Erro ao buscar detalhes do satélite.", err);
+  }
+};
+
+  const handleCloseModal = () => {
+      setIsModalOpen(false);
+     
+  };
+
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
@@ -48,7 +84,7 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
       )}
 
       <div className="card-header">
-        <i className="fa-solid fa-satellite card-satellite-icon"></i>
+        <i className="fa-solid fa-satellite card-satellite-icon"></i> 
 
         <div className="header-text">
           <h3 className="name-text">{title}</h3>
@@ -60,7 +96,7 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
         <div className="info-row info-columns">
           {updatedTime && updatedTime !== "N/A" && (
             <p>
-              <i className="fa-duotone fa-regular fa-calendar"></i>{" "}
+              <i className="fa-regular fa-calendar"></i>{" "}
               {updatedTime}
             </p>
           )}
@@ -83,10 +119,24 @@ const SatelliteCard: React.FC<ISatelliteCardProps> = ({
       </div>
 
       <div className="card-button-container">
-        <button className="card-button">
+        <button className="card-button" onClick={handleOpenModal}>
           <i className="fa-solid fa-eye card-icon"></i> Visualizar
         </button>
       </div>
+
+      {selectedSatellite && isModalOpen && (
+        <Modal
+          isOpen={isModalOpen}
+
+          onClose={handleCloseModal} 
+          title="Detalhamento"
+          isFiltroVisible={false}
+        > 
+          <SatelliteDetailView 
+            satellite={selectedSatellite}
+          />
+        </Modal>
+      )}
     </div>
   );
 };
