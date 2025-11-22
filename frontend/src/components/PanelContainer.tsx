@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import PanelHeader from "./PanelHeader";
 import type IPanelContainerProps from "../types/IPanelContainerProps";
 import type { TabKey } from "../types/IPanelContainerProps";

@@ -1,4 +1,4 @@
-import React from "react";
+
 import type IPanelHeaderProps from "../types/IPanelHeaderProps";
 import "../styles/panelHeader.css";
 

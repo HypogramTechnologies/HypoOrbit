@@ -1,38 +1,46 @@
-version: "3.9"
-
 services:
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: hypoOrbit-backend
+  mongo:
+    image: mongo:latest
     ports:
-      - "3001:3001"
+      - "27017:27017"
+    
     volumes:
-      - ./backend:/app
-      - /app/node_modules
-    environment:
-      - NODE_ENV=development
-    command: npm run dev
-    networks:
-      - app-net
+      - mongo-hypoorbit-volume:/data/db
+    restart: always
 
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: hypoOrbit-frontend
+  backend-hypoorbit:
+    container_name: backend-hypoorbit
+    build: ./backend
+    restart: always
     ports:
-      - "5173:5173"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    environment:
-      - NODE_ENV=development
-    command: npm run dev -- --host 0.0.0.0 --port 5173
-    networks:
-      - app-net
+      - "3000:3000"
+    depends_on:
+      - mongo
+    env_file:
+      - ./backend/.env
 
-networks:
-  app-net:
-    driver: bridge
+  front:
+    container_name: front-hypoorbit
+    build: ./frontend
+    depends_on:
+      - backend-hypoorbit
+    env_file:
+      - ./frontend/.env
+    volumes:
+      - hypoorbit-volume:/var/www/html
+  
+  nginx:
+    container_name: nginx-hypoorbit
+    build: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - hypoorbit-volume:/var/www/html
+    depends_on:
+      - mongo
+      - backend-hypoorbit
+      - front
+
+volumes:
+  mongo-hypoorbit-volume:
+  hypoorbit-volume:

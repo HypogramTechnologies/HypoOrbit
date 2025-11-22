@@ -9,8 +9,6 @@ import type { SatelliteFilterProps } from "../types/Satellite";
 import type { IWTSSRequest } from "../types/IWTSSRequest";
 import "../styles/satelliteFilter.css";
 import "../index.css";
-import TimeSeriesModal from "../pages/TimeSeriesModal";
-import { useGlobalModal } from "../context/ModalContext";
 import { useNavigate } from "react-router-dom";
 
 const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
@@ -34,7 +32,7 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
-  const { openModal } = useGlobalModal();
+  //const { openModal } = useGlobalModal();
 
   const satelliteOptions = satellites.map((sat) => ({
     value: sat.id,

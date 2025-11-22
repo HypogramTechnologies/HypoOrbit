@@ -1,4 +1,3 @@
-import React from "react";
 import IndexCard from "./IndexCard";
 import "../styles/cardTabView.css";
 import type { ICardTabViewProps } from "../types/ICardTabViewProps";
