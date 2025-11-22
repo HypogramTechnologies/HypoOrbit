@@ -9,6 +9,25 @@ export class SearchesController {
   async createSearch(req: Request, res: Response) {
     try {
       const { latitude, longitude } = req.body;
+
+      //Validando se as coordenadas fornecidas já correspondem a última busca e atualizando a data_busca se for o caso
+      const lastSearch = await SearchesModel.findOne()
+        .sort({ data_busca: -1 })
+        .limit(1);
+
+      if (
+        lastSearch &&
+        lastSearch.latitude === latitude &&
+        lastSearch.longitude === longitude
+      ) {
+        lastSearch.data_busca = new Date();
+        const updatedSearch = await lastSearch.save();
+        return res.status(200).json({
+          message: "As coordenadas fornecidas correspondem à última busca. Data da busca atualizada.",
+          search: updatedSearch,
+        });
+      }
+      
       const data: GeoJSONFeatureCollection =
         await geocodeService.reverseGeocode(latitude, longitude);
 
