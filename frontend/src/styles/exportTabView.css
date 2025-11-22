@@ -1,0 +1,79 @@
+.export-tab-view {
+    padding: 0 16px 16px 16px;
+}
+.export-tab-view .tab-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--text-color-white, #fff);
+}
+.export-tab-view .tab-subtitle {
+    font-size: 14px;
+    color: var(--text-color-light, #a0a0a0);
+    margin-bottom: 24px;
+}
+
+.export-options-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.export-button {
+    flex: 1;
+    min-width: 250px;
+    height: 150px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.export-button-excel {
+    background-color: var(--color-green-dark, #38761d); 
+    color: #fff;
+    border: 1px solid var(--color-green-dark, #38761d);
+}
+
+.export-button-excel:hover {
+    background-color: var(--color-green-darker, #275213); 
+}
+
+.export-button-csv,
+.export-button-pdf {
+    background-color: var(--background-color-card, #2a2a2a); 
+    color: var(--text-color-light, #a0a0a0);
+    border: 1px solid #444;
+}
+
+.export-button-csv:hover,
+.export-button-pdf:hover {
+    background-color: #3a3a3a;
+    border-color: var(--primary-color, #0397CD);
+}
+
+.export-icon {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.export-details {
+    text-align: center;
+}
+
+.export-format {
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.export-description {
+    display: block;
+    font-size: 13px;
+    color: inherit; 
+    opacity: 0.8;
+}

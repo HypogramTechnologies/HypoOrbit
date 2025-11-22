@@ -16,6 +16,8 @@
     "@fortawesome/react-fontawesome": "^3.1.0",
     "apexcharts": "^5.3.5",
     "axios": "^1.12.2",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.4",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.554.0",
     "react": "^19.1.1",
@@ -25,7 +27,8 @@
     "react-draggable": "^4.5.0",
     "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.9.3",
-    "react-select": "^5.10.2"
+    "react-select": "^5.10.2",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",

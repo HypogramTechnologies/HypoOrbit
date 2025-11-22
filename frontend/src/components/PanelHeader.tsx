@@ -31,7 +31,7 @@ export default function PanelHeader({
 
       <div className="panel-header-actions">
         {onExport && (
-          <button className="btn-export" onClick={onExport}>
+          <button className="btn-export" onClick={() => onExport('xlsx')}>
             <span className="material-symbols-outlined">download</span>
             Exportar
           </button>

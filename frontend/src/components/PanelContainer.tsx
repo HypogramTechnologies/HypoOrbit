@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from "react";
 import PanelHeader from "./PanelHeader";
-// Certifique-se de que os imports dos tipos estão corretos:
 import type IPanelContainerProps from "../types/IPanelContainerProps";
 import type { TabKey } from "../types/IPanelContainerProps";
 import CardTabView from "./CardTabView";
 import FilterTabView from "./FilterTabView";
+import ExportTabView from "./ExportTabView";
 import "../styles/panelContainer.css";
 
 const TABS: { key: TabKey; label: string }[] = [
@@ -50,12 +50,9 @@ export function PanelContainer({
         );
 
       case "export":
-        return (
-          <div className="panel-content-placeholder">
-            <h3>Exportação</h3>
-            <p>Implementar formulário/opções de exportação aqui.</p>
-          </div>
-        );
+        return <ExportTabView onExport={
+              onExport ?? ((_format: 'xlsx' | 'csv' | 'pdf') => {})
+            } />;
 
       default:
         return null;
@@ -67,7 +64,9 @@ export function PanelContainer({
       <PanelHeader
         title={title}
         chips={chips}
-        onExport={onExport}
+        onExport={
+              onExport ?? ((_format: 'xlsx' | 'csv' | 'pdf') => {})
+            }
         onDetails={toggleExpansion}
         isExpanded={isExpanded}
       />

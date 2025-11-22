@@ -8,7 +8,7 @@ export default interface IPanelContainerProps {
   title: string;
   chips?: { key: string; avg: number }[];
   defaultExpanded?: boolean;
-  onExport?: () => void;
+  onExport?: (format: 'xlsx' | 'csv') => void;
   onDetails?: () => void;
   filterParams: IWTSSRequest | undefined;
   timeSeriesData: IWTSSResponse | null;
