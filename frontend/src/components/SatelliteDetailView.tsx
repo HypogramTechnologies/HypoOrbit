@@ -238,26 +238,6 @@ ${additionalMeta}
 
 
   const titleParts = title.split(' - ');
-  // const platformRegexList = [
-  //   /LC[\s\-_]*\d+/i,                 // Landsat LC08, LC 08, LC-08
-  //   /Landsat[\s\-_]*\d+/i,           // Landsat-8, Landsat 9
-  //   /S\d+[A-Z]?/i,                   // S2A, S2B, S3
-  //   /Sentinel[\s\-_]*\d+[A-Z]?/i,    // Sentinel-2A, Sentinel 2B
-  //   /CBERS[\s\-_]*\d+[A-Z]?/i,       // CBERS-4, CBERS 4A
-  //   /MODIS/i,                        // MODIS (Aqua/Terra)
-  //   /Aqua/i,                         // Aqua
-  //   /Terra/i,                        // Terra
-  //   /NOAA[\s\-_]*\d+/i,              // NOAA-20
-  //   /GOES[\s\-_]*\d+/i               // GOES-16
-  // ];
-
-  // // Procura em titleParts um match com qualquer regex acima
-  // const platformMatch = titleParts.find(part =>
-  //   platformRegexList.some(regex => regex.test(part))
-  // );
-
-  // // Retorna o texto original exatamente como veio
-  // const platformTag = platformMatch || 'Plataforma'; 
   const platformTag = extractPlatformName(titleParts);
   const resolutionTag = spatialResolution || 'N/A';
   const displayTitle = titleParts[0] ? titleParts.join(' - ') : title;
@@ -275,9 +255,7 @@ ${additionalMeta}
           <span className="tag landsat">{platformTag.replace('LC', 'Landsat-')}</span>
           <span className="tag resolution">{resolutionTag}</span>
         </div>
-        {/* <button className="close-btn" onClick={onClose}>
-          &times;
-        </button> */}
+
 
       </div>
 
