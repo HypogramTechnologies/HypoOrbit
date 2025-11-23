@@ -17,39 +17,30 @@ const helpItems: HelpItemData[] = [
     iconClass: "fa-solid fa-map",
     content: (
       <>
-        No mapa você pode informar uma localização de três formas: digitando
-        coordenadas (latitude e longitude), digitando um endereço na barra de
-        pesquisa, ou clicando diretamente no mapa. Após selecionar a
-        localização, um modal será aberto mostrando os satélites disponíveis
-        para aquela área. Selecione os satélites desejados para visualizar
-        suas séries temporais.
+        No mapa você pode informar uma localização de três formas: digitando coordenadas (latitude e longitude), digitando um endereço na barra de pesquisa, ou clicando diretamente no mapa.
+        Após a seleção, um modal será aberto mostrando os satélites disponíveis para aquela área. Neste modal, é possível visualizar informações detalhadas dos satélites. Selecione os desejados para visualizar suas séries temporais.
       </>
     ),
   },
   {
     id: "lista",
-    title: "Lista de Satélites",
+    title: "Lista de satélites",
     subtitle: "Visualize todos os satélites",
     iconClass: "fa-solid fa-thumbtack",
     content: (
       <>
-        Nesta aba você pode visualizar todos os satélites disponíveis no sistema
-        e suas informações técnicas. Explore os detalhes de cada satélite, como
-        especificações, órbita e capacidades de imageamento.
+        Nesta aba você pode visualizar todos os satélites disponíveis no sistema e suas informações técnicas. Explore os detalhes de cada satélite, como especificações, órbita e capacidades de imageamento.
       </>
     ),
   },
   {
     id: "series",
-    title: "Séries Temporais",
-    subtitle: "Análise temporal de dados",
+    title: "Séries temporais",
+    subtitle: "Análise, estatísticas e exportação de dados",
     iconClass: "fa-solid fa-chart-line",
     content: (
       <>
-        Visualize as séries temporais dos satélites selecionados para a
-        localização escolhida. Para começar, use o botão de redirecionamento para
-        voltar ao mapa e selecionar uma localização e os satélites que deseja
-        analisar.
+        Visualize as séries temporais dos satélites selecionados, realize análises estatísticas e exporte os dados completos. Para iniciar, utilize o botão de redirecionamento para voltar ao mapa e escolher a localização e os satélites de interesse.
       </>
     ),
   },

@@ -18,6 +18,7 @@ interface SatelliteDetailViewProps {
 
 const SatelliteDetailView: React.FC<SatelliteDetailViewProps> = ({ satellite }) => {
   const [activeTab, setActiveTab] = useState<'overview' | 'bands' | 'temporal' | 'metadata' | 'images'>('overview');
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const {
     title,
@@ -88,10 +89,6 @@ const SatelliteDetailView: React.FC<SatelliteDetailViewProps> = ({ satellite }) 
     });
   };
 
-
-
-
-
   const renderMetadataStac = () => {
     const additionalMeta = Object.entries(metadataStac.additionalMetadata)
       .map(([key, value]) => {
@@ -136,7 +133,24 @@ ${additionalMeta}
           <>
             <div className="data-field">
               <h4><FontAwesomeIcon icon={faInfoCircle} /> Descrição</h4>
-              <p>{description}</p>
+              <div className="description-container">
+  <p className={`description-text ${isExpanded ? "open" : "closed"}`}>
+    {description}
+  </p>
+
+  {!isExpanded && (
+    <button className="description-btn" onClick={() => setIsExpanded(true)}>
+      Ver mais
+    </button>
+  )}
+
+  {isExpanded && (
+    <button className="description-btn" onClick={() => setIsExpanded(false)}>
+      Ver menos
+    </button>
+  )}
+</div>
+
             </div>
             <div className="temporal-info">
               <div className="temporal-block data-field">

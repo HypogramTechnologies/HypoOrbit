@@ -1,8 +1,8 @@
-
 .satellite-data-view {
-  background-color: var(--background-color); 
+  background-color: var(--background-color);
   color: var(--color-light);
-  border-radius: var(--border-radius);;
+  border-radius: var(--border-radius);
+  ;
   overflow: hidden;
   /* max-width: 600px; */
   margin: 20px;
@@ -31,7 +31,7 @@
 .left-content {
   display: flex;
   align-items: center;
-  gap: 8px; 
+  gap: 8px;
 }
 
 .tag {
@@ -111,7 +111,8 @@
   margin: 0;
   font-size: 0.9rem;
   line-height: 1.4;
-  white-space: pre-wrap; /* Para quebras de linha no Polygon */
+  white-space: pre-wrap;
+  /* Para quebras de linha no Polygon */
 }
 
 /* Estilos Específicos da Aba Bandas */
@@ -144,7 +145,8 @@
 
 .band-info span {
   font-size: 0.85rem;
-  color: var(--color-light);;
+  color: var(--color-light);
+  ;
 }
 
 .wavelength {
@@ -169,7 +171,7 @@
   border-radius: 4px;
   */
 
-  text-align: center; 
+  text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -180,9 +182,7 @@
   /* margin-top: 16px; */
   background: var(--background-card-color);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s 
-ease, box-shadow 0.2s 
-ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .temporal-block p {
@@ -218,27 +218,28 @@ ease;
   font-size: 0.85rem;
   line-height: 1.5;
   overflow-x: auto;
-    border: 1px solid var(--primary-color);
-    border-radius: 12px;
-    padding: 16px;
-    background: var(--background-card-color);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s 
-ease, box-shadow 0.2s 
-ease;
+  border: 1px solid var(--primary-color);
+  border-radius: 12px;
+  padding: 16px;
+  background: var(--background-card-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .metadata-stac .code-block strong {
-    color: var(--primary-color); /* Cor para chaves no JSON simulado */
-    font-weight: normal;
+  color: var(--primary-color);
+  /* Cor para chaves no JSON simulado */
+  font-weight: normal;
 }
 
 .metadata-stac .code-block span.value {
-    color: #ffffff; /* Cor para valores de string */
+  color: #ffffff;
+  /* Cor para valores de string */
 }
 
 .metadata-stac .code-block span.number {
-    color: #ff9e64; /* Cor para valores numéricos */
+  color: #ff9e64;
+  /* Cor para valores numéricos */
 }
 
 .image-grid {
@@ -252,8 +253,8 @@ ease;
   background-color: var(--background-card-color);
   border-radius: var(--border-radius);
   overflow: hidden;
-  border: 1px solid ;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  border: 1px solid;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   transition: transform 0.2s ease;
 }
 
@@ -320,4 +321,44 @@ ease;
 .tag.spectral-index:hover::after,
 .tag.spectral-index:hover::before {
   opacity: 1;
+}
+
+.description-container {
+  max-width: 100%;
+}
+
+/* Texto base */
+.description-text {
+  line-height: 1.45rem;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  color: var(--color-light);
+}
+
+.description-text.closed {
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* quantidade de linhas */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.description-text.open {
+  display: block;
+}
+
+.description-btn {
+  margin-top: 6px;
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.description-btn:hover {
+  opacity: 0.7;
 }

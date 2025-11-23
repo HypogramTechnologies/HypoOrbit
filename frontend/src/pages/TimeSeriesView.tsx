@@ -16,6 +16,9 @@ import { WTSSService } from "../services/WTSSService";
 import type { IWTSSResponse } from "../types/IWTSSResponse";
 import type { IWTSSRequest } from "../types/IWTSSRequest";
 import type { IStatisticsWTSS } from "../types/IStatisticsWTSS";
+import type { ExportFormat } from "../types/IExportTabViewProps";
+
+import exportTimeSeriesData from "../utils/exportTimeSeries";
 
 import LoadingSpinner from "../components/LoadingSpinner";
 
@@ -74,6 +77,22 @@ export default function TimeSeriesView() {
     fetchData();
   }, [paramsFromRoute]);
 
+  const handleClearFilters = () => {
+    setTimeSeriesData(null);
+    setStatisticsData(null);
+    navigate("/map");
+  }
+
+  const handleExport = (format: ExportFormat) => {
+    exportTimeSeriesData(
+      format,
+      timeSeriesData as IWTSSResponse,
+      paramsFromRoute as IWTSSRequest,
+      statisticsData
+    );
+};
+
+
   const noData =
     !isLoading &&
     error === null &&
@@ -131,12 +150,17 @@ export default function TimeSeriesView() {
                       )
                     : []
                 }
-                onExport={() => console.log("export")}
+                onExport={handleExport}
                 onDetails={() => console.log("detalhes")}
                 defaultExpanded={false}
+                statisticsData={statisticsData}
+                timeSeriesData={timeSeriesData}
+                filterParams={paramsFromRoute}
+                onClearFilters={handleClearFilters}
               ></PanelContainer>
             )}
             <div
+              id="list-graphs"
               className={
                 isLoading
                   ? "timeseries-loading-container"
