@@ -7,11 +7,11 @@ import {
   faClock,
   faFileAlt
 } from '@fortawesome/free-solid-svg-icons';
-// Importa o tipo de dado completo que será recebido
+
 import type { ISatelliteData, ISpectralBand } from '../types/SatelliteData';
 import '../styles/satelliteDetailView.css';
 import { extractPlatformName } from '../utils/extractPlatformName';
-// 🚨 CORREÇÃO PRINCIPAL: O componente agora recebe o objeto ISatelliteData completo
+
 interface SatelliteDetailViewProps {
   satellite: ISatelliteData;
 }

@@ -18,7 +18,13 @@ const calculatePeriod = (startDateISO: string, endDateISO: string): string => {
     const startYear = new Date(startDateISO).getUTCFullYear();
     const endYear = new Date(endDateISO).getUTCFullYear();
     const years = endYear - startYear;
-    return `${years} anos de dados disponíveis`;
+
+    if (years === 1){
+      return `${years} ano de dados disponíveis`;
+    }else{
+      return `${years} anos de dados disponíveis`;
+    }
+
   } catch {
     return 'N/A';
   }

@@ -187,7 +187,7 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
       setActiveTag("todos");
     }
   };
-
+  
   return (
     <div className="satellite-filter-container">
       <div className="filter-item">
@@ -209,7 +209,13 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
           onChange={(selected) => setSelectedOptions(selected as any)}
           placeholder="Selecione um ou mais satélites..."
           menuPortalTarget={document.body}
-          className="satellite-select"
+          styles={{
+            menuPortal: (base) => ({
+              ...base,
+              zIndex: 999999,
+            }),
+          }}
+
           classNames={{
             control: () => "satellite-select-control",
             menu: () => "satellite-select-menu",
