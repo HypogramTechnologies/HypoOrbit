@@ -1,4 +1,4 @@
-import React from "react";
+
 import FilterChip from "./FilterChip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

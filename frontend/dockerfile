@@ -1,19 +1,19 @@
 FROM node:alpine
 
-WORKDIR /tmp/react
+WORKDIR /app
+
+COPY package.json package-lock.json* ./
+RUN npm install
+
+COPY .env .env
 
 COPY . .
-
-RUN npm install
 
 RUN npm run build
 
 RUN mkdir -p /var/www/html
-
 RUN mv dist/* /var/www/html
-
-VOLUME /var/www/html
 
 WORKDIR /
 
-RUN rm -rf /tmp/react
+RUN rm -rf /app

@@ -15,6 +15,17 @@
   flex: 1;
 }
 
+.css-26l3qy-menu {
+  position: absolute !important;
+}
+
+.satellite-select, 
+.satellite-select-control {
+  overflow: visible !important;
+}
+
+
+
 .filter-item label {
   font-size: 14px;
   color: var(--color-light);

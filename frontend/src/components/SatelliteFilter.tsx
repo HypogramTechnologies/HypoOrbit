@@ -9,8 +9,6 @@ import type { SatelliteFilterProps } from "../types/Satellite";
 import type { IWTSSRequest } from "../types/IWTSSRequest";
 import "../styles/satelliteFilter.css";
 import "../index.css";
-import TimeSeriesModal from "../pages/TimeSeriesModal";
-import { useGlobalModal } from "../context/ModalContext";
 import { useNavigate } from "react-router-dom";
 
 const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
@@ -34,7 +32,7 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
-  const { openModal } = useGlobalModal();
+  //const { openModal } = useGlobalModal();
 
   const satelliteOptions = satellites.map((sat) => ({
     value: sat.id,
@@ -189,7 +187,7 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
       setActiveTag("todos");
     }
   };
-
+  
   return (
     <div className="satellite-filter-container">
       <div className="filter-item">
@@ -211,7 +209,13 @@ const SatelliteFilter: React.FC<SatelliteFilterProps> = ({
           onChange={(selected) => setSelectedOptions(selected as any)}
           placeholder="Selecione um ou mais satélites..."
           menuPortalTarget={document.body}
-          className="satellite-select"
+          styles={{
+            menuPortal: (base) => ({
+              ...base,
+              zIndex: 999999,
+            }),
+          }}
+
           classNames={{
             control: () => "satellite-select-control",
             menu: () => "satellite-select-menu",

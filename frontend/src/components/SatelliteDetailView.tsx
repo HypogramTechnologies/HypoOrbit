@@ -7,17 +7,18 @@ import {
   faClock,
   faFileAlt
 } from '@fortawesome/free-solid-svg-icons';
-// Importa o tipo de dado completo que será recebido
+
 import type { ISatelliteData, ISpectralBand } from '../types/SatelliteData';
 import '../styles/satelliteDetailView.css';
 import { extractPlatformName } from '../utils/extractPlatformName';
-// 🚨 CORREÇÃO PRINCIPAL: O componente agora recebe o objeto ISatelliteData completo
+
 interface SatelliteDetailViewProps {
   satellite: ISatelliteData;
 }
 
 const SatelliteDetailView: React.FC<SatelliteDetailViewProps> = ({ satellite }) => {
   const [activeTab, setActiveTab] = useState<'overview' | 'bands' | 'temporal' | 'metadata' | 'images'>('overview');
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const {
     title,
@@ -88,10 +89,6 @@ const SatelliteDetailView: React.FC<SatelliteDetailViewProps> = ({ satellite }) 
     });
   };
 
-
-
-
-
   const renderMetadataStac = () => {
     const additionalMeta = Object.entries(metadataStac.additionalMetadata)
       .map(([key, value]) => {
@@ -136,7 +133,24 @@ ${additionalMeta}
           <>
             <div className="data-field">
               <h4><FontAwesomeIcon icon={faInfoCircle} /> Descrição</h4>
-              <p>{description}</p>
+              <div className="description-container">
+  <p className={`description-text ${isExpanded ? "open" : "closed"}`}>
+    {description}
+  </p>
+
+  {!isExpanded && (
+    <button className="description-btn" onClick={() => setIsExpanded(true)}>
+      Ver mais
+    </button>
+  )}
+
+  {isExpanded && (
+    <button className="description-btn" onClick={() => setIsExpanded(false)}>
+      Ver menos
+    </button>
+  )}
+</div>
+
             </div>
             <div className="temporal-info">
               <div className="temporal-block data-field">
@@ -238,26 +252,6 @@ ${additionalMeta}
 
 
   const titleParts = title.split(' - ');
-  // const platformRegexList = [
-  //   /LC[\s\-_]*\d+/i,                 // Landsat LC08, LC 08, LC-08
-  //   /Landsat[\s\-_]*\d+/i,           // Landsat-8, Landsat 9
-  //   /S\d+[A-Z]?/i,                   // S2A, S2B, S3
-  //   /Sentinel[\s\-_]*\d+[A-Z]?/i,    // Sentinel-2A, Sentinel 2B
-  //   /CBERS[\s\-_]*\d+[A-Z]?/i,       // CBERS-4, CBERS 4A
-  //   /MODIS/i,                        // MODIS (Aqua/Terra)
-  //   /Aqua/i,                         // Aqua
-  //   /Terra/i,                        // Terra
-  //   /NOAA[\s\-_]*\d+/i,              // NOAA-20
-  //   /GOES[\s\-_]*\d+/i               // GOES-16
-  // ];
-
-  // // Procura em titleParts um match com qualquer regex acima
-  // const platformMatch = titleParts.find(part =>
-  //   platformRegexList.some(regex => regex.test(part))
-  // );
-
-  // // Retorna o texto original exatamente como veio
-  // const platformTag = platformMatch || 'Plataforma'; 
   const platformTag = extractPlatformName(titleParts);
   const resolutionTag = spatialResolution || 'N/A';
   const displayTitle = titleParts[0] ? titleParts.join(' - ') : title;
@@ -275,9 +269,7 @@ ${additionalMeta}
           <span className="tag landsat">{platformTag.replace('LC', 'Landsat-')}</span>
           <span className="tag resolution">{resolutionTag}</span>
         </div>
-        {/* <button className="close-btn" onClick={onClose}>
-          &times;
-        </button> */}
+
 
       </div>
 

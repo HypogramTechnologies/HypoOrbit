@@ -7,6 +7,7 @@ import "./index.css";
 import { FiltroProvider } from "./context/FilterMapContext"; 
 import Help from "./components/Help";
 import { ModalProvider } from "./context/ModalContext";
+import "./config/leaflet";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
