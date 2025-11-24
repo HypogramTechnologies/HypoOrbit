@@ -171,8 +171,23 @@ npm run dev
 
 #### 📋 Tarefas  
 
-| ID  | Nome                                                 | Responsáveis                                  | Tarefa Finalizada | Link                                                                 | Requisitos atendidos                       |
-|-----|------------------------------------------------------|-----------------------------------------------|-------------------|----------------------------------------------------------------------|-------------------------------------------|
+| ID             | Nome                                                                             | Responsáveis                          | Tarefa Finalizada | Link                                                           | Requisitos atendidos |
+| -------------- | -------------------------------------------------------------------------------- | ------------------------------------- | ----------------- | -------------------------------------------------------------- | -------------------- |
+| **[GP - 051]** | Configuração do sistema                                                          | **Adson Ottoni Balbino Filho**        | ✔                 | [https://trello.com/c/ejNEjnTa](https://trello.com/c/ejNEjnTa) |                      |
+| **[IH - 062]** | Adicionar reticências nos satélites que possuem mais de uma linha de descrição   | **Eduardo Henrique Alves Arantes**    | ✔                 | [https://trello.com/c/G9mqTQEt](https://trello.com/c/G9mqTQEt) |                      |
+| **[DW - 065]** | Implementar panel que inicia retraído (gráficos só aparecem com dados no filtro) | **Carlos Eduardo da Silva Magalhães** | ✔                 | [https://trello.com/c/QLNh39Hw](https://trello.com/c/QLNh39Hw) |                      |
+| **[DW - 066]** | Validar coordenadas manuais                                                      | **Andressa Stephane Toledo da Silva** | ✔                 | [https://trello.com/c/7GEoQl8h](https://trello.com/c/7GEoQl8h) |                      |
+| **[DW - 059]** | Componente de visualização detalhada das informações do satélite                 | **Andressa Stephane Toledo da Silva** | ✔                 | [https://trello.com/c/H8NX76Sx](https://trello.com/c/H8NX76Sx) |                      |
+| **[DW - 067]** | Implementar filtro de comparação e integrar com séries temporais                 | **Andressa Stephane Toledo da Silva** | ✔                 | [https://trello.com/c/kP44muEA](https://trello.com/c/kP44muEA) |                      |
+| **[DW - 064]** | Apresentar últimas 5 buscas ao lado do componente de pesquisa                    | **Carlos Eduardo da Silva Magalhães** | ✔                 | [https://trello.com/c/krE0516y](https://trello.com/c/krE0516y) |                      |
+| **[DW - 063]** | Aumentar disposição dos gráficos                                                 | **Carlos Eduardo da Silva Magalhães** | ✔                 | [https://trello.com/c/U7RKjXuS](https://trello.com/c/U7RKjXuS) |                      |
+| **[TP - 060]** | Indicar satélites da STAC com séries temporais e variáveis (EVI, NDVI, NBR)      | **Carlos Eduardo da Silva Magalhães** | ✔                 | [https://trello.com/c/l2CrmwsA](https://trello.com/c/l2CrmwsA) |                      |
+| **[DW - 061]** | Exibir botão para redirecionar ao mapa quando filtros não retornarem informações | **Eduardo Henrique Alves Arantes**    | ✔                 | [https://trello.com/c/lS7octmV](https://trello.com/c/lS7octmV) |                      |
+| **[IH - 058]** | Exibir GIF de carregando ao entrar na tela de satélites e séries temporais       | **Eduardo Henrique Alves Arantes**    | ✔                 | [https://trello.com/c/ITrjcwkc](https://trello.com/c/ITrjcwkc) |                      |
+| **[DW - 057]** | Tornar modal de satélites arrastável e ajustar identidade visual dos cards       | **Andressa Stephane Toledo da Silva** | ✔                 | [https://trello.com/c/ZFwCrvVE](https://trello.com/c/ZFwCrvVE) |                      |
+| **[TP - 056]** | Implementar últimas buscas (salvar coordenadas + data para ordenação)            | **Carlos Eduardo da Silva Magalhães** | ✔                 | [https://trello.com/c/rXOz01xh](https://trello.com/c/rXOz01xh) |                      |
+| **[DW - 040]** | Componente de filtragem de dados do satélite (Período/Nome)                      | **Andressa Stephane Toledo da Silva** | ✔                 | [https://trello.com/c/AJJwfPHD](https://trello.com/c/AJJwfPHD) |                      |
+
 
 
 #### 📉 Burndown  
