@@ -37,8 +37,20 @@ export class SatelliteService {
     if (!satellite) {
       return null;
     }
-    
+
     return satellite;
   }
-    
+
+  async getAllSatellites() {
+    const satellites = await SatelliteModel.find();
+    const satellitesWithAssets = await Promise.all(
+      satellites.map(async (sat) => {
+        const assets = await SatelliteItemAssetsModel.find({
+          satellite: sat._id,
+        });
+        return { ...sat.toObject(), item_assets: assets };
+      })
+    );
+    return satellitesWithAssets;
+  }
 }

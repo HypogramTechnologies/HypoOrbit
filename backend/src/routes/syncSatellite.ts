@@ -4,9 +4,9 @@ import { SyncSatelliteController } from '../controllers/syncSatellite';
 const syncSatelliteRoutes = Router();
 const controller = new SyncSatelliteController();
 
-syncSatelliteRoutes.post('/', (req, res) => controller.setupSatellites(req, res));
+syncSatelliteRoutes.post('/', controller.setupSatellites);
 
-syncSatelliteRoutes.post('/:id', (req, res) => controller.syncSatellitesById(req, res));
+syncSatelliteRoutes.post('/:id', controller.syncSatellitesById);
 
 
 export default syncSatelliteRoutes;

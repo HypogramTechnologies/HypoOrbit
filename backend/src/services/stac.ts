@@ -6,15 +6,33 @@ import {
   IWTSSAttributesResponse,
 } from "../types/IWTSSCoverages";
 import { StacSearchParams } from "../types/IStacSearchParams";
+import { SatelliteService } from "../services/satellite";
+
+const satelliteService = new SatelliteService();
 
 const wtssService = new WTSSService();
 
 export class StacService {
   // GET /collections
   async getCollections() {
-    const response = await stac.get("/collections");
-    const collections = response.data.collections;
-    return this.attachWTSSAttributes(collections);
+    try {
+      let collections: any[] | null = null;
+      try {
+        const response = await stac.get("/collections");
+        collections = response.data?.collections ?? null;
+      } catch (apiError) {
+        console.warn("STAC API indisponível, usando dados do banco.");
+      }
+
+      if (!collections) {
+        collections = await satelliteService.getAllSatellites();
+      }
+
+      return this.attachWTSSAttributes(collections);
+    } catch (err) {
+      console.error("Erro ao obter collections:", err);
+      throw new Error("Erro ao buscar collections");
+    }
   }
 
   // GET /collections/:id

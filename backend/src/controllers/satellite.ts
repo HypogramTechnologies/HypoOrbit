@@ -57,17 +57,7 @@ export class SatelliteController {
 
   async getSatellitesWithAssets(req: Request, res: Response) {
     try {
-      const satellites = await SatelliteModel.find();
-
-      // Busca os assets de cada satélite
-      const satellitesWithAssets = await Promise.all(
-        satellites.map(async (sat) => {
-          const assets = await SatelliteItemAssetsModel.find({
-            satellite: sat._id,
-          });
-          return { ...sat.toObject(), item_assets: assets };
-        })
-      );
+      const satellitesWithAssets = await service.getAllSatellites();
 
       res.status(200).json(satellitesWithAssets);
     } catch (error) {
